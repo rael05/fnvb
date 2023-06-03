@@ -1,4 +1,7 @@
 <nav>
   <h2><%= t("home") %></h2>
-  <h3><%= link_to("EN", "#{APP_CONFIG[:en_website_url]}#{request.env['PATH_INFO']}")%> | es</h3>
+  <h3>
+    <%= link_to('EN', request.fullpath.gsub('/es/', '/en/'))%> |
+    <%= link_to('ES', request.fullpath.gsub('/en/', '/es/'))%>
+  </h3>
 </nav>
