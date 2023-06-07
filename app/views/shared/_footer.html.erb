@@ -1,7 +1,7 @@
 <footer>
   <h2><%= t("home") %></h2>
   <h3>
-    <%= link_to('EN', request.fullpath.gsub('/es/', '/en/'))%> |
-    <%= link_to('ES', request.fullpath.gsub('/en/', '/es/'))%>
+    <%= link_to('EN', locale: :en)%> |
+    <%= link_to('ES', locale: :es)%>
   </h3>
 </footer>

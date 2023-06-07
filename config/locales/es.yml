@@ -1,3 +1,11 @@
 es:
   hello: "Hola Mundo"
   home: "Inicio"
+  log_in: "Iniciar Sesión"
+  email: "Correo"
+  password: "Contraseña"
+  remember_me: "Recuerdame"
+  sign_up: 'Inscribirse'
+  forgot_your_password: '¿Olvido su contraseña?'
+  password_confirmation: 'Confirmación de Contraseña'
+  log_out: "Cerrar Sesión"

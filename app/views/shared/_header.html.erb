@@ -1,7 +1,12 @@
 <nav>
-  <h2><%= t("home") %></h2>
+  <h2><%= link_to(t(:home), :root) %></h2>
+  <% if user_signed_in? %>
+    <%= button_to(t(:log_out), destroy_user_session_path, method: :delete) %>
+  <% else %>
+    <h2><%= link_to(t(:log_in), :new_user_session) %></h2>
+  <% end %>
   <h3>
-    <%= link_to('EN', request.fullpath.gsub('/es/', '/en/'))%> |
-    <%= link_to('ES', request.fullpath.gsub('/en/', '/es/'))%>
+    <%= link_to('EN', locale: :en)%> |
+    <%= link_to('ES', locale: :es)%>
   </h3>
 </nav>
