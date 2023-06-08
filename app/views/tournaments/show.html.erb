@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @tournament %>
+
+<div>
+  <%= link_to t(:edit_this_tournament), edit_tournament_path(@tournament) %> |
+  <%= link_to t(:back_to_tournaments), tournaments_path %>
+
+  <%= button_to t(:destroy_this_tournament), @tournament, method: :delete %>
+</div>

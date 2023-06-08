@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= t(:tournaments)%></h1>
+
+<div id="tournaments">
+  <% @tournaments.each do |tournament| %>
+    <%= render tournament %>
+    <p>
+      <%= link_to t(:show_this_tournament), tournament %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to t(:new_tournament), new_tournament_path %>

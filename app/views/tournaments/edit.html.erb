@@ -1,0 +1,10 @@
+<h1>Editing tournament</h1>
+
+<%= render "form", tournament: @tournament %>
+
+<br>
+
+<div>
+  <%= link_to t(:show_this_tournament), @tournament %> |
+  <%= link_to t(:back_to_tournaments), tournaments_path %>
+</div>

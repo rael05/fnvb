@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tournaments
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
 
