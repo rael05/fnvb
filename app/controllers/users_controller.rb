@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :tournament_for_user, only: %i[ new edit update create ]
 
   # GET /users or /users.json
   def index
@@ -67,6 +68,12 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email)
+      params.require(:user).permit(:email, :tournament_id)
+    end
+
+    def tournament_for_user
+      tournaments_options = Tournament.all.map { |tournament| [tournament.name, tournament.id] }
+      default_option = [[t(:select_tournament), nil]]
+      @tournaments_array = default_option + tournaments_options
     end
 end

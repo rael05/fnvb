@@ -32,3 +32,7 @@ en:
   users: 'Users'
   new_user: 'New user'
   destroy_this_user: 'Destroy this user'
+  tournament_where_team_is_managed:  'Tournament where a team is managed'
+  select_tournament: 'Select a Tournament'
+  tournament: 'Tournament'
+  without_tournament: 'Without Tournament'

@@ -3,4 +3,13 @@
     <strong><%= t(:email) %>:</strong>
     <%= user.email %>
   </p>
+
+  <p>
+    <strong><%= t(:tournament_where_team_is_managed) %>:</strong>
+    <% if user.tournament.nil? %>
+      <%= t(:without_tournament) %>
+    <% else %>
+      <%= user.tournament.name %>
+    <% end %>
+  </p>
 </div>

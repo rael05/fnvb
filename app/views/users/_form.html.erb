@@ -17,6 +17,11 @@
   </div>
 
   <div>
+    <%= form.label t(:tournament_where_team_is_managed), style: "display: block" %>
+    <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id)) %>
+  </div>
+
+  <div>
     <%= form.submit @action_buttom_label %>
   </div>
 <% end %>
