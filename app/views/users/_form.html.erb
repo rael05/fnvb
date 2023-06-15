@@ -1,4 +1,4 @@
-<%= form_with(model: user) do |form| %>
+<%= form_with url: @form_path, method: @form_method, model: user do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -17,8 +17,18 @@
   </div>
 
   <div>
+    <%= form.label t(:password), style: "display: block" %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div>
     <%= form.label t(:tournament_where_team_is_managed), style: "display: block" %>
     <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id)) %>
+  </div>
+
+  <div>
+    <%= form.label 'Rol', style: "display: block" %>
+    <%= form.select(:permission, options_for_select(@permissions_array, user.permission)) %>
   </div>
 
   <div>

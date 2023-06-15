@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :tournaments
     root :to => "home#index"
     resources :users
+    post 'users/new_user' => 'users#new_user'
 
   end
 

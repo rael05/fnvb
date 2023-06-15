@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :tournament_for_user, only: %i[ new edit update create ]
+  before_action :tournament_for_user, only: %i[ new edit update new_user ]
+  before_action :permissions_for_user, only: %i[ new edit update new_user ]
 
   # GET /users or /users.json
   def index
@@ -14,17 +15,20 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    @form_path = users_new_user_path
+    @form_method = :post
     @action_buttom_label = t(:create_user)
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    @form_path = user_path
+    @form_method = :patch
     @action_buttom_label = t(:edit_this_user)
   end
 
-  # POST /users or /users.json
-  def create
+  def new_user
     @user = User.new(user_params)
 
     respond_to do |format|
@@ -41,7 +45,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      params_update = user_params
+      if (user_params[:password].empty?)
+        params_update = user_params.except(:password)
+      end
+      if @user.update(params_update)
         format.html { redirect_to user_url(@user), notice: t(:user_was_successfully_updated) }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -69,12 +77,16 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :tournament_id)
+      params.require(:user).permit(:email, :tournament_id, :permission, :password)
     end
 
     def tournament_for_user
       tournaments_options = Tournament.all.map { |tournament| [tournament.name, tournament.id] }
       default_option = [[t(:select_tournament), nil]]
       @tournaments_array = default_option + tournaments_options
+    end
+
+    def permissions_for_user
+      @permissions_array = User::TYPE_PERMISSION.map { |key, value| [t(key), value] }
     end
 end

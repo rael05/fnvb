@@ -4,12 +4,19 @@
     <%= user.email %>
   </p>
 
+  <% if(user.isInternacional?) %>
+    <p>
+      <strong><%= t(:tournament_where_team_is_managed) %>:</strong>
+      <% if user.tournament.nil? %>
+        <%= t(:without_tournament) %>
+      <% else %>
+        <%= user.tournament.name %>
+      <% end %>
+    </p>
+  <% end %>
+
   <p>
-    <strong><%= t(:tournament_where_team_is_managed) %>:</strong>
-    <% if user.tournament.nil? %>
-      <%= t(:without_tournament) %>
-    <% else %>
-      <%= user.tournament.name %>
-    <% end %>
+    <strong>Rol:</strong>
+    <%= t(User::TYPE_PERMISSION.key(user.permission)) %>
   </p>
 </div>
