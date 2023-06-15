@@ -16,7 +16,12 @@ class Ability
     end
 
     if user&.isInternacional?
-      return(can :manage, Team)
+      if user&.team_id&.present?
+        return(can :edit, Team.find(user.team_id))
+      end
+      if user&.tournament_id&.present?
+        return(can :create, Team)
+      end
     end
 
     # Define abilities for the user here. For example:

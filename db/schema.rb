@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_15_055036) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_065424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "teams", force: :cascade do |t|
     t.bigint "tournament_id", null: false
-    t.string "team_name"
+    t.string "team_name", null: false
     t.string "color_shirt1", null: false
     t.string "color_short1", null: false
     t.string "color_shirt2"
@@ -71,11 +71,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_15_055036) do
     t.datetime "updated_at", null: false
     t.bigint "tournament_id"
     t.string "permission", limit: 1, default: "G"
+    t.bigint "team_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["team_id"], name: "index_users_on_team_id"
     t.index ["tournament_id"], name: "index_users_on_tournament_id"
   end
 
   add_foreign_key "teams", "tournaments"
+  add_foreign_key "users", "teams"
   add_foreign_key "users", "tournaments"
 end

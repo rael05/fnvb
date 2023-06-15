@@ -12,22 +12,17 @@
   <% end %>
 
   <div>
-    <%= form.label t(:tournament), style: "display: block" %>
-    <%= form.select(:tournament_id, options_for_select(@tournaments_array, team.tournament_id)) %>
-  </div>
-
-  <div>
-    <%= form.label t(:team_name), style: "display: block" %>
+    <%= form.label t(:team_name)+'*', style: "display: block" %>
     <%= form.text_field :team_name %>
   </div>
 
   <div>
-    <%= form.label t(:color_shirt1), style: "display: block" %>
+    <%= form.label t(:color_shirt1)+'*', style: "display: block" %>
     <%= form.text_field :color_shirt1 %>
   </div>
 
   <div>
-    <%= form.label t(:color_short1), style: "display: block" %>
+    <%= form.label t(:color_short1)+'*', style: "display: block" %>
     <%= form.text_field :color_short1 %>
   </div>
 
@@ -62,22 +57,22 @@
   </div>
 
   <div>
-    <%= form.label t(:head_coach_name), style: "display: block" %>
+    <%= form.label t(:head_coach_name)+'*', style: "display: block" %>
     <%= form.text_field :head_coach_name %>
   </div>
 
   <div>
-    <%= form.label t(:head_coach_last_name), style: "display: block" %>
+    <%= form.label t(:head_coach_last_name)+'*', style: "display: block" %>
     <%= form.text_field :head_coach_last_name %>
   </div>
 
   <div>
-    <%= form.label t(:assistant_coach1_name), style: "display: block" %>
+    <%= form.label t(:assistant_coach1_name)+'*', style: "display: block" %>
     <%= form.text_field :assistant_coach1_name %>
   </div>
 
   <div>
-    <%= form.label t(:assistant_coach1_last_name), style: "display: block" %>
+    <%= form.label t(:assistant_coach1_last_name)+'*', style: "display: block" %>
     <%= form.text_field :assistant_coach1_last_name %>
   </div>
 

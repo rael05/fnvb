@@ -1,7 +1,6 @@
 class TeamsController < ApplicationController
   load_and_authorize_resource
   before_action :set_team, only: %i[ show edit update destroy ]
-  before_action :tournament_for_team, only: %i[ new edit update create ]
 
   # GET /teams or /teams.json
   def index
@@ -26,9 +25,11 @@ class TeamsController < ApplicationController
   # POST /teams or /teams.json
   def create
     @team = Team.new(team_params)
+    @team.tournament_id = current_user.tournament_id
 
     respond_to do |format|
       if @team.save
+        current_user.update(team_id: @team.id)
         format.html { redirect_to team_url(@team), notice: "Team was successfully created." }
         format.json { render :show, status: :created, location: @team }
       else
@@ -72,9 +73,4 @@ class TeamsController < ApplicationController
       params.require(:team).permit(:tournament_id, :team_name, :color_shirt1, :color_short1, :color_shirt2, :color_short2, :color_shirt3, :color_short3, :delegate_name, :delegate_last_name, :head_coach_name, :head_coach_last_name, :assistant_coach1_name, :assistant_coach1_last_name, :assistant_coach2_name, :assistant_coach2_last_name, :doctor_name, :doctor_last_name, :physiotherapist_name, :physiotherapist_last_name, :statistical_name, :statistical_last_name, :international_referee_name, :international_referee_last_name)
     end
 
-    def tournament_for_team
-      tournaments_options = Tournament.all.map { |tournament| [tournament.name, tournament.id] }
-      default_option = [[t(:select_tournament), nil]]
-      @tournaments_array = default_option + tournaments_options
-    end
 end
