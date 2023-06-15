@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1><%= t(:teams) %></h1>
+
+<div id="teams">
+  <% @teams.each do |team| %>
+    <%= render team %>
+    <p>
+      <%= link_to t(:show_this_team), team %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to t(:new_team), new_team_path %>

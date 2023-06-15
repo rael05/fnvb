@@ -17,3 +17,12 @@ second_tournament = Tournament.create({international: true, name: 'Second Tourna
 I18n.locale = :es
 first_tournament.update({name: 'Primer Torneo', description: 'descripción del primer torneo'})
 second_tournament.update({name: 'Segundo Torneo', description: 'descripción del segundo torneo'})
+
+Team.create({
+  tournament_id: first_tournament.id, team_name: 'Nicaragua', color_shirt1: 'Azul', color_short1: 'Blanco', color_shirt2: 'Blanco',
+  color_short2: 'Blanco', color_shirt3: 'Negro', color_short3: 'Negro', delegate_name: 'Carlos Luis', delegate_last_name: 'Lopez Garcia',
+  head_coach_name: 'Yanira Maria', head_coach_last_name: 'Rio Ruiz', assistant_coach1_name: 'Ruben Del Zocorro', assistant_coach1_last_name: 'Naranjo',
+  assistant_coach2_name: 'Claudio', assistant_coach2_last_name: 'Cordoba', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
+  physiotherapist_name: 'Noe', physiotherapist_last_name: 'Nadal', statistical_name: 'Vanesa', statistical_last_name: 'Infante Caballero',
+  international_referee_name: 'Leticia', international_referee_last_name: 'Luque',
+})

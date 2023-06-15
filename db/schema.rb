@@ -10,9 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_09_045636) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_15_055036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "teams", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.string "team_name"
+    t.string "color_shirt1", null: false
+    t.string "color_short1", null: false
+    t.string "color_shirt2"
+    t.string "color_short2"
+    t.string "color_shirt3"
+    t.string "color_short3"
+    t.string "delegate_name"
+    t.string "delegate_last_name"
+    t.string "head_coach_name", null: false
+    t.string "head_coach_last_name", null: false
+    t.string "assistant_coach1_name", null: false
+    t.string "assistant_coach1_last_name", null: false
+    t.string "assistant_coach2_name"
+    t.string "assistant_coach2_last_name"
+    t.string "doctor_name"
+    t.string "doctor_last_name"
+    t.string "physiotherapist_name"
+    t.string "physiotherapist_last_name"
+    t.string "statistical_name"
+    t.string "statistical_last_name"
+    t.string "international_referee_name"
+    t.string "international_referee_last_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
+  end
 
   create_table "tournament_translations", force: :cascade do |t|
     t.bigint "tournament_id", null: false
@@ -46,5 +76,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_09_045636) do
     t.index ["tournament_id"], name: "index_users_on_tournament_id"
   end
 
+  add_foreign_key "teams", "tournaments"
   add_foreign_key "users", "tournaments"
 end

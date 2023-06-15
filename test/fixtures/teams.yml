@@ -1,0 +1,53 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tournament: one
+  team_name: MyString
+  color_shirt1: MyString
+  color_short1: MyString
+  color_shirt2: MyString
+  color_short2: MyString
+  color_shirt3: MyString
+  color_short3: MyString
+  delegate_name: MyString
+  delegate_last_name: MyString
+  head_coach_name: MyString
+  head_coach_last_name: MyString
+  assistant_coach1_name: MyString
+  assistant_coach1_last_name: MyString
+  assistant_coach2_name: MyString
+  assistant_coach2_last_name: MyString
+  doctor_name: MyString
+  doctor_last_name: MyString
+  physiotherapist_name: MyString
+  physiotherapist_last_name: MyString
+  statistical_name: MyString
+  statistical_last_name: MyString
+  international_referee_name: MyString
+  international_referee_last_name: MyString
+
+two:
+  tournament: two
+  team_name: MyString
+  color_shirt1: MyString
+  color_short1: MyString
+  color_shirt2: MyString
+  color_short2: MyString
+  color_shirt3: MyString
+  color_short3: MyString
+  delegate_name: MyString
+  delegate_last_name: MyString
+  head_coach_name: MyString
+  head_coach_last_name: MyString
+  assistant_coach1_name: MyString
+  assistant_coach1_last_name: MyString
+  assistant_coach2_name: MyString
+  assistant_coach2_last_name: MyString
+  doctor_name: MyString
+  doctor_last_name: MyString
+  physiotherapist_name: MyString
+  physiotherapist_last_name: MyString
+  statistical_name: MyString
+  statistical_last_name: MyString
+  international_referee_name: MyString
+  international_referee_last_name: MyString

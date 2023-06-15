@@ -1,0 +1,10 @@
+<h1><%= t(:editing_team) %></h1>
+
+<%= render "form", team: @team %>
+
+<br>
+
+<div>
+  <%= link_to t(:show_this_team), @team %> |
+  <%= link_to t(:back_to_teams), teams_path %>
+</div>
