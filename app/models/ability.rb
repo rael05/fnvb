@@ -8,6 +8,7 @@ class Ability
     can :read, Team
 
     if user&.isPresident?
+      can :manage, Tournament
       return (can :manage, User)
     end
 

@@ -27,6 +27,14 @@
   </div>
 
   <div>
+    <%= form.label t(:image) %>
+    <%= image_tag form.object.image_url if form.object.cached_image_data %>
+    <%= form.hidden_field :image, value: form.object.cached_image_data %>
+    <%= form.file_field :image %>
+  </div>
+
+
+  <div>
     <%= form.submit @action_buttom_label %>
   </div>
 <% end %>

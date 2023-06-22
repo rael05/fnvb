@@ -75,3 +75,6 @@ es:
   edit_this_team: 'Editar este Equipo'
   destroy_this_team: 'Eliminar este equipo'
   editing_team: 'Editando Equipo'
+  image: 'Imagen'
+  image_data: 'Datos de la imagen'
+  without_image: 'Sin Imagen'

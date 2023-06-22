@@ -24,6 +24,9 @@ class TournamentsController < ApplicationController
 
   # POST /tournaments or /tournaments.json
   def create
+    if tournament_params[:image].is_a?(ActionDispatch::Http::UploadedFile)
+      tournament_params[:image].open
+    end
     @tournament = Tournament.new(tournament_params)
 
     respond_to do |format|
@@ -68,6 +71,6 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :description, :international)
+      params.require(:tournament).permit(:name, :description, :international, :image)
     end
 end

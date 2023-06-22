@@ -75,3 +75,6 @@ en:
   edit_this_team: 'Edit this Team'
   destroy_this_team: 'Destroy this team'
   editing_team: 'Editing team'
+  image: 'Image'
+  image_data: 'Image data'
+  without_image: 'Without Image'

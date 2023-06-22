@@ -14,4 +14,14 @@
     <%= tournament.international %>
   </p>
 
+  <p>
+    <strong><%= t(:image) %>:</strong>
+
+    <% if tournament.image %>
+      <%= image_tag tournament.image_url%>
+    <% else %>
+      <%= t(:without_image) %>
+    <% end %>
+  </p>
+
 </div>
