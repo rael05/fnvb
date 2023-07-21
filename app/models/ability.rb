@@ -6,6 +6,7 @@ class Ability
   def initialize(user)
     can :read, Tournament
     can :read, Team
+    can :read, Article
 
     if user&.isPresident?
       can :manage, Tournament
@@ -13,16 +14,20 @@ class Ability
     end
 
     if user&.isVice?
-      return(can :manage, Tournament)
+      return (can :manage, Tournament)
     end
 
     if user&.isInternacional?
       if user&.team_id&.present?
-        return(can :edit, Team.find(user.team_id))
+        return (can :edit, Team.find(user.team_id))
       end
       if user&.tournament_id&.present?
-        return(can :create, Team)
+        return (can :create, Team)
       end
+    end
+
+    if user&.isDivulgation?
+      return (can :manage, Article)
     end
 
     # Define abilities for the user here. For example:

@@ -1,0 +1,27 @@
+<div id="<%= dom_id article %>">
+  <p>
+    <strong>User:</strong>
+    <%= article.user_id %>
+  </p>
+
+  <p>
+    <strong>Name:</strong>
+    <%= article.name %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= article.description %>
+  </p>
+
+  <p>
+    <strong>Image data:</strong>
+
+    <% if article.image %>
+      <%= image_tag article.image_url%>
+    <% else %>
+      <%= t(:without_image) %>
+    <% end %>
+  </p>
+
+</div>
