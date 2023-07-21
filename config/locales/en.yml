@@ -75,3 +75,5 @@ en:
   edit_this_team: 'Edit this Team'
   destroy_this_team: 'Destroy this team'
   editing_team: 'Editing team'
+  tournament_image: 'Tournament image'
+  error_format_file: 'must be one of this format'

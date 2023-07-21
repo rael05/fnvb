@@ -27,6 +27,14 @@
   </div>
 
   <div>
+    <%= form.label t(:tournament_image), style: "display: block" %>
+    <% if tournament.image.present? %>
+      <%= image_tag tournament.image, style: "display: block" %>
+    <% end %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div>
     <%= form.submit @action_buttom_label %>
   </div>
 <% end %>

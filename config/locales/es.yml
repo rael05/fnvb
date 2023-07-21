@@ -75,3 +75,5 @@ es:
   edit_this_team: 'Editar este Equipo'
   destroy_this_team: 'Eliminar este equipo'
   editing_team: 'Editando Equipo'
+  tournament_image: 'Imagen del torneo'
+  error_format_file: 'debe de tener uno de estos formatos'
