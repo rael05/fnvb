@@ -11,6 +11,12 @@ User.create({email: 'internacional@hotmail.com', password: '123456', permission:
 User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D'})
 User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G'})
 
+User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A'})
+User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V'})
+User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I'})
+User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D'})
+User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G'})
+
 I18n.locale = :en
 first_tournament = Tournament.create({international: false, name: 'First Tournament', description: 'description of the first tournament'})
 second_tournament = Tournament.create({international: true, name: 'Second Tournament', description: 'description of the second tournament'})

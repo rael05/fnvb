@@ -1,0 +1,41 @@
+<div id="<%= dom_id announcement %>">
+  <p>
+    <strong>Title:</strong>
+    <%= announcement.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= announcement.description %>
+  </p>
+
+  <p>
+    <strong>Esta convocatoria fue hecha por:</strong>
+    <%= announcement.user.email %>
+  </p>
+
+  <% if announcement.pdf_es_file.present? %>
+    <p>
+      <strong>Vista del PDF en español de la convocatoria:</strong>
+      <%= link_to announcement.pdf_es_file.filename, rails_blob_path(announcement.pdf_es_file, disposition: 'preview') %>
+    </p>
+
+    <p>
+      <strong>Descarga del PDF en español de la convocatoria:</strong>
+      <%= link_to announcement.pdf_es_file.filename, rails_blob_path(announcement.pdf_es_file, disposition: 'attachment') %>
+    </p>
+  <% end %>
+
+  <% if announcement.pdf_en_file.present? %>
+    <p>
+      <strong>Vista del PDF en ingles de la convocatoria:</strong>
+      <%= link_to announcement.pdf_en_file.filename, rails_blob_path(announcement.pdf_en_file, disposition: 'preview') %>
+    </p>
+
+    <p>
+      <strong>Descarga del PDF en ingles de la convocatoria:</strong>
+      <%= link_to announcement.pdf_en_file.filename, rails_blob_path(announcement.pdf_en_file, disposition: 'attachment') %>
+    </p>
+  <% end %>
+
+</div>

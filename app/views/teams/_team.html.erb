@@ -119,4 +119,11 @@
     <%= team.international_referee_last_name %>
   </p>
 
+  <p>
+    <strong><%= 'Imagen del equipo' %>:</strong>
+    <% if team.image.present? %>
+      <%= image_tag team.image %>
+    <% end %>
+  </p>
+
 </div>

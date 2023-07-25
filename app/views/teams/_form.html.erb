@@ -127,6 +127,14 @@
   </div>
 
   <div>
+    <%= form.label 'Imagen del equipo', style: "display: block" %>
+    <% if team.image.present? %>
+      <%= image_tag team.image, style: "display: block" %>
+    <% end %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div>
     <%= form.submit @action_buttom_label %>
   </div>
 <% end %>

@@ -70,7 +70,13 @@ class TeamsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def team_params
-      params.require(:team).permit(:tournament_id, :team_name, :color_shirt1, :color_short1, :color_shirt2, :color_short2, :color_shirt3, :color_short3, :delegate_name, :delegate_last_name, :head_coach_name, :head_coach_last_name, :assistant_coach1_name, :assistant_coach1_last_name, :assistant_coach2_name, :assistant_coach2_last_name, :doctor_name, :doctor_last_name, :physiotherapist_name, :physiotherapist_last_name, :statistical_name, :statistical_last_name, :international_referee_name, :international_referee_last_name)
+      params.require(:team).permit(
+        :tournament_id, :team_name, :color_shirt1, :color_short1, :color_shirt2, :color_short2, :color_shirt3,
+        :color_short3, :delegate_name, :delegate_last_name, :head_coach_name, :head_coach_last_name,
+        :assistant_coach1_name, :assistant_coach1_last_name, :assistant_coach2_name, :assistant_coach2_last_name,
+        :doctor_name, :doctor_last_name, :physiotherapist_name, :physiotherapist_last_name, :statistical_name,
+        :statistical_last_name, :international_referee_name, :international_referee_last_name, :image
+      )
     end
 
 end
