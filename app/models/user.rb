@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   belongs_to :tournament, optional: true
   belongs_to :team, optional: true
+  has_many :article
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

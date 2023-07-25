@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :users
     post 'users/new_user' => 'users#new_user'
     resources :teams
+    resources :articles
   end
 
 end

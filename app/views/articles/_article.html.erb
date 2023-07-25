@@ -1,0 +1,40 @@
+<div id="<%= dom_id article %>">
+  <p>
+    <strong>Title:</strong>
+    <%= article.title %>
+  </p>
+
+  <p>
+    <strong>Description:</strong>
+    <%= article.description %>
+  </p>
+
+  <p>
+    <strong>Esta noticia fue hecha por:</strong>
+    <%= article.user.email %>
+  </p>
+
+  <% if article.pdf_es_file.present? %>
+    <p>
+      <strong>Vista del PDF en español de la noticia:</strong>
+      <%= link_to article.pdf_es_file.filename, rails_blob_path(article.pdf_es_file, disposition: 'preview') %>
+    </p>
+
+    <p>
+      <strong>Descarga del PDF en español de la noticia:</strong>
+      <%= link_to article.pdf_es_file.filename, rails_blob_path(article.pdf_es_file, disposition: 'attachment') %>
+    </p>
+  <% end %>
+
+  <% if article.pdf_en_file.present? %>
+    <p>
+      <strong>Vista del PDF en ingles de la noticia:</strong>
+      <%= link_to article.pdf_en_file.filename, rails_blob_path(article.pdf_en_file, disposition: 'preview') %>
+    </p>
+
+    <p>
+      <strong>Descarga del PDF en ingles de la noticia:</strong>
+      <%= link_to article.pdf_en_file.filename, rails_blob_path(article.pdf_en_file, disposition: 'attachment') %>
+    </p>
+  <% end %>
+</div>
