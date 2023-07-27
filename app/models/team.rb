@@ -1,5 +1,6 @@
 class Team < ApplicationRecord
-  belongs_to :tournament
+  has_many :tournament_teams
+  has_many :tournaments, through: :tournament_teams
   has_many :users
 
   has_one_attached :image

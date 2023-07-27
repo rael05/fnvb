@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_25_053939) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_060628) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -97,7 +97,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_053939) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.bigint "tournament_id", null: false
     t.string "team_name", null: false
     t.string "color_shirt1", null: false
     t.string "color_short1", null: false
@@ -123,7 +122,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_053939) do
     t.string "international_referee_last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
+  end
+
+  create_table "tournament_teams", force: :cascade do |t|
+    t.bigint "tournament_id"
+    t.bigint "team_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_tournament_teams_on_team_id"
+    t.index ["tournament_id"], name: "index_tournament_teams_on_tournament_id"
   end
 
   create_table "tournament_translations", force: :cascade do |t|
@@ -165,7 +172,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_25_053939) do
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
   add_foreign_key "statistics", "users"
-  add_foreign_key "teams", "tournaments"
   add_foreign_key "users", "teams"
   add_foreign_key "users", "tournaments"
 end

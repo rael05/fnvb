@@ -1,7 +1,9 @@
 <div id="<%= dom_id team %>">
   <p>
     <strong><%= t(:tournament) %>:</strong>
-    <%= team.tournament.name %>
+    <% team.tournaments.each do |tournament| %>
+      <%= tournament.name %>
+    <% end %>
   </p>
 
   <p>

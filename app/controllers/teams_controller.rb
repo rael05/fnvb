@@ -25,11 +25,11 @@ class TeamsController < ApplicationController
   # POST /teams or /teams.json
   def create
     @team = Team.new(team_params)
-    @team.tournament_id = current_user.tournament_id
 
     respond_to do |format|
       if @team.save
         current_user.update(team_id: @team.id)
+        TournamentTeam.create({ team_id: @team.id, tournament_id: current_user.tournament_id })
         format.html { redirect_to team_url(@team), notice: "Team was successfully created." }
         format.json { render :show, status: :created, location: @team }
       else
