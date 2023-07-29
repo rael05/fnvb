@@ -4,7 +4,7 @@ class CreatePlayers < ActiveRecord::Migration[7.0]
       t.integer :number
       t.string :name
       t.string :last_name
-      t.string :position
+      t.string :position, limit: 1
       t.date :birthday
       t.float :weight
       t.float :height

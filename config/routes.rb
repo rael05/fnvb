@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :statistics
     resources :calendars
     resources :players
+    resources :games
   end
 
 end

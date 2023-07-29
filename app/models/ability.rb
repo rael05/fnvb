@@ -11,12 +11,14 @@ class Ability
     can :read, Announcement
     can :read, Calendar
     can :read, Player
+    can :read, Game
 
     if user&.isPresident?
       return (can :manage, User)
     end
 
     if user&.isVice?
+      can :manage, Game
       return(can :manage, Tournament)
     end
 

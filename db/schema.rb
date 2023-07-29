@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_021444) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_022937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,11 +100,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_021444) do
     t.index ["tournament_id"], name: "index_calendars_on_tournament_id"
   end
 
+  create_table "game_translations", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.index ["game_id"], name: "index_game_translations_on_game_id"
+    t.index ["locale"], name: "index_game_translations_on_locale"
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.integer "winning_team"
+    t.integer "lose_team"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_games_on_user_id"
+  end
+
   create_table "players", force: :cascade do |t|
     t.integer "number"
     t.string "name"
     t.string "last_name"
-    t.string "position"
+    t.string "position", limit: 1
     t.date "birthday"
     t.float "weight"
     t.float "height"
@@ -209,6 +228,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_021444) do
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
   add_foreign_key "calendars", "tournaments"
+  add_foreign_key "games", "users"
   add_foreign_key "players", "teams"
   add_foreign_key "statistics", "users"
   add_foreign_key "users", "teams"
