@@ -1,0 +1,52 @@
+<%= form_with(model: calendar) do |form| %>
+  <% if calendar.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(calendar.errors.count, "error") %> prohibited this calendar from being saved:</h2>
+
+      <ul>
+        <% calendar.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label 'Torneo', style: "display: block" %>
+    <%= form.select(:tournament_id, options_for_select(@tournaments_array, calendar.tournament_id)) %>
+  </div>
+
+  <div>
+    <%= form.label :team1, style: "display: block" %>
+    <%= form.text_field :team1 %>
+  </div>
+
+  <div>
+    <%= form.label :team2, style: "display: block" %>
+    <%= form.text_field :team2 %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <%= form.label :stage, style: "display: block" %>
+    <%= form.select(:stage, options_for_select(@stage_array, calendar.stage)) %>
+  </div>
+
+  <div>
+    <%= form.label :start_date_time, style: "display: block" %>
+    <%= form.text_field :start_date_time %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.select(:status, options_for_select(@status_array, calendar.status)) %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

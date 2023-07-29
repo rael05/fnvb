@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_060628) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_27_064640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,28 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_060628) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_articles_on_user_id"
+  end
+
+  create_table "calendar_translations", force: :cascade do |t|
+    t.bigint "calendar_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
+    t.index ["calendar_id"], name: "index_calendar_translations_on_calendar_id"
+    t.index ["locale"], name: "index_calendar_translations_on_locale"
+  end
+
+  create_table "calendars", force: :cascade do |t|
+    t.bigint "tournament_id", null: false
+    t.integer "team1"
+    t.integer "team2"
+    t.string "stage", limit: 1, default: "C"
+    t.datetime "start_date_time"
+    t.string "status", limit: 1, default: "P"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_calendars_on_tournament_id"
   end
 
   create_table "statistic_translations", force: :cascade do |t|
@@ -171,6 +193,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_060628) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
+  add_foreign_key "calendars", "tournaments"
   add_foreign_key "statistics", "users"
   add_foreign_key "users", "teams"
   add_foreign_key "users", "tournaments"

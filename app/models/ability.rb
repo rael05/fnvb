@@ -9,6 +9,7 @@ class Ability
     can :read, Article
     can :read, Statistic
     can :read, Announcement
+    can :read, Calendar
 
     if user&.isPresident?
       return (can :manage, User)
@@ -31,6 +32,7 @@ class Ability
       divulgationBasicsAbilities(Article, user)
       divulgationBasicsAbilities(Statistic, user)
       divulgationBasicsAbilities(Announcement, user)
+      return(can :manage, Calendar)
     end
   end
 
