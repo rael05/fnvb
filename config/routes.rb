@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :calendars
 
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     devise_for :users
@@ -11,6 +10,8 @@ Rails.application.routes.draw do
     resources :articles
     resources :announcements
     resources :statistics
+    resources :calendars
+    resources :players
   end
 
 end

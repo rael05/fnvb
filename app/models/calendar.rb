@@ -1,4 +1,5 @@
 class Calendar < ApplicationRecord
+  belongs_to :tournament
   translates :description
 
   TYPE_STAGE = {

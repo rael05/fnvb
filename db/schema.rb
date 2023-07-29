@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_27_064640) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_021444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -98,6 +98,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_064640) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tournament_id"], name: "index_calendars_on_tournament_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.integer "number"
+    t.string "name"
+    t.string "last_name"
+    t.string "position"
+    t.date "birthday"
+    t.float "weight"
+    t.float "height"
+    t.bigint "team_id", null: false
+    t.string "nationality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
   create_table "statistic_translations", force: :cascade do |t|
@@ -194,6 +209,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_27_064640) do
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
   add_foreign_key "calendars", "tournaments"
+  add_foreign_key "players", "teams"
   add_foreign_key "statistics", "users"
   add_foreign_key "users", "teams"
   add_foreign_key "users", "tournaments"
