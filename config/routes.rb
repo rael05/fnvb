@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :calendars
     resources :players
     resources :games
+    resources :game_details
   end
 
 end

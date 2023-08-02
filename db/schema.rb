@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_022937) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_024242) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -100,6 +100,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_022937) do
     t.index ["tournament_id"], name: "index_calendars_on_tournament_id"
   end
 
+  create_table "game_detail_translations", force: :cascade do |t|
+    t.bigint "game_detail_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.index ["game_detail_id"], name: "index_game_detail_translations_on_game_detail_id"
+    t.index ["locale"], name: "index_game_detail_translations_on_locale"
+  end
+
+  create_table "game_details", force: :cascade do |t|
+    t.bigint "game_id", null: false
+    t.string "game_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_details_on_game_id"
+  end
+
   create_table "game_translations", force: :cascade do |t|
     t.bigint "game_id", null: false
     t.string "locale", null: false
@@ -113,6 +131,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_022937) do
   create_table "games", force: :cascade do |t|
     t.integer "winning_team"
     t.integer "lose_team"
+    t.string "score"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -228,6 +247,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_022937) do
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
   add_foreign_key "calendars", "tournaments"
+  add_foreign_key "game_details", "games"
   add_foreign_key "games", "users"
   add_foreign_key "players", "teams"
   add_foreign_key "statistics", "users"
