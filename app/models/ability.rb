@@ -13,6 +13,10 @@ class Ability
     can :read, Player
     can :read, Game
 
+    if user&.present?
+      can :read, User.find(user.id)
+    end
+
     if user&.isPresident?
       return (can :manage, User)
     end

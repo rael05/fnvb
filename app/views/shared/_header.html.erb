@@ -1,13 +1,88 @@
-<nav>
-  <h2><%= link_to(t(:home), :root) %></h2>
-  <% if user_signed_in? %>
-    <%= current_user.email %>
-    <%= button_to(t(:log_out), destroy_user_session_path, method: :delete) %>
-  <% else %>
-    <h2><%= link_to(t(:log_in), :new_user_session) %></h2>
-  <% end %>
-  <h3>
-    <%= link_to('EN', locale: :en)%> |
-    <%= link_to('ES', locale: :es)%>
-  </h3>
+<div class="bg-primary rounded-end me-2 pt-1 pb-1 ">
+  <div class="text-white container-xxl">
+    <p class="mb-0">
+      <i class="fa-solid fa-phone"></i>
+      &nbsp
+      COCH +56 22 270 3603 / EDUCACIÓN
+      &nbsp
+      <i class="fa-solid fa-envelope"></i>
+      contacto@coch.cl
+      &nbsp
+      <i class="fa-brands fa-facebook-f"></i>
+      &nbsp
+      <i class="fa-brands fa-twitter"></i>
+      &nbsp
+      <i class="fa-brands fa-instagram"></i>
+    </p>
+  </div>
+</div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center">
+  <div class="ms-4">
+    <%= image_tag("fnvb.png", alt: 'FNVB', width: 70, height: 65) %>
+  </div>
+  <div class="container-xxl">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to(t(:home), :root, class: 'nav-link active link-danger') %>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <%= t(:about_us) %>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:tournaments), :tournaments, class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:calendars), :calendars, class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:announcement), :announcements, class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:news), :articles, class: 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:statistics), :statistics, class: 'nav-link') %>
+        </li>
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <%= link_to('ES', { locale: :es }, class: 'nav-link')%>
+        </li>
+        <li class="nav-item nav-link">
+          |
+        </li>
+        <li class="nav-item">
+          <%= link_to('EN', { locale: :en }, class: 'nav-link')%>
+        </li>
+        &nbsp
+        &nbsp
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-user"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <% if user_signed_in? %>
+              <%= link_to(current_user.email, current_user, class: 'dropdown-item') %>
+              <li><hr class="dropdown-divider"></li>
+              <%= button_to(t(:log_out), destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
+            <% else %>
+              <%= link_to(t(:log_in), :new_user_session, class: 'dropdown-item') %>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>

@@ -85,3 +85,8 @@ es:
   pending: 'Pendiente'
   forfeit: 'Pérdida por Ausencia'
   finished: 'Terminado'
+  news: 'Noticias'
+  announcement: 'Convocatorias'
+  statistics: 'Estadística'
+  calendars: 'Calendario'
+  about_us: 'Nosotros'
