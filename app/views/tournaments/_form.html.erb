@@ -1,40 +1,42 @@
-<%= form_with(model: tournament) do |form| %>
-  <% if tournament.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(tournament.errors.count, "error") %> prohibited this tournament from being saved:</h2>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with(model: tournament) do |form| %>
+    <% if tournament.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(tournament.errors.count, "error") %> prohibited this tournament from being saved:</h2>
 
-      <ul>
-        <% tournament.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% tournament.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label t(:name), class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label t(:description), class: "form-label" %>
+      <%= form.text_area :description, class: "form-control", row: 3 %>
+    </div>
+
+    <div class="form-check mb-3">
+      <%= form.check_box :international, class: "form-check-input" %>
+      <%= form.label t(:international), class: "form-check-label" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label t(:tournament_image), class: "form-label" %>
+      <%= form.file_field :image, class: "form-control" %>
+      <% if tournament.image.present? %>
+        <%= image_tag tournament.image, style: "display: block" %>
+      <% end %>
+    </div>
+
+    <div>
+      <%= form.submit @action_buttom_label, class: "btn btn-primary mb-2" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label t(:name), style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label t(:description), style: "display: block" %>
-    <%= form.text_area :description %>
-  </div>
-
-  <div>
-    <%= form.label t(:international), style: "display: block" %>
-    <%= form.check_box :international %>
-  </div>
-
-  <div>
-    <%= form.label t(:tournament_image), style: "display: block" %>
-    <% if tournament.image.present? %>
-      <%= image_tag tournament.image, style: "display: block" %>
-    <% end %>
-    <%= form.file_field :image %>
-  </div>
-
-  <div>
-    <%= form.submit @action_buttom_label %>
-  </div>
-<% end %>
+</div>
