@@ -7,13 +7,11 @@
 #   Character.create(name: "Luke", movie: movies.first)
 User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A'})
 User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V'})
-User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I'})
 User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D'})
 User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G'})
 
 User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A'})
 User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V'})
-User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I'})
 User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D'})
 User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G'})
 
@@ -34,3 +32,6 @@ first_team = Team.create({
 })
 
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: first_team.id})
+
+User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: first_team.id})
+User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id})

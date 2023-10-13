@@ -1,62 +1,68 @@
-<%= form_with(model: player) do |form| %>
-  <% if player.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(player.errors.count, "error") %> prohibited this player from being saved:</h2>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with(model: player) do |form| %>
+    <% if player.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(player.errors.count, "error") %> prohibited this player from being saved:</h2>
 
-      <ul>
-        <% player.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% player.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label :name, class: "form-label" %>
+        <%= form.text_field :name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label :last_name, class: "form-label" %>
+        <%= form.text_field :last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label :position, class: "form-label" %>
+        <%= form.text_field :position, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label :number, class: "form-label" %>
+        <%= form.number_field :number, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label :birthday, class: "form-label" %>
+        <%= form.date_field :birthday, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label :weight, class: "form-label" %>
+        <%= form.number_field :weight, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label :height, class: "form-label" %>
+        <%= form.number_field :height, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label 'Equipo al que pertenece', class: "form-label" %>
+      <fieldset disabled>
+        <%= form.text_field :team_id, value: current_user.team.team_name, class: "form-control" %>
+      </fieldset>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :nationality, class: "form-label" %>
+      <%= form.text_field :nationality, class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.submit class: "btn btn-primary mb-2" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label :number, style: "display: block" %>
-    <%= form.number_field :number %>
-  </div>
-
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
-
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name %>
-  </div>
-
-  <div>
-    <%= form.label :position, style: "display: block" %>
-    <%= form.text_field :position %>
-  </div>
-
-  <div>
-    <%= form.label :birthday, style: "display: block" %>
-    <%= form.date_field :birthday %>
-  </div>
-
-  <div>
-    <%= form.label :weight, style: "display: block" %>
-    <%= form.text_field :weight %>
-  </div>
-
-  <div>
-    <%= form.label :height, style: "display: block" %>
-    <%= form.text_field :height %>
-  </div>
-
-  <div>
-    <%= form.label 'Equipo al que pertenece', style: "display: block" %>
-    <%= current_user.team_id %>
-  </div>
-
-  <div>
-    <%= form.label :nationality, style: "display: block" %>
-    <%= form.text_field :nationality %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>

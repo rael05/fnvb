@@ -1,4 +1,5 @@
-<%= form_with(model: announcement) do |form| %>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with(model: announcement) do |form| %>
   <% if announcement.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
@@ -11,33 +12,34 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label 'PDF de la convocatoria en español', style: "display: block" %>
+  <div class="mb-3">
+    <%= form.label 'PDF de la convocatoria en español', class: "form-label" %>
     <% if announcement.pdf_es_file.present? %>
-      Arcivo actual: <%= announcement.pdf_es_file.filename %> <br>
+      arcivo actual: <strong> <%= announcement.pdf_es_file.filename %> </strong> <br>
     <% end %>
-    <%= form.file_field :pdf_es_file %>
+    <%= form.file_field :pdf_es_file, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label 'PDF de la convocatoria en ingles', style: "display: block" %>
+  <div class="mb-3">
+    <%= form.label 'PDF de la convocatoria en ingles', class: "form-label" %>
     <% if announcement.pdf_en_file.present? %>
-      Arcivo actual: <%= announcement.pdf_en_file.filename %> <br>
+      arcivo actual: <strong> <%= announcement.pdf_en_file.filename %> </strong> <br>
     <% end %>
-    <%= form.file_field :pdf_en_file %>
+    <%= form.file_field :pdf_en_file, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary mb-2" %>
   </div>
 <% end %>
+</div>

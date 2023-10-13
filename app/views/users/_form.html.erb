@@ -1,37 +1,39 @@
-<%= form_with url: @form_path, method: @form_method, model: user do |form| %>
-  <% if user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with url: @form_path, method: @form_method, model: user do |form| %>
+    <% if user.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
-      <ul>
-        <% user.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% user.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label t(:email), style: "display: block", class: "form-label" %>
+      <%= form.text_field :email, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label t(:password), style: "display: block", class: "form-label" %>
+      <%= form.password_field :password, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
+      <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select") %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label 'Rol', class: "form-label" %>
+      <%= form.select(:permission, options_for_select(@permissions_array, user.permission), {}, class: "form-select") %>
+    </div>
+
+    <div>
+      <%= form.submit @action_buttom_label, class: "btn btn-primary mb-2" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label t(:email), style: "display: block" %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div>
-    <%= form.label t(:password), style: "display: block" %>
-    <%= form.password_field :password %>
-  </div>
-
-  <div>
-    <%= form.label t(:tournament_where_team_is_managed), style: "display: block" %>
-    <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id)) %>
-  </div>
-
-  <div>
-    <%= form.label 'Rol', style: "display: block" %>
-    <%= form.select(:permission, options_for_select(@permissions_array, user.permission)) %>
-  </div>
-
-  <div>
-    <%= form.submit @action_buttom_label %>
-  </div>
-<% end %>
+</div>

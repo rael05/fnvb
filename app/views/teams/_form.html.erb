@@ -1,140 +1,153 @@
-<%= form_with(model: team) do |form| %>
-  <% if team.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with(model: team) do |form| %>
+    <% if team.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
 
-      <ul>
-        <% team.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% team.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label t(:team_name)+'*', class: "form-label" %>
+      <%= form.text_field :team_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:color_shirt1)+'*', class: "form-label" %>
+        <%= form.text_field :color_shirt1, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:color_short1)+'*', class: "form-label" %>
+        <%= form.text_field :color_short1, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:color_shirt2), class: "form-label" %>
+        <%= form.text_field :color_shirt2, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:color_short2), class: "form-label" %>
+        <%= form.text_field :color_short2, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:color_shirt3), class: "form-label" %>
+        <%= form.text_field :color_shirt3, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:color_short3), class: "form-label" %>
+        <%= form.text_field :color_short3, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:delegate_name), class: "form-label" %>
+        <%= form.text_field :delegate_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:delegate_last_name), class: "form-label" %>
+        <%= form.text_field :delegate_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:head_coach_name)+'*', class: "form-label" %>
+        <%= form.text_field :head_coach_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:head_coach_last_name)+'*', class: "form-label" %>
+        <%= form.text_field :head_coach_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:assistant_coach1_name)+'*', class: "form-label" %>
+        <%= form.text_field :assistant_coach1_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:assistant_coach1_last_name)+'*', class: "form-label" %>
+        <%= form.text_field :assistant_coach1_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:assistant_coach2_name), class: "form-label" %>
+        <%= form.text_field :assistant_coach2_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:assistant_coach2_last_name), class: "form-label" %>
+      <%= form.text_field :assistant_coach2_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:doctor_name), class: "form-label" %>
+        <%= form.text_field :doctor_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:doctor_last_name), class: "form-label" %>
+      <%= form.text_field :doctor_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:physiotherapist_name), class: "form-label" %>
+        <%= form.text_field :physiotherapist_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:physiotherapist_last_name), class: "form-label" %>
+      <%= form.text_field :physiotherapist_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:statistical_name), class: "form-label" %>
+        <%= form.text_field :statistical_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:statistical_last_name), class: "form-label" %>
+      <%= form.text_field :statistical_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label t(:international_referee_name), class: "form-label" %>
+        <%= form.text_field :international_referee_name, class: "form-control" %>
+      </div>
+      <div class="col">
+        <%= form.label t(:international_referee_last_name), class: "form-label" %>
+      <%= form.text_field :international_referee_last_name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label 'Imagen del equipo', class: "form-label" %>
+      <% if team.image.present? %>
+        <%= image_tag team.image, style: "display: block" %>
+      <% end %>
+      <%= form.file_field :image, class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.submit @action_buttom_label, class: "btn btn-primary mb-2" %>
     </div>
   <% end %>
-
-  <div>
-    <%= form.label t(:team_name)+'*', style: "display: block" %>
-    <%= form.text_field :team_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_shirt1)+'*', style: "display: block" %>
-    <%= form.text_field :color_shirt1 %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_short1)+'*', style: "display: block" %>
-    <%= form.text_field :color_short1 %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_shirt2), style: "display: block" %>
-    <%= form.text_field :color_shirt2 %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_short2), style: "display: block" %>
-    <%= form.text_field :color_short2 %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_shirt3), style: "display: block" %>
-    <%= form.text_field :color_shirt3 %>
-  </div>
-
-  <div>
-    <%= form.label t(:color_short3), style: "display: block" %>
-    <%= form.text_field :color_short3 %>
-  </div>
-
-  <div>
-    <%= form.label t(:delegate_name), style: "display: block" %>
-    <%= form.text_field :delegate_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:delegate_last_name), style: "display: block" %>
-    <%= form.text_field :delegate_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:head_coach_name)+'*', style: "display: block" %>
-    <%= form.text_field :head_coach_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:head_coach_last_name)+'*', style: "display: block" %>
-    <%= form.text_field :head_coach_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:assistant_coach1_name)+'*', style: "display: block" %>
-    <%= form.text_field :assistant_coach1_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:assistant_coach1_last_name)+'*', style: "display: block" %>
-    <%= form.text_field :assistant_coach1_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:assistant_coach2_name), style: "display: block" %>
-    <%= form.text_field :assistant_coach2_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:assistant_coach2_last_name), style: "display: block" %>
-    <%= form.text_field :assistant_coach2_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:doctor_name), style: "display: block" %>
-    <%= form.text_field :doctor_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:doctor_last_name), style: "display: block" %>
-    <%= form.text_field :doctor_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:physiotherapist_name), style: "display: block" %>
-    <%= form.text_field :physiotherapist_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:physiotherapist_last_name), style: "display: block" %>
-    <%= form.text_field :physiotherapist_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:statistical_name), style: "display: block" %>
-    <%= form.text_field :statistical_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:statistical_last_name), style: "display: block" %>
-    <%= form.text_field :statistical_last_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:international_referee_name), style: "display: block" %>
-    <%= form.text_field :international_referee_name %>
-  </div>
-
-  <div>
-    <%= form.label t(:international_referee_last_name), style: "display: block" %>
-    <%= form.text_field :international_referee_last_name %>
-  </div>
-
-  <div>
-    <%= form.label 'Imagen del equipo', style: "display: block" %>
-    <% if team.image.present? %>
-      <%= image_tag team.image, style: "display: block" %>
-    <% end %>
-    <%= form.file_field :image %>
-  </div>
-
-  <div>
-    <%= form.submit @action_buttom_label %>
-  </div>
-<% end %>
+</div>

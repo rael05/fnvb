@@ -1,6 +1,7 @@
 class GamesController < ApplicationController
   load_and_authorize_resource
   before_action :set_game, only: %i[ show edit update destroy ]
+  before_action :team_for_game, only: %i[ new edit update ]
 
   # GET /games or /games.json
   def index
@@ -63,6 +64,10 @@ class GamesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_game
       @game = Game.find(params[:id])
+    end
+
+    def team_for_game
+      @team_options = Team.all.map { |team| [team.team_name, team.id]}
     end
 
     # Only allow a list of trusted parameters through.

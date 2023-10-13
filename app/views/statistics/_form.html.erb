@@ -1,3 +1,4 @@
+<div class="px-3 py-2 border rounded-3">
 <%= form_with(model: statistic) do |form| %>
   <% if statistic.errors.any? %>
     <div style="color: red">
@@ -11,33 +12,34 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label 'PDF de la estadistica en español', style: "display: block" %>
+  <div class="mb-3">
+    <%= form.label 'PDF de la estadistica en español', class: "form-label" %>
     <% if statistic.pdf_es_file.present? %>
-      Arcivo actual: <%= statistic.pdf_es_file.filename %> <br>
+      Arcivo actual: <strong> <%= statistic.pdf_es_file.filename %> </strong> <br>
     <% end %>
-    <%= form.file_field :pdf_es_file %>
+    <%= form.file_field :pdf_es_file, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.label 'PDF de la estadistica en ingles', style: "display: block" %>
+  <div class="mb-3">
+    <%= form.label 'PDF de la estadistica en ingles', class: "form-label" %>
     <% if statistic.pdf_en_file.present? %>
-      Arcivo actual: <%= statistic.pdf_en_file.filename %> <br>
+      Arcivo actual: <strong> <%= statistic.pdf_en_file.filename %> </strong> <br>
     <% end %>
-    <%= form.file_field :pdf_en_file %>
+    <%= form.file_field :pdf_en_file, class: "form-control" %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary mb-2" %>
   </div>
 <% end %>
+</div>

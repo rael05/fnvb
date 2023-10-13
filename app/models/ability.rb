@@ -29,7 +29,7 @@ class Ability
     if user&.isInternacional?
       if user&.team_id&.present?
         can :manage, Player
-        return(can :edit, Team.find(user.team_id))
+        return(can :manage, Team.find(user.team_id))
       end
       if user&.tournament_id&.present?
         return(can :create, Team)

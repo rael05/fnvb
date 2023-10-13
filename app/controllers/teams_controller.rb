@@ -13,6 +13,7 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
+    @header = t(:new_team) + ' ' + t(:for_the_t) + ': ' + current_user.tournament.name.to_s
     @action_buttom_label = t(:create_team)
     @team = Team.new
   end
