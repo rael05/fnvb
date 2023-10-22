@@ -67,6 +67,6 @@ class AnnouncementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def announcement_params
-      params.require(:announcement).permit(:title, :description, :pdf_es_file, :pdf_en_file)
+      params.require(:announcement).permit(:title, :description, :pdf_es_file, :pdf_en_file, :image)
     end
 end

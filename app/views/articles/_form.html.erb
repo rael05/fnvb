@@ -1,4 +1,4 @@
-<div class="px-3 py-2 border rounded-3">
+<div class="px-3 py-2 border rounded-bottom">
   <%= form_with(model: article) do |form| %>
     <% if article.errors.any? %>
       <div style="color: red">
@@ -36,6 +36,14 @@
         Arcivo actual: <strong> <%= article.pdf_en_file.filename %> </strong> <br>
       <% end %>
       <%= form.file_field :pdf_en_file, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label 'Imagen de la noticia', class: "form-label" %>
+      <% if article.image.present? %>
+        <%= image_tag article.image, style: "display: block" %>
+      <% end %>
+      <%= form.file_field :image, class: "form-control" %>
     </div>
 
     <div>

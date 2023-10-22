@@ -1,14 +1,58 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Statistics</h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center border-bottom pb-2">
+    Statistics
+    <a href="<%= new_statistic_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="statistics">
-  <% @statistics.each do |statistic| %>
-    <%= render statistic %>
-    <p>
-      <%= link_to "Show this statistic", statistic %>
-    </p>
-  <% end %>
+  <div id="statistics" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <% @statistics.each do |statistic| %>
+      <div class="col">
+        <div class="card">
+          <a href="<%= statistic_path(statistic) %>">
+            <% if statistic.image.present? %>
+              <%= image_tag statistic.image, class: 'card-img-top' %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="<%= statistic_path(statistic) %>" class="link-dark" style="text-decoration: none">
+                <%= statistic.title.truncate(50) %>
+              </a>
+            </h5>
+            <p class="card-text">
+              <%= statistic.description.truncate(90) %>
+              <a href="<%= statistic_path(statistic) %>"> Leer más. </a>
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary">
+              Creada el <%= statistic.created_at.strftime('%b %d, %Y') %>
+              <br>
+              Ultima modificación <%= statistic.updated_at.strftime('%b %d, %Y') %>
+              <br>
+              Escrita por <%= statistic.user.email %>
+              <br>
+              <div class="row ms-0 mt-1">
+                <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
+                  <a href="<%= edit_statistic_path(statistic) %>" style="text-decoration: none" class="link-success position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                </div>
+                <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
+                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "New statistic", new_statistic_path, class: 'btn btn-primary mt-3' %>
 </div>
-
-<%= link_to "New statistic", new_statistic_path %>

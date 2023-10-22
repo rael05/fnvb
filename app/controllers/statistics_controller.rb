@@ -67,6 +67,6 @@ class StatisticsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def statistic_params
-      params.require(:statistic).permit(:title, :description, :pdf_es_file, :pdf_en_file)
+      params.require(:statistic).permit(:title, :description, :pdf_es_file, :pdf_en_file, :image)
     end
 end

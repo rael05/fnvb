@@ -1,10 +1,68 @@
-<p style="color: green"><%= notice %></p>
+<div class="shadow p-2 pt-2 rounded-2">
+  <h3 class="mb-0">
+    <a href="<%= statistics_path %>" style="text-decoration: none">
+      <i class="fa-regular fa-circle-left fa-sm"></i>
+    </a><%= @statistic.title %>
+  </h3>
+  <p class="ms-2 text-secondary"> Convocatoria creada el <%= @statistic.created_at.strftime('%b %d, %Y') %> </p>
+  <% if @statistic.image.present? %>
+    <%= image_tag @statistic.image, class: 'img-fluid rounded-2 w-100 mb-1' %>
+  <% end %>
+  <p class="my-2 border-top border-2"><%= simple_format @statistic.description %></p>
 
-<%= render @statistic %>
+  <h5>Archivos de la noticia</h5>
+
+  <div class="row row-cols-1 row-cols-md-2 g-2 mb-3">
+    <% if @statistic.pdf_es_file.present? %>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"> <%= @statistic.pdf_es_file.filename %> </h5>
+            <p class="card-text">Archivo en español</p>
+            <%= link_to(
+                  'Ver archivo',
+                  rails_blob_path(@statistic.pdf_es_file, disposition: 'preview'),
+                  class: 'card-link'
+                ) %>
+            <%= link_to(
+                  'Descargar',
+                  rails_blob_path(@statistic.pdf_es_file, disposition: 'attachment'),
+                  class: 'card-link'
+                ) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @statistic.pdf_en_file.present? %>
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"> <%= @statistic.pdf_en_file.filename %> </h5>
+            <p class="card-text">Archivo en ingles</p>
+            <%= link_to(
+                  'Ver archivo',
+                  rails_blob_path(@statistic.pdf_en_file, disposition: 'preview'),
+                  class: 'card-link'
+                ) %>
+            <%= link_to(
+                  'Descargar',
+                  rails_blob_path(@statistic.pdf_en_file, disposition: 'attachment'),
+                  class: 'card-link'
+                ) %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <p class="ms-2 text-secondary mb-0"> Ultima modificación <%= @statistic.updated_at.strftime('%b %d, %Y') %> </p>
+  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @statistic.user.email %> </p>
+
+  <%= link_to "Back to statistics", statistics_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to "Edit this statistic", edit_statistic_path(@statistic), class: 'btn btn-outline-info' %>
+</div>
 
 <div>
-  <%= link_to "Edit this statistic", edit_statistic_path(@statistic) %> |
-  <%= link_to "Back to statistics", statistics_path %>
-
-  <%= button_to "Destroy this statistic", @statistic, method: :delete %>
+  <%= button_to "Destroy this statistic", @statistic, method: :delete, class: 'btn btn-outline-danger mt-3' %>
 </div>
