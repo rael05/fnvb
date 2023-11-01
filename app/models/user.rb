@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :statistics
   has_many :games
 
+  validates :user_name, presence: true, length: { maximum: 25 }, uniqueness: true
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -37,5 +39,9 @@ class User < ApplicationRecord
 
   def isGuest?
     permission == TYPE_PERMISSION[:guest]
+  end
+
+  def permission_name
+    I18n.translate(TYPE_PERMISSION.key(permission))
   end
 end

@@ -12,58 +12,30 @@
   <hr class="border border-primary border-3 opacity-100 w-100 mt-0">
 </div>
 <div class="row">
-  <div class="col-xl-4 col-md-6 mb-3">
-    <div class="card">
-      <%= image_tag("leonas.jpg", alt: 'Leonas', class: 'card-img') %>
-      <div class="card-img-overlay p-0">
-        <div class="h-50"></div>
-        <div class="bg-primary h-50 opacity-50 rounded-bottom"></div>
-      </div>
-      <div class="card-img-overlay">
-        <div class="d-flex align-items-end h-100">
-          <h4 class="text-white">
-            Leonas mantienen el primer lugar en voleibol femenino
-          </h4>
+  <% @threeArticles.each do |article| %>
+    <div class="col-xl-4 col-md-6 mb-3">
+      <a href="<%= article_path(article) %>">
+        <div class="card">
+          <%= image_tag(article.image, class: 'card-img') %>
+          <div class="card-img-overlay p-0">
+            <div class="h-50"></div>
+            <div class="bg-primary h-50 opacity-50 rounded-bottom"></div>
+          </div>
+          <div class="card-img-overlay">
+            <div class="d-flex align-items-end h-100">
+              <h4 class="text-white">
+                <%= article.title %>
+              </h4>
+            </div>
+          </div>
         </div>
-      </div>
+      </a>
     </div>
-  </div>
-  <div class="col-xl-4 col-md-6 mb-3">
-    <div class="card">
-      <%= image_tag("edicion.jpg", alt: 'Edicion', class: 'card-img') %>
-      <div class="card-img-overlay p-0">
-        <div class="h-50"></div>
-        <div class="bg-primary h-50 opacity-50 rounded-bottom"></div>
-      </div>
-      <div class="card-img-overlay">
-        <div class="d-flex align-items-end h-100">
-          <h4 class="text-white">
-            Se acerca, segunda edición de Liga de Voleibol Femenino en Nicaragua
-          </h4>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-md-6 mb-3">
-    <div class="card">
-      <%= image_tag("sequia.jpg", alt: 'Sequia', class: 'card-img') %>
-      <div class="card-img-overlay p-0">
-        <div class="h-50"></div>
-        <div class="bg-primary h-50 opacity-50 rounded-bottom"></div>
-      </div>
-      <div class="card-img-overlay">
-        <div class="d-flex align-items-end h-100">
-          <h4 class="text-white">
-            Nicaragua termina sequía y se alza con el bronce
-          </h4>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% end %>
 </div>
 
 <div class="d-grid gap-2 col-6 mx-auto">
-  <button type="button" class="btn btn-outline-danger">Ver màs</button>
+  <%= link_to("Ver màs", articles_path, class: "btn btn-outline-danger") %>
 </div>
 
 <h3 class="text-center pb-3 pt-5">EVENTOS DE CICLO OLÍMPICO</h3>

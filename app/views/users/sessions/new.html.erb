@@ -1,26 +1,36 @@
-<h2><%= t(:log_in) %></h2>
+<div class="d-flex justify-content-center">
+  <div style="width: 350px">
+    <div class="shadow mb-3">
+      <div class="border rounded-top border-bottom-0">
+        <h2 class="text-center m-0 py-1"><%= t(:log_in) %></h2>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label t(:email) %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+      <div class="px-3 py-2 border rounded-bottom">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+          <div class="mb-3">
+            <%= f.label t(:email), class: "form-label" %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+          </div>
 
-  <div class="field">
-    <%= f.label t(:password) %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+          <div class="mb-3">
+            <%= f.label t(:password), class: "form-label" %><br />
+            <%= f.password_field :password, autocomplete: "current-password", class: "form-control" %>
+          </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label t(:remember_me) %>
+          <% if devise_mapping.rememberable? %>
+            <div class="form-check mb-3">
+              <%= f.check_box :remember_me, class: "form-check-input" %>
+              <%= f.label t(:remember_me), class: "form-check-label" %>
+            </div>
+          <% end %>
+
+          <div>
+            <%= f.submit t(:log_in), class: "btn btn-primary mb-2" %>
+          </div>
+        <% end %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="actions">
-    <%= f.submit t(:log_in) %>
+    <%= render "users/shared/links" %>
   </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

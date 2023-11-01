@@ -1,29 +1,44 @@
-<h2>Sign up</h2>
+<div class="d-flex justify-content-center">
+  <div style="width: 350px">
+    <div class="shadow mb-3">
+      <div class="border rounded-top border-bottom-0">
+        <h2 class="text-center m-0 py-1"><%= t(:sign_up) %></h2>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "users/shared/error_messages", resource: resource %>
+      <div class="px-3 py-2 border rounded-bottom">
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+          <%= render "users/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label t(:email) %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <div class="mb-3">
+            <%= f.label t(:user_name), class: "form-label" %><br />
+            <%= f.text_field :user_name, autofocus: true, class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label t(:email), class: "form-label" %><br />
+            <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label t(:password), class: "form-label" %>
+            <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+          </div>
+
+          <div class="mb-3">
+            <%= f.label t(:password_confirmation), class: "form-label" %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+          </div>
+
+          <div>
+            <%= f.submit t(:sign_up), class: "btn btn-primary mb-2" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= render "users/shared/links" %>
   </div>
-
-  <div class="field">
-    <%= f.label t(:password) %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label t(:password_confirmation) %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t(:sign_up) %>
-  </div>
-<% end %>
-
-<%= render "users/shared/links" %>
+</div>

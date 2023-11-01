@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_024242) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_024243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -236,6 +236,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_024242) do
     t.bigint "tournament_id"
     t.string "permission", limit: 1, default: "G"
     t.bigint "team_id"
+    t.string "user_name", limit: 25, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["team_id"], name: "index_users_on_team_id"

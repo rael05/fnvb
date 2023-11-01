@@ -1,14 +1,49 @@
 <p style="color: green"><%= notice %></p>
 
-<h1><%= t(:users)%></h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center">
+    <%= t(:users)%>
+    <a href="<%= new_user_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to t(:show_this_user), user %>
-    </p>
-  <% end %>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">User name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Rol</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <th scope="row">
+            <%= link_to user.id, user, class: 'text-reset link-hover' %>
+          </th>
+          <td><%= link_to user.user_name, user, class: 'text-reset link-hover' %></td>
+          <td><%= link_to user.email, user, class: 'text-reset link-hover' %></td>
+          <td><%= link_to user.permission_name, user, class: 'text-reset link-hover' %></td>
+          <td>
+            <a href="<%= edit_user_path(user) %>" class="link-success d-flex justify-content-center">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </a>
+          </td>
+          <td>
+            <a href="" class="link-danger d-flex justify-content-center">
+              <i class="fa-solid fa-trash"></i>
+            </a>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= link_to t(:new_user), new_user_path, class: 'btn btn-primary mt-1' %>
 </div>
-
-<%= link_to t(:new_user), new_user_path %>

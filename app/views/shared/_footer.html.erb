@@ -1,7 +1,131 @@
-<footer>
-  <h2><%= t("home") %></h2>
-  <h3>
-    <%= link_to('EN', locale: :en)%> |
-    <%= link_to('ES', locale: :es)%>
-  </h3>
-</footer>
+<footer
+    class="text-center text-lg-start text-white mt-3"
+    style="background-color: #3e4551"
+  >
+    <div class="container p-4 pb-0">
+      <section class="">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+            <h5>Federación Nicaragüense de Voleibol</h5>
+            <div class="d-flex justify-content-center pe-5">
+              <%= link_to image_tag("circularLogo.png", alt: 'FNVB', width: 110, height: 95), :root %>
+            </div>
+            <p>
+              Somos una federación sin fines de lucro y bien organizada en la promoción de voleibol Nicaragüense.
+            </p>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-white">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 4</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-white">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 4</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-white">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 4</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Links</h5>
+
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-white">Link 1</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 2</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 3</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Link 4</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <hr class="mb-4 w-100" />
+
+      <section class="">
+        <p class="d-flex justify-content-center align-items-center">
+          <% if user_signed_in? %>
+            <div class="text-center">
+              <%= button_to(t(:log_out), destroy_user_session_path, method: :delete, class: 'btn btn-outline-light btn-rounded') %>
+            </div>
+          <% else %>
+            <span class="me-3"><%= t(:log_in) %></span>
+            <%= link_to(t(:sign_up), :new_user_registration, class: 'btn btn-outline-light btn-rounded') %>
+          <% end %>
+        </p>
+      </section>
+
+      <hr class="mb-4" />
+
+      <section class="mb-4 text-center">
+        <a class="btn btn-outline-light btn-floating m-1" href="" role="button">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a class="btn btn-outline-light btn-floating m-1" href="" role="button">
+          <i class="fab fa-twitter"></i>
+        </a>
+
+        <a class="btn btn-outline-light btn-floating m-1" href="" role="button">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </section>
+    </div>
+
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+      © 2023 Copyright:
+      <%= link_to('FNVB', :root, class: 'text-white') %>
+    </div>
+  </footer>
