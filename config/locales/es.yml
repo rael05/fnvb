@@ -13,6 +13,8 @@ es:
   new_tournament: 'Torneo nuevo'
   back_to_tournaments: 'De regreso a Torneos'
   name: 'Nombre'
+  last_name: 'Apellido'
+  full_name: 'Nombre Completo'
   description: 'Descripción'
   international: 'Internacional'
   create_tournament: 'Crear Torneo'

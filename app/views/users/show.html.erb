@@ -1,10 +1,57 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @user %>
+<div class="shadow p-3 rounded-3">
 
-<div>
-  <%= link_to t(:edit_this_user), edit_user_path(@user) %> |
-  <%= link_to t(:back_to_users), users_path %>
+  <div id="<%= dom_id @user %>">
+    <p>
+      <strong><%= t(:user_name) %>:</strong>
+      <%= @user.user_name %>
+    </p>
 
-  <%= button_to t(:destroy_this_user), @user, method: :delete %>
+    <p>
+      <strong><%= t(:email) %>:</strong>
+      <%= @user.email %>
+    </p>
+
+    <p>
+      <strong><%= t(:name) %>:</strong>
+      <%= @user.first_name %>
+    </p>
+
+    <p>
+      <strong><%= t(:last_name) %>:</strong>
+      <%= @user.last_name %>
+    </p>
+
+    <p>
+      <strong>Rol:</strong>
+      <%= @user.permission_name %>
+    </p>
+
+    <% if(@user.isInternacional?) %>
+      <p>
+        <strong><%= t(:tournament_where_team_is_managed) %>:</strong>
+        <% if @user.tournament.nil? %>
+          <%= t(:without_tournament) %>
+        <% else %>
+          <%= @user.tournament.name %>
+        <% end %>
+      </p>
+
+      <p>
+        <strong>Equipo que administra:</strong>
+        <% if @user.team_id.nil? %>
+          Sin Equipo registrado
+        <% else %>
+          <%= @user.team.team_name %>
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= link_to t(:back_to_users), users_path, class: 'btn btn-outline-secondary' %>
+    <%= link_to t(:edit_this_user), edit_user_path(@user), class: 'btn btn-outline-info' %>
+  </div>
 </div>
+<%= button_to t(:destroy_this_user), @user, method: :delete, class: 'btn btn-outline-danger mt-3' %>

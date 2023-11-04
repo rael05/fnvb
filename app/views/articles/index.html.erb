@@ -34,7 +34,7 @@
               <br>
               Ultima modificación <%= article.updated_at.strftime('%b %d, %Y') %>
               <br>
-              Escrita por <%= article.user.email %>
+              Escrita por <%= article.user.full_name.truncate(28) %>
               <br>
               <div class="row ms-0 mt-1">
                 <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">

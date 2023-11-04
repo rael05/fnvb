@@ -6,7 +6,8 @@ class User < ApplicationRecord
   has_many :statistics
   has_many :games
 
-  validates :user_name, presence: true, length: { maximum: 25 }, uniqueness: true
+  validates :user_name, length: { maximum: 25 }, uniqueness: true
+  validates :first_name, :last_name, :user_name, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -20,6 +21,10 @@ class User < ApplicationRecord
     divulgation:'D',
     guest: 'G'
   }
+
+  def full_name
+    [first_name, last_name].join(' ')
+  end
 
   def isPresident?
     permission == TYPE_PERMISSION[:president]

@@ -57,7 +57,7 @@
   </div>
 
   <p class="ms-2 text-secondary mb-0"> Ultima modificación <%= @statistic.updated_at.strftime('%b %d, %Y') %> </p>
-  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @statistic.user.email %> </p>
+  <p class="ms-2 text-secondary mt-0"> Estadistica escrita por <%= @statistic.user.full_name %> </p>
 
   <%= link_to "Back to statistics", statistics_path, class: 'btn btn-outline-secondary' %>
   <%= link_to "Edit this statistic", edit_statistic_path(@statistic), class: 'btn btn-outline-info' %>

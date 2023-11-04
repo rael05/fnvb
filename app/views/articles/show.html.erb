@@ -57,7 +57,7 @@
   </div>
 
   <p class="ms-2 text-secondary mb-0"> Ultima modificación <%= @article.updated_at.strftime('%b %d, %Y') %> </p>
-  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @article.user.email %> </p>
+  <p class="ms-2 text-secondary mt-0"> Noticia escrita por <%= @article.user.full_name %> </p>
 
   <%= link_to "Back to articles", articles_path, class: 'btn btn-outline-secondary' %>
   <%= link_to "Edit this article", edit_article_path(@article), class: 'btn btn-outline-info' %>

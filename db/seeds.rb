@@ -5,15 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A', user_name: 'tester1'})
-User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V', user_name: 'tester2'})
-di_user = User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D', user_name: 'tester3'})
-User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G', user_name: 'tester4'})
+User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A', user_name: 'tester1', first_name: 'Ernesto', last_name: 'Espinoza'})
+User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V', user_name: 'tester2', first_name: 'Carlos', last_name: 'Salgado'})
+di_user = User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D', user_name: 'tester3', first_name: 'Fernando', last_name: 'Torrez'})
+User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G', user_name: 'tester4', first_name: 'Hippo', last_name: 'Maltez'})
 
-User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A', user_name: 'tester5'})
-User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', user_name: 'tester6'})
-User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7'})
-User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8'})
+User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A', user_name: 'tester5', first_name: 'Roberto Carlos', last_name: 'White' })
+User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', user_name: 'tester6', first_name: 'Angel', last_name: 'Juarez'})
+User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7', first_name: 'Jackson', last_name: 'Hernandez'})
+User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8', first_name: 'Tamara', last_name: 'Cortez'})
 
 I18n.locale = :en
 first_tournament = Tournament.create({international: false, name: 'First Tournament', description: 'description of the first tournament'})
@@ -33,8 +33,8 @@ first_team = Team.create({
 
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: first_team.id})
 
-User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: first_team.id, user_name: 'tester9'})
-User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10'})
+User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: first_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz'})
+User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10', first_name: 'Maria Carmen', last_name: 'Martínez'})
 
 article_1 = Article.create({
   user_id: 3,

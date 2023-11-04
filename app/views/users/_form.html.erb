@@ -23,18 +23,28 @@
     </div>
 
     <div class="mb-3">
+      <%= form.label t(:name).pluralize, style: "display: block", class: "form-label" %>
+      <%= form.text_field :last_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label t(:last_name).pluralize, style: "display: block", class: "form-label" %>
+      <%= form.text_field :last_name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
       <%= form.label t(:password), style: "display: block", class: "form-label" %>
       <%= form.password_field :password, class: "form-control" %>
     </div>
 
     <div class="mb-3">
-      <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
-      <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select") %>
-    </div>
-
-    <div class="mb-3">
       <%= form.label 'Rol', class: "form-label" %>
       <%= form.select(:permission, options_for_select(@permissions_array, user.permission), {}, class: "form-select") %>
+    </div>
+
+    <div class="mb-3" id="tournament_div">
+      <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
+      <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select") %>
     </div>
 
     <div>

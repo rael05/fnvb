@@ -59,7 +59,7 @@
   </div>
 
   <p class="ms-2 text-secondary mb-0"> Ultima modificación <%= @announcement.updated_at.strftime('%b %d, %Y') %> </p>
-  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @announcement.user.email %> </p>
+  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @announcement.user.full_name %> </p>
 
   <%= link_to "Back to announcements", announcements_path, class: 'btn btn-outline-secondary' %>
   <%= link_to "Edit this announcement", edit_announcement_path(@announcement), class: 'btn btn-outline-info' %>
