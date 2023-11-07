@@ -8,6 +8,7 @@ class User < ApplicationRecord
 
   validates :user_name, length: { maximum: 25 }, uniqueness: true
   validates :first_name, :last_name, :user_name, presence: true
+  validate :keeping_tournament_id
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -21,6 +22,16 @@ class User < ApplicationRecord
     divulgation:'D',
     guest: 'G'
   }
+
+  def keeping_tournament_id
+    if team_id.present? && tournament_id_changed?
+      errors.add(:tournament_id, "No se puede cambiar el torneo cuando el usuario creo un equipo")
+    end
+  end
+
+  def sendMailPassword
+
+  end
 
   def full_name
     [first_name, last_name].join(' ')

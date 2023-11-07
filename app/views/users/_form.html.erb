@@ -1,4 +1,4 @@
-<div class="px-3 py-2 border rounded-3">
+<div class="px-3 py-2 rounded-3">
   <%= form_with url: @form_path, method: @form_method, model: user do |form| %>
     <% if user.errors.any? %>
       <div style="color: red">
@@ -24,7 +24,7 @@
 
     <div class="mb-3">
       <%= form.label t(:name).pluralize, style: "display: block", class: "form-label" %>
-      <%= form.text_field :last_name, class: "form-control" %>
+      <%= form.text_field :first_name, class: "form-control" %>
     </div>
 
     <div class="mb-3">
@@ -34,7 +34,18 @@
 
     <div class="mb-3">
       <%= form.label t(:password), style: "display: block", class: "form-label" %>
-      <%= form.password_field :password, class: "form-control" %>
+      <div class="input-group">
+        <%= form.password_field :password, class: "form-control", disabled: true, value: '***********' %>
+        <button class="btn btn-outline-secondary d-none" type="button" id="show_password" onclick="showPassword()">
+          <i id="eye_icon" class="fa-regular fa-eye"></i>
+        </button>
+        <button class="btn btn-outline-secondary" type="button" id="change_password" onclick="changePassword()">
+          Cambiar contrseña
+        </button>
+      </div>
+      <div id="passwordHelp" class="form-text d-none">
+        Se enviara un correo al usuario con la nueva contraseña
+      </div>
     </div>
 
     <div class="mb-3">
@@ -44,7 +55,10 @@
 
     <div class="mb-3" id="tournament_div">
       <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
-      <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select") %>
+      <% if @disabled_tournament %>
+        <p class="text-danger">*Este Usuario ya tiene un equipo creado*</p>
+      <% end %>
+      <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select", disabled: @disabled_tournament) %>
     </div>
 
     <div>
@@ -52,3 +66,43 @@
     </div>
   <% end %>
 </div>
+
+<script type="text/javascript" charset="utf-8">
+  const changePassword = () => {
+    const passwordHelp = document.getElementById('passwordHelp').classList;
+    const passwordField = document.getElementById('user_password');
+    const changeButton = document.getElementById('change_password');
+    const eyeButton = document.getElementById('show_password').classList;
+    if (passwordHelp.contains('d-none')){
+      passwordHelp.remove("d-none");
+      eyeButton.remove("d-none");
+      passwordField.removeAttribute("disabled");
+      passwordField.value = Math.random().toString(36).slice(-11);
+      changeButton.innerHTML = "No cambiar";
+    } else {
+      passwordHelp.add("d-none");
+      eyeButton.add("d-none");
+      passwordField.setAttribute("disabled", "true");
+      passwordField.value = "***********";
+      passwordField.type = "password";
+      changeButton.innerHTML = "Cambiar contraseña";
+    }
+
+    const eye_icon = document.getElementById('eye_icon').classList;
+    if (eye_icon.contains("fa-eye-slash")) {
+      eye_icon.replace("fa-eye-slash", "fa-eye");
+    }
+  };
+
+  const showPassword = () => {
+    const passwordField = document.getElementById('user_password');
+    const eyeIcon = document.getElementById('eye_icon').classList;
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      eyeIcon.replace("fa-eye", "fa-eye-slash");
+    } else {
+      passwordField.type = "password";
+        eyeIcon.replace("fa-eye-slash", "fa-eye");
+    }
+  };
+</script>

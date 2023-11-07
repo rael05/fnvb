@@ -26,6 +26,9 @@ class UsersController < ApplicationController
     @form_path = user_path
     @form_method = :patch
     @action_buttom_label = t(:edit_this_user)
+    if @user.team_id.present?
+      @disabled_tournament = true
+    end
   end
 
   def new_user
@@ -46,8 +49,10 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       params_update = user_params
-      if (user_params[:password].empty?)
+      if (user_params[:password].nil? || user_params[:password].empty?)
         params_update = user_params.except(:password)
+      else
+        @user.sendMailPassword
       end
       if @user.update(params_update)
         format.html { redirect_to user_url(@user), notice: t(:user_was_successfully_updated) }
@@ -77,7 +82,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :tournament_id, :permission, :password, :user_name)
+      params.require(:user).permit(:email, :tournament_id, :permission, :password, :user_name, :first_name, :last_name)
     end
 
     def tournament_for_user
