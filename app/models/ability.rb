@@ -12,6 +12,8 @@ class Ability
     can :read, Calendar
     can :read, Player
     can :read, Game
+    can :edit, User.find(user.id)
+    can :change_password_yourself, User.find(user.id)
 
     if user&.present?
       can :read, User.find(user.id)

@@ -32,21 +32,25 @@
       <%= form.text_field :last_name, class: "form-control" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label t(:password), style: "display: block", class: "form-label" %>
-      <div class="input-group">
-        <%= form.password_field :password, class: "form-control", disabled: true, value: '***********' %>
-        <button class="btn btn-outline-secondary d-none" type="button" id="show_password" onclick="showPassword()">
-          <i id="eye_icon" class="fa-regular fa-eye"></i>
-        </button>
-        <button class="btn btn-outline-secondary" type="button" id="change_password" onclick="changePassword()">
-          Cambiar contrseña
-        </button>
+    <% if current_user.id != @user.id %>
+      <div class="mb-3">
+        <%= form.label t(:password), style: "display: block", class: "form-label" %>
+        <div class="input-group">
+          <%= form.password_field :password, class: "form-control", disabled: @form_method == :patch, value: @form_method == :patch ? '***********' : User.random_password %>
+          <button class="btn btn-outline-secondary <%= "d-none" if @form_method == :patch %>" type="button" id="show_password" onclick="showPassword()">
+            <i id="eye_icon" class="fa-regular fa-eye"></i>
+          </button>
+          <% if @form_method == :patch %>
+            <button class="btn btn-outline-secondary" type="button" id="change_password" onclick="changePassword()">
+              Cambiar contrseña
+            </button>
+          <% end %>
+        </div>
+        <div id="passwordHelp" class="form-text <%= "d-none" if @form_method == :patch %>">
+          Se enviara un correo al usuario con la nueva contraseña
+        </div>
       </div>
-      <div id="passwordHelp" class="form-text d-none">
-        Se enviara un correo al usuario con la nueva contraseña
-      </div>
-    </div>
+    <% end %>
 
     <div class="mb-3">
       <%= form.label 'Rol', class: "form-label" %>

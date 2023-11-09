@@ -27,5 +27,9 @@ module Fnvb
 
     # Set default locale to something other than :es
     I18n.default_locale = :es
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      html_tag.html_safe
+    }
   end
 end

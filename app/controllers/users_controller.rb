@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   load_and_authorize_resource
-  before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :set_user, only: %i[ show edit update destroy change_password_yourself ]
   before_action :tournament_for_user, only: %i[ new edit update new_user ]
   before_action :permissions_for_user, only: %i[ new edit update new_user ]
 
@@ -36,6 +36,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        if current_user&.isPresident?
+          UserMailer.with(user: @user, password: user_params[:password]).user_by_president.deliver_later
+        end
         format.html { redirect_to user_url(@user), notice: t(:user_was_successfully_created) }
         format.json { render :show, status: :created, location: @user }
       else
@@ -49,12 +52,13 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       params_update = user_params
-      if (user_params[:password].nil? || user_params[:password].empty?)
+      unless user_params[:password].present?
         params_update = user_params.except(:password)
-      else
-        @user.sendMailPassword
       end
       if @user.update(params_update)
+        if @user.password.present?
+          UserMailer.with(user: @user, password: user_params[:password]).change_password_mail.deliver_later
+        end
         format.html { redirect_to user_url(@user), notice: t(:user_was_successfully_updated) }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -71,6 +75,16 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to user_url, notice: t(:user_was_successfully_destroyed) }
       format.json { head :no_content }
+    end
+  end
+
+  def change_password_yourself
+    if @user&.email.present?
+      User.send_reset_password_instructions(email: @user.email)
+      sign_out @user
+      redirect_to :root, notice: 'Se cerro la sesión, Recibirás un email con instrucciones para reiniciar tu contraseña en unos minutos.'
+    else
+      redirect_to :root, alert: 'No logramos encontrar tu correo.'
     end
   end
 

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     root :to => "home#index"
     resources :users
     post 'users/new_user' => 'users#new_user'
+    get 'users/:id/change_password_yourself' => 'users#change_password_yourself', as: 'change_password'
     resources :teams
     resources :articles
     resources :announcements

@@ -29,8 +29,10 @@ class User < ApplicationRecord
     end
   end
 
-  def sendMailPassword
-
+  class << self
+    def random_password
+      (0...11).map{(97 + rand(29)).chr}.join
+    end
   end
 
   def full_name
