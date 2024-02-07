@@ -1,9 +1,13 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "calendar_form" %>
+<% end %>
+
 <h1>New calendar</h1>
 
 <%= render "form", calendar: @calendar %>
 
 <br>
 
-<div>
+<div data-turbo="false">
   <%= link_to "Back to calendars", calendars_path %>
 </div>

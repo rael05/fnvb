@@ -31,9 +31,18 @@ first_team = Team.create({
   international_referee_name: 'Leticia', international_referee_last_name: 'Luque',
 })
 
-TournamentTeam.create({tournament_id: first_tournament.id, team_id: first_team.id})
+second_team = Team.create({
+  team_name: 'Guatemala', color_shirt1: 'Azul', color_short1: 'Blanco', color_shirt2: 'Blanco',
+  color_short2: 'Blanco', color_shirt3: 'Negro', color_short3: 'Negro', delegate_name: 'Carlos Luis', delegate_last_name: 'Lopez Garcia',
+  head_coach_name: 'Yanira Maria', head_coach_last_name: 'Rio Ruiz', assistant_coach1_name: 'Ruben Del Zocorro', assistant_coach1_last_name: 'Naranjo',
+  assistant_coach2_name: 'Claudio', assistant_coach2_last_name: 'Cordoba', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
+  physiotherapist_name: 'Noe', physiotherapist_last_name: 'Nadal', statistical_name: 'Vanesa', statistical_last_name: 'Infante Caballero',
+  international_referee_name: 'Leticia', international_referee_last_name: 'Luque',
+})
 
-User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: first_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz'})
+TournamentTeam.create({tournament_id: first_tournament.id, team_id: first_team.id})
+TournamentTeam.create({tournament_id: first_tournament.id, team_id: second_team.id})
+User.create!({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: first_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz'})
 User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10', first_name: 'Maria Carmen', last_name: 'Martínez'})
 
 article_1 = Article.create({

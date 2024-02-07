@@ -6,6 +6,20 @@ class CalendarsController < ApplicationController
   # GET /calendars or /calendars.json
   def index
     @calendars = Calendar.all
+    @formatted_data = Calendar.formattedData
+  end
+
+  def get_teams_by_tournament
+    begin
+      teams = Tournament.find(params[:team_id]).teams
+      if teams.count == 0
+        @teams = [["Sin Equipos", 0]]
+      else
+        @teams = teams.pluck(:team_name, :id)
+      end
+    rescue ActiveRecord::RecordNotFound
+      @teams = [["Sin Equipos", 0]]
+    end
   end
 
   # GET /calendars/1 or /calendars/1.json
@@ -71,7 +85,7 @@ class CalendarsController < ApplicationController
     end
 
     def variables_for_calendars
-      @tournaments_array = Tournament.all.map { |tournament| [tournament.name, tournament.id] }
+      @tournaments_array = Tournament.pluck(:name, :id)
       @stage_array = Calendar::TYPE_STAGE.to_a.map{|stage| [t(stage[0]), stage[1]]}
       @status_array = Calendar::TYPE_STATUS.to_a.map{|stage| [t(stage[0]), stage[1]]}
     end

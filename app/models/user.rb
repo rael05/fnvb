@@ -24,7 +24,7 @@ class User < ApplicationRecord
   }
 
   def keeping_tournament_id
-    if team_id.present? && tournament_id_changed?
+    if team_id.present? && tournament_id_was.present? && tournament_id_changed?
       errors.add(:tournament_id, "No se puede cambiar el torneo cuando el usuario creo un equipo")
     end
   end

@@ -1,10 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @calendar %>
+<div class="shadow p-2 pt-2 rounded-2">
+  <%= render @calendar %>
+
+  <%= link_to "Back to calendars", calendars_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to "Edit this calendar", edit_calendar_path(@calendar), class: 'btn btn-outline-info' %>
+</div>
+
+
 
 <div>
-  <%= link_to "Edit this calendar", edit_calendar_path(@calendar) %> |
-  <%= link_to "Back to calendars", calendars_path %>
-
-  <%= button_to "Destroy this calendar", @calendar, method: :delete %>
+  <%= button_to "Destroy this calendar", @calendar, method: :delete, class: 'btn btn-outline-danger mt-3' %>
 </div>

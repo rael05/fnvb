@@ -1,0 +1,1 @@
+json.teams_by_tournament @teams

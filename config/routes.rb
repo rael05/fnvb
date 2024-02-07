@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :players
     resources :games
     resources :game_details
+    get 'calendars/get_teams_by_tournament/:team_id' => 'calendars#get_teams_by_tournament', as: 'teams_by_tournament'
   end
 
 end

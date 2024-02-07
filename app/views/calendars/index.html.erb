@@ -1,14 +1,24 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "calendar" %>
+<% end %>
+
 <p style="color: green"><%= notice %></p>
 
-<h1>Calendars</h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center border-bottom pb-2">
+    Calendars
+    <a href="<%= new_calendar_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="calendars">
-  <% @calendars.each do |calendar| %>
-    <%= render calendar %>
-    <p>
-      <%= link_to "Show this calendar", calendar %>
-    </p>
+  <%= content_tag :div, id: "calendar_data_formatted", data: {calendar: @formatted_data} do %>
   <% end %>
-</div>
 
-<%= link_to "New calendar", new_calendar_path %>
+  <div class="row justify-content-md-center px-4 pt-3 pb-2">
+    <div id="calendarContainer" class="col p-0"></div>
+    <div id="organizerContainer" class="col p-0"></div>
+  </div>
+
+  <%= link_to "New calendar", new_calendar_path, class: 'btn btn-primary mt-3 ms-2' %>
+</div>
