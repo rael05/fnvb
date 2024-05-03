@@ -68,7 +68,7 @@
         <% else %>
           <%= form.label t(:team_name), class: "form-label" %>
         <% end %>
-        <%= form.select(:team_id, [], {}, class: "form-select", disabled: @disabled_tournament) %>
+        <%= form.select(:team_id, options_for_select(@team_user, user.team_id), {}, class: "form-select", disabled: @disabled_tournament) %>
     </div>
 
     <div>

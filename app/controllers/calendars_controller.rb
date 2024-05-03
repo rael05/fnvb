@@ -11,14 +11,9 @@ class CalendarsController < ApplicationController
 
   def get_teams_by_tournament
     begin
-      teams = Tournament.find(params[:team_id]).teams
-      if teams.count == 0
-        @teams = [["Sin Equipos", 0]]
-      else
-        @teams = teams.pluck(:team_name, :id)
-      end
+      @teams = [[I18n.translate(:user_no_team), 0]] + Tournament.find(params[:team_id]).teams.pluck(:team_name, :id)
     rescue ActiveRecord::RecordNotFound
-      @teams = [["Sin Equipos", 0]]
+      @teams = [[I18n.translate(:user_no_team), 0]]
     end
   end
 

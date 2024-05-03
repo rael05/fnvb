@@ -26,8 +26,10 @@ class UsersController < ApplicationController
     @form_path = user_path
     @form_method = :patch
     @action_buttom_label = t(:edit_this_user)
+    @team_user = []
     if @user.team_id.present?
       @disabled_tournament = true
+      @team_user = [[@user.team_name, @user.team_id]]
     end
   end
 
