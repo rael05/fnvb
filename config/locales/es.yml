@@ -95,3 +95,7 @@ es:
   last_new: 'ÚLTIMAS NOTICIAS'
   for_the_t: 'Para el torneo'
   user_name: 'Nombre del Usuario'
+  players: 'Jugadores'
+  add_player: 'Agregar Jugador'
+  user_team_warning: 'Este Usuario ya tiene un equipo creado'
+  user_no_team: 'Sin Equipo'

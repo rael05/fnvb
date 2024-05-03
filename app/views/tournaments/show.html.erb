@@ -1,10 +1,30 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @tournament %>
+<div class="shadow p-2 pt-2 rounded-2">
+  <h3 class="mb-0 text-center">
+    <a href="<%= tournaments_path %>" style="text-decoration: none" class="me-3">
+      <i class="fa-regular fa-circle-left fa-sm"></i>
+    </a><%= @tournament.name %>
+  </h3>
+
+  <div class="py-3 d-flex justify-content-center align-items-center">
+    <div class="me-5">  
+      <% if @tournament.image.present? %>
+        <%= image_tag @tournament.image, class: 'img-fluid border border-2 rounded', width: 200, height: 200 %>
+      <% else %>
+        <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'img-fluid border border-2 rounded', width: 200, height: 200) %>
+      <% end %>
+    </div>    
+    
+    <div>
+      <%= @tournament.description %>
+    </div>
+  </div>
+
+  <%= link_to "Back to tournaments", tournaments_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to "Edit this tournament", edit_tournament_path(@tournament), class: 'btn btn-outline-info' %>
+</div>
 
 <div>
-  <%= link_to t(:edit_this_tournament), edit_tournament_path(@tournament) %> |
-  <%= link_to t(:back_to_tournaments), tournaments_path %>
-
-  <%= button_to t(:destroy_this_tournament), @tournament, method: :delete %>
+  <%= button_to t(:destroy_this_tournament), @tournament, method: :delete, class: 'btn btn-outline-danger mt-3' %>
 </div>

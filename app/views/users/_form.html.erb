@@ -59,10 +59,16 @@
 
     <div class="mb-3" id="tournament_div">
       <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
-      <% if @disabled_tournament %>
-        <p class="text-danger">*Este Usuario ya tiene un equipo creado*</p>
-      <% end %>
       <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select", disabled: @disabled_tournament) %>
+    </div>
+
+    <div class="mb-3">
+        <% if @disabled_tournament %>
+          <%= form.label t(:user_team_warning), class: "form-label text-danger" %>
+        <% else %>
+          <%= form.label t(:team_name), class: "form-label" %>
+        <% end %>
+        <%= form.select(:team_id, [], {}, class: "form-select", disabled: @disabled_tournament) %>
     </div>
 
     <div>

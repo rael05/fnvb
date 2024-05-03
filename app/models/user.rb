@@ -39,6 +39,13 @@ class User < ApplicationRecord
     [first_name, last_name].join(' ')
   end
 
+  def team_name
+    if team_id
+      return team.team_name
+    end
+    I18n.translate(:user_no_team)
+  end
+
   def isPresident?
     permission == TYPE_PERMISSION[:president]
   end

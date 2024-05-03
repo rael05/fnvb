@@ -20,6 +20,7 @@ class Ability
     end
 
     if user&.isPresident?
+      can :get_teams_by_tournament, Calendar
       return (can :manage, User)
     end
 

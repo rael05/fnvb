@@ -95,3 +95,7 @@ en:
   last_new: 'LAST NEWS'
   for_the_t: 'For the tournament'
   user_name: 'User Name'
+  players: 'Players'
+  add_player: 'Add Player'
+  user_team_warning: 'This user already has a team created'
+  user_no_team: 'Without team'

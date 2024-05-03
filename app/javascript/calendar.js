@@ -174,7 +174,7 @@ Calendar.prototype = {
         } else {
           (
             (d = document.createElement("A")).href =
-              e[n].link, d.target = "_blank", d.class = this.id + " link", d.appendChild(l), o.appendChild(d)
+              e[n].link, d.class = this.id + " link", d.appendChild(l), o.appendChild(d)
           ), i.appendChild(a), i.appendChild(o), t.appendChild(i)
         }
     }
