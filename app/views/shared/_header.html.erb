@@ -27,7 +27,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <%= link_to(t(:home), :root, class: 'nav-link active link-danger') %>
+          <%= link_to(t(:home), :root, class: params["controller"] == "home" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,19 +41,25 @@
           </ul>
         </li>
         <li class="nav-item">
-          <%= link_to(t(:tournaments), :tournaments, class: 'nav-link') %>
+          <%= link_to(t(:tournaments), :tournaments, class: params["controller"] == "tournaments" ? 'nav-link link-danger' : 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:teams), :teams, class: params["controller"] == "teams" ? 'nav-link link-danger' : 'nav-link') %>
+        </li>
+        <li class="nav-item">
+          <%= link_to(t(:players), :players, class: params["controller"] == "players" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
         <li class="nav-item" data-turbo="false">
-          <%= link_to(t(:calendars), :calendars, class: 'nav-link') %>
+          <%= link_to(t(:calendars), :calendars, class: params["controller"] == "calendars" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
         <li class="nav-item">
-          <%= link_to(t(:announcement), :announcements, class: 'nav-link') %>
+          <%= link_to(t(:announcement), :announcements, class: params["controller"] == "announcements" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
         <li class="nav-item">
-          <%= link_to(t(:news), :articles, class: 'nav-link') %>
+          <%= link_to(t(:news), :articles, class: params["controller"] == "articles" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
         <li class="nav-item">
-          <%= link_to(t(:statistics), :statistics, class: 'nav-link') %>
+          <%= link_to(t(:statistics), :statistics, class: params["controller"] == "statistics" ? 'nav-link link-danger' : 'nav-link') %>
         </li>
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">

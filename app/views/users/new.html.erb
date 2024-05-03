@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "user_form" %>
+<% end %>
+
 <h1><%= t(:new_user) %></h1>
 
 <%= render "form", user: @user %>

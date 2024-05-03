@@ -1,14 +1,54 @@
 <p style="color: green"><%= notice %></p>
 
-<h1><%= t(:tournaments)%></h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center border-bottom pb-2">
+    <%= t(:tournaments)%>
+    <a href="<%= new_tournament_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="tournaments">
-  <% @tournaments.each do |tournament| %>
-    <%= render tournament %>
-    <p>
-      <%= link_to t(:show_this_tournament), tournament %>
-    </p>
-  <% end %>
+  <div id="tournaments" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <% @tournaments.each do |tournament| %>
+      <div class="col">
+        <div class="card">
+          <a href="<%= tournament_path(tournament) %>">
+            <% if tournament.image.present? %>
+              <%= image_tag tournament.image, class: 'card-img-top' %>
+            <% else %>
+              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top') %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="<%= tournament_path(tournament) %>" class="link-dark" style="text-decoration: none">
+                <%= tournament.name.truncate(50) %>
+              </a>
+            </h5>
+            <p class="card-text">
+              <%= tournament.description.truncate(90) %>
+              <a href="<%= tournament_path(tournament) %>"> Leer más. </a>
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary">
+              <div class="row ms-0 mt-1">
+                <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
+                  <a href="<%= edit_tournament_path(tournament) %>" style="text-decoration: none" class="link-success position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                </div>
+                <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
+                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to t(:new_tournament), new_tournament_path, class: 'btn btn-primary mt-3' %>
 </div>
-
-<%= link_to t(:new_tournament), new_tournament_path %>

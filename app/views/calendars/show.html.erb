@@ -2,12 +2,11 @@
 
 <div class="shadow p-2 pt-2 rounded-2">
   <%= render @calendar %>
-
-  <%= link_to "Back to calendars", calendars_path, class: 'btn btn-outline-secondary' %>
+  <div data-turbo="false" class="d-inline">
+    <%= link_to "Back to calendars", calendars_path, class: 'btn btn-outline-secondary' %>
+  </div>
   <%= link_to "Edit this calendar", edit_calendar_path(@calendar), class: 'btn btn-outline-info' %>
 </div>
-
-
 
 <div>
   <%= button_to "Destroy this calendar", @calendar, method: :delete, class: 'btn btn-outline-danger mt-3' %>
