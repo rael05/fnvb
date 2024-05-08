@@ -99,3 +99,5 @@ es:
   add_player: 'Agregar Jugador'
   user_team_warning: 'Este Usuario ya tiene un equipo creado'
   user_no_team: 'Sin Equipo'
+  new_calendar: 'Calendario Nuevo'
+  password_instructions: 'Instrucciones para restablecer la contraseña'

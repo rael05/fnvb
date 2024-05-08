@@ -99,3 +99,5 @@ en:
   add_player: 'Add Player'
   user_team_warning: 'This user already has a team created'
   user_no_team: 'Without team'
+  new_calendar: 'New calendar'
+  password_instructions: 'Send me reset password instructions'
