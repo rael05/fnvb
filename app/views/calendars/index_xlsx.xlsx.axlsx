@@ -1,0 +1,24 @@
+wb = xlsx_package.workbook
+
+styles = wb.styles
+
+title_cell = styles.add_style sz: 20, alignment: { horizontal: :center }
+header_cell = styles.add_style sz: 14, alignment: { horizontal: :center }
+
+wb.add_worksheet(name: "Calendars") do |sheet|
+    sheet.add_row ["FNVB - Federación Nicaragüense de Voleibol"], style: [title_cell]
+    sheet.add_row []
+    sheet.add_row ["Torneo", "Participante", "Fecha", "Etapa", "Estado", "Descripcion"], style: header_cell
+    sheet.add_border "A3:F3", :all
+
+    @calendars.each_with_index do |calendar, index|
+        sheet.add_row [
+            calendar.tournament_id, calendar.team1.to_s + " Contra " + calendar.team2.to_s, calendar.start_date_time,
+            calendar.stage, calendar.status, calendar.description
+        ]
+        sheet.add_border "A" + (4 + index).to_s + ":F" + (4 + index).to_s, :all
+    end
+
+    sheet.merge_cells('A1:F1')
+    sheet.column_widths 25, 25, 25, 25, 25, nil
+end

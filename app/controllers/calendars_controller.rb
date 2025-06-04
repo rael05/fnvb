@@ -11,7 +11,10 @@ class CalendarsController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "file_name", template: "calendars/index_pdf", formats: [:pdf]
+        render pdf: "calendar", template: "calendars/index_pdf", formats: [:pdf]
+      end
+      format.xlsx do
+        render xlsx: "calendar", template: "calendars/index_xlsx", formats: [:xlsx]
       end
     end
   end
