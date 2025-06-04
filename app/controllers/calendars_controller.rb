@@ -7,6 +7,13 @@ class CalendarsController < ApplicationController
   def index
     @calendars = Calendar.all
     @formatted_data = Calendar.formattedData
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "file_name", template: "calendars/index_pdf", formats: [:pdf]
+      end
+    end
   end
 
   def get_teams_by_tournament

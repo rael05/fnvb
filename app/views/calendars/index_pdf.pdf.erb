@@ -1,0 +1,29 @@
+<meta charset="utf-8" />
+
+<h1 style="text-align: center;">FNVB - Federación Nicaragüense de Voleibol</h1>
+<br>
+<br>
+<table style="border: 1px black solid; width: 100%; text-align: center;">
+  <thead>
+    <tr>
+      <th scope="col" style="border: 1px black solid">Torneo</th>
+      <th scope="col" style="border: 1px black solid">Participante</th>
+      <th scope="col" style="border: 1px black solid">Fecha - Hora</th>
+      <th scope="col" style="border: 1px black solid">Etapa</th>
+      <th scope="col" style="border: 1px black solid">Estado</th>
+      <th scope="col" style="border: 1px black solid">Descripcion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @calendars.each do |calendar| %>
+        <tr>
+            <td style="border: 1px black solid"><%= calendar.tournament_id %></td>
+            <th style="border: 1px black solid"><%= calendar.team1 %> Contra <%= calendar.team2 %></th>
+            <td style="border: 1px black solid"><%= calendar.start_date_time %></td>
+            <td style="border: 1px black solid"><%= calendar.stage %></td>
+            <td style="border: 1px black solid"><%= calendar.status %></td>
+            <td style="border: 1px black solid"><%= calendar.description %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
