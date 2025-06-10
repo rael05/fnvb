@@ -26,19 +26,74 @@ first_team = Team.create({
   team_name: 'Nicaragua', color_shirt1: 'Azul', color_short1: 'Blanco', color_shirt2: 'Blanco',
   color_short2: 'Blanco', color_shirt3: 'Negro', color_short3: 'Negro', delegate_name: 'Carlos Luis', delegate_last_name: 'Lopez Garcia',
   head_coach_name: 'Yanira Maria', head_coach_last_name: 'Rio Ruiz', assistant_coach1_name: 'Ruben Del Zocorro', assistant_coach1_last_name: 'Naranjo',
-  assistant_coach2_name: 'Claudio', assistant_coach2_last_name: 'Cordoba', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
-  physiotherapist_name: 'Noe', physiotherapist_last_name: 'Nadal', statistical_name: 'Vanesa', statistical_last_name: 'Infante Caballero',
-  international_referee_name: 'Leticia', international_referee_last_name: 'Luque',
+  assistant_coach2_name: 'Claudio', assistant_coach2_last_name: 'Xu', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
+  physiotherapist_name: 'Noe', physiotherapist_last_name: 'Requena', statistical_name: 'Vanesa', statistical_last_name: 'Infante Caballero',
+  international_referee_name: 'Joan', international_referee_last_name: 'Palomo',
+})
+first_team.image.attach(io: File.open("#{Rails.root}/app/assets/images/Nicaragua.png"), filename: 'Nicaragua')
+
+Player.create!({
+  number: 10, name: 'Juan Carlos', last_name: 'Herrera', position: 'Z', birthday: Date.new(1999, 12, 31),
+  weight: 60, height: 1.70, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 8, name: 'Luis Fernando', last_name: 'Gómez', position: 'S', birthday: Date.new(1997, 11, 30),
+  weight: 80, height: 1.63, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 4, name: 'José Miguel', last_name: 'Ramírez', position: 'Z', birthday: Date.new(2000, 07, 28),
+  weight: 90, height: 1.80, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 3, name: 'Carlos Alberto', last_name: 'Torres', position: 'R', birthday: Date.new(1994, 04, 13),
+  weight: 70, height: 1.78, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 14, name: 'Andrés Felipe', last_name: 'Mendoza', position: 'L', birthday: Date.new(1995, 12, 31),
+  weight: 87, height: 1.83, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 18, name: 'Miguel Ángel', last_name: 'Morales', position: 'R', birthday: Date.new(2002, 05, 04),
+  weight: 68, height: 1.84, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 6, name: 'Jorge Luis', last_name: 'Castillo', position: 'Z', birthday: Date.new(2001, 03, 23),
+  weight: 68, height: 1.85, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 5, name: 'Marco Antonio', last_name: 'Ríos', position: 'R', birthday: Date.new(1998, 02, 06),
+  weight: 89, height: 1.70, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 40, name: 'Santiago David', last_name: 'Vargas', position: 'S', birthday: Date.new(1995, 02, 11),
+  weight: 87, height: 1.74, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 38, name: 'Diego Armando', last_name: 'Salazar', position: 'S', birthday: Date.new(1993, 04, 21),
+  weight: 79, height: 1.81, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 28, name: 'Juan Manuel', last_name: 'Paredes', position: 'L', birthday: Date.new(2003, 07, 12),
+  weight: 77, height: 1.83, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 43, name: 'Pedro José', last_name: 'Navarro', position: 'A', birthday: Date.new(1996, 05, 17),
+  weight: 88, height: 1.78, team_id: first_team.id, nationality: 'Nicaragüense'
+})
+Player.create!({
+  number: 38, name: 'Ricardo Andrés', last_name: 'Cruz', position: 'Z', birthday: Date.new(1998, 07, 13),
+  weight: 69, height: 1.78, team_id: first_team.id, nationality: 'Nicaragüense'
 })
 
 second_team = Team.create({
   team_name: 'Guatemala', color_shirt1: 'Azul', color_short1: 'Blanco', color_shirt2: 'Blanco',
   color_short2: 'Blanco', color_shirt3: 'Negro', color_short3: 'Negro', delegate_name: 'Carlos Luis', delegate_last_name: 'Lopez Garcia',
   head_coach_name: 'Yanira Maria', head_coach_last_name: 'Rio Ruiz', assistant_coach1_name: 'Ruben Del Zocorro', assistant_coach1_last_name: 'Naranjo',
-  assistant_coach2_name: 'Claudio', assistant_coach2_last_name: 'Cordoba', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
+  assistant_coach2_name: 'Jose Pedro', assistant_coach2_last_name: 'Cordoba', doctor_name: 'Marcela', doctor_last_name: 'Pla Picon',
   physiotherapist_name: 'Noe', physiotherapist_last_name: 'Nadal', statistical_name: 'Vanesa', statistical_last_name: 'Infante Caballero',
-  international_referee_name: 'Leticia', international_referee_last_name: 'Luque',
+  international_referee_name: 'Placido', international_referee_last_name: 'Morales',
 })
+second_team.image.attach(io: File.open("#{Rails.root}/app/assets/images/Guatemala.png"), filename: 'Guatemala')
 
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: first_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: second_team.id})

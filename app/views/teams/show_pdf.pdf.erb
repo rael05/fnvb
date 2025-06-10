@@ -1,0 +1,110 @@
+<meta charset="utf-8" />
+<h1 style="text-align: center;">FNVB - Federación Nicaragüense de Voleibol</h1>
+<br>
+<h2>Equipo: <%= @team.team_name %></h2>
+
+<div>
+    <p style="width: 95%; float: left;">
+        <strong><%= t(:tournaments) %>:</strong>
+        <% @team.tournaments.each do |tournament| %>
+            <%= tournament.name%>
+        <% end %>
+    </p>
+
+    <div>
+        <p style="width: 45%; float: left;">
+            <strong>Delegado:</strong>
+            <%= @team.delegate_name + " " + @team.delegate_last_name %>
+        </p>
+
+        <p style="width: 50%; float: right;">
+            <strong>Entrenador :</strong>
+            <%= @team.head_coach_name + " " + @team.head_coach_last_name%>
+        </p>
+    </div>
+
+    <div>
+        <p style="width: 45%; float: left;">
+            <strong>Asistente #1:</strong>
+            <%= @team.assistant_coach1_name + " " + @team.assistant_coach1_last_name%>
+        </p>
+
+        <p style="width: 50%; float: right;">
+            <strong>Asistente #2:</strong>
+            <%= @team.assistant_coach2_name + " " + @team.assistant_coach2_last_name%>
+        </p>
+    </div>
+
+    <div>
+        <p style="width: 45%; float: left;">
+            <strong>Medico :</strong>
+            <%= @team.doctor_name + " " + @team.doctor_last_name %>
+        </p>
+
+        <p style="width: 50%; float: right;">
+            <strong>Fisioterapeuta:</strong>
+            <%= @team.physiotherapist_name + " " + @team.physiotherapist_last_name%>
+        </p>
+    </div>
+
+    <div>
+        <p style="width: 45%; float: left;">
+            <strong>Estadístico:</strong>
+            <%= @team.statistical_name + " " + @team.statistical_last_name%>
+        </p>
+
+        <p style="width: 50%; float: right;">
+            <strong>Árbitro:</strong>
+            <%= @team.international_referee_name + " " + @team.international_referee_last_name%>
+        </p>
+    </div>
+
+    <div>
+        <p style="width: 45%; float: left;">
+            <strong>Uniforme #1:</strong>
+            <%= @team.color_shirt1 + " | " + @team.color_short1%>
+        </p>
+
+        <p style="width: 50%; float: right;">
+            <strong>Uniforme #2:</strong>
+            <%= @team.color_shirt2 + " | " + @team.color_short2%>
+        </p>
+    </div>
+
+    <div>
+        <p style="width: 95%; float: left;">
+            <strong>Uniforme #3:</strong>
+            <%= @team.color_shirt3 + " | " + @team.color_short3%>
+        </p>
+    </div>
+</div>
+
+<br>
+
+<h3 style="text-align: center;">Jugadores</h3>
+<table style="border: 1px black solid; width: 100%; text-align: center;">
+  <thead>
+    <tr>
+      <th scope="col" style="border: 1px black solid">Numero</th>
+      <th scope="col" style="border: 1px black solid">Nombre Completo</th>
+      <th scope="col" style="border: 1px black solid">Posicion</th>
+      <th scope="col" style="border: 1px black solid">Altura</th>
+      <th scope="col" style="border: 1px black solid">Peso</th>
+      <th scope="col" style="border: 1px black solid">Nacionalidad</th>
+      <th scope="col" style="border: 1px black solid">Fecha Nacimiento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @team.players.each do |player| %>
+        <tr>
+            <td style="border: 1px black solid"><%= player.number %></td>
+            <td style="border: 1px black solid"><%= player.name %> <%= player.last_name %></td>
+            <td style="border: 1px black solid"><%= player.position_name %></td>
+            <td style="border: 1px black solid"><%= player.height %> M</td>
+            <td style="border: 1px black solid"><%= player.weight %> KG</td>
+            <td style="border: 1px black solid"><%= player.nationality %></td>
+            <td style="border: 1px black solid"><%= player.birthday %></td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>

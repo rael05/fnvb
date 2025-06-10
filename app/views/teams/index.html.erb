@@ -1,14 +1,58 @@
 <p style="color: green"><%= notice %></p>
 
-<h1><%= t(:teams) %></h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center border-bottom pb-2">
+    <%= t(:teams) %>
+    <a href="<%= new_team_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="teams">
-  <% @teams.each do |team| %>
-    <%= render team %>
-    <p>
-      <%= link_to t(:show_this_team), team %>
-    </p>
-  <% end %>
+  <div id="teams" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <% @teams.each do |team| %>
+      <div class="col">
+        <div class="card">
+          <a href="<%= team_path(team) %>">
+            <% if team.image.present? %>
+              <%= image_tag team.image, class: 'card-img-top', style: 'height: 180px' %>
+            <% else %>
+              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top') %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <h4 class="card-title text-center">
+              <a href="<%= team_path(team) %>" class="link-dark" style="text-decoration: none">
+                <%= team.team_name %>
+              </a>
+            </h4>
+            <strong style="font-size: 15px;">Delegado:</strong>
+            <p class="card-text">
+              <%= team.delegate_name + " " + team.delegate_last_name %>
+            </p>
+            <strong style="font-size: 15px;">Entrenador:</strong>
+            <P class="card-text">
+              <%= team.head_coach_name + " " + team.head_coach_last_name %>
+            </P>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary">
+              <div class="row ms-0 mt-1">
+                <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
+                  <a href="<%= edit_team_path(team) %>" style="text-decoration: none" class="link-success position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </a>
+                </div>
+                <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
+                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= link_to t(:new_team), new_team_path, class: 'btn btn-primary mt-3' %>
 </div>
-
-<%= link_to t(:new_team), new_team_path %>

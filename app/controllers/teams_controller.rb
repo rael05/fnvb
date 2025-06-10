@@ -9,6 +9,15 @@ class TeamsController < ApplicationController
 
   # GET /teams/1 or /teams/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: @team.team_name, template: "teams/show_pdf", formats: [:pdf]
+      end
+      format.xlsx do
+        render xlsx: @team.team_name, template: "teams/show_xlsx", formats: [:xlsx]
+      end
+    end
   end
 
   # GET /teams/new
