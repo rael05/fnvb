@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :users
     post 'users/new_user' => 'users#new_user'
     get 'users/:id/change_password_yourself' => 'users#change_password_yourself', as: 'change_password'
+    get 'tournaments/:id/generate_calendar' => 'tournaments#generate_calendar', as: 'generate_calendar'
     resources :teams
     resources :articles
     resources :announcements

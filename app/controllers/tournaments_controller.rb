@@ -1,6 +1,6 @@
 class TournamentsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_tournament, only: %i[ show edit update destroy ]
+  before_action :set_tournament, only: %i[ show edit update destroy generate_calendar]
 
   # GET /tournaments or /tournaments.json
   def index
@@ -57,6 +57,23 @@ class TournamentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tournaments_url, notice: t(:tournament_was_successfully_destroyed) }
       format.json { head :no_content }
+    end
+  end
+
+  def generate_calendar
+    @tournament.teams.each do |team_one|
+      @tournament.teams.each do |team_two|
+        next if team_one.id == team_two.id
+        next if Calendar.exists?(tournament_id: @tournament.id, team1: team_one.id, team2: team_two.id) or
+                Calendar.exists?(tournament_id: @tournament.id, team1: team_two.id, team2: team_one.id)
+
+        Calendar.create({tournament_id: @tournament.id, team1: team_one.id,
+                        team2: team_two.id, stage: "C", start_date_time: DateTime.now,
+                        status: "P", description: "Primer juego del primer torneo"})
+      end
+    end
+    respond_to do |format|
+      format.html { render :show, status: :ok, location: @tournament }
     end
   end
 

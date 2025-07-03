@@ -35,4 +35,13 @@ class Calendar < ApplicationRecord
     end
     formatted_data
   end
+
+  def teamDetail1
+    Team.find_by(id: team1)
+  end
+
+  def teamDetail2
+    Team.find_by(id: team2)
+  end
+
 end

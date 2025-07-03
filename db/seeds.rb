@@ -432,5 +432,3 @@ article_3 = Article.create({
   description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 })
 article_3.image.attach(io: File.open("#{Rails.root}/app/assets/images/sequia.jpg"), filename: 'sequia')
-Calendar.create({tournament_id: first_tournament.id, team1: nicaragua_team.id, team2: guatemala_team.id, stage: "C", start_date_time: DateTime.now, status: "P", description: "Primer juego del primer torneo"})
-Calendar.create({tournament_id: first_tournament.id, team1: nicaragua_team.id, team2: guatemala_team.id, stage: "C", start_date_time: DateTime.now + 1.days, status: "P", description: "Segundo juego del primer torneo"})

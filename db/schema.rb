@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_04_044627) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_27_022740) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -135,6 +135,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_044627) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "calendar_id", null: false
+    t.index ["calendar_id"], name: "index_games_on_calendar_id"
     t.index ["user_id"], name: "index_games_on_user_id"
   end
 
@@ -251,6 +253,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_04_044627) do
   add_foreign_key "articles", "users"
   add_foreign_key "calendars", "tournaments"
   add_foreign_key "game_details", "games"
+  add_foreign_key "games", "calendars"
   add_foreign_key "games", "users"
   add_foreign_key "players", "teams"
   add_foreign_key "statistics", "users"

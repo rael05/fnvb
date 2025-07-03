@@ -55,6 +55,29 @@
           <% end %>
         </tbody>
       </table>
+      <h2>Juegos</h2>
+      
+      <div class="accordion accordion-flush border" id="accordionFlushExample">
+        <% @tournament.calendars.each_with_index do | calendar, index | %>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="flush-collapseOne">
+              <strong>
+                <%= calendar.teamDetail1.team_name %>
+                vs
+                <%= calendar.teamDetail2.team_name %>
+                &nbsp;
+              </strong>
+              <%= I18n.l(calendar.start_date_time, format: :long) %>
+            </button>
+          </h2>
+          <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+            <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item’s accordion body.</div>
+          </div>
+        </div>
+        <% end %>
+      </div>
+
     </div>
   </div>
 </div>
