@@ -1,14 +1,62 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Players</h1>
+<div class="shadow p-3 rounded-3">
+  <h1 class="text-center border-bottom pb-2">
+    <%= t(:players) %>
+    <a href="<%= new_player_path %>" style="text-decoration: none" class="ms-3">
+      <i class="fa-solid fa-circle-plus fa-xs"></i>
+    </a>
+  </h1>
 
-<div id="players">
-  <% @players.each do |player| %>
-    <%= render player %>
-    <p>
-      <%= link_to "Show this player", player %>
-    </p>
-  <% end %>
+  <!-- Contenedor de jugadores -->
+  <div id="players" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
+    <% @players.each do |player| %>
+      <div class="col">
+        <div class="card">
+          <a href="<%= player_path(player) %>" class="border-bottom py-2">
+            <% if player.image.present? %>
+              <%= image_tag player.image, class: 'card-img-top' %>
+            <% else %>
+              <% if player.gender == "F" %>
+                <%= image_tag("default_female.png", alt: 'Default player image', class: 'card-img-top') %>
+              <% else %>
+                <%= image_tag("default_male.png", alt: 'Default player image', class: 'card-img-top') %>
+              <% end %>
+            <% end %>
+          </a>
+          <div class="card-body">
+            <h4 class="card-title">
+              <a href="<%= player_path(player) %>" class="link-dark" style="text-decoration: none">
+                <%= "#{player.name} #{player.last_name}".truncate(50) %>
+              </a>
+            </h4>
+            <strong style="font-size: 15px;"><%= t(:team) %></strong>
+            <p class="card-text">
+              <%= player.team.team_name %>
+            </p>
+            <strong style="font-size: 15px;">Posicion:</strong>
+            <p class="card-text">
+              <%= player.position_name %>
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-body-secondary">
+              <div class="row ms-0 mt-1">
+                <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
+                  <a href="<%= edit_player_path(player) %>" style="text-decoration: none" class="link-success position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-pen"></i>
+                  </a>
+                </div>
+                <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
+                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>
-
-<%= link_to t(:add_player), new_player_path %>

@@ -1,6 +1,16 @@
 class PlayersController < ApplicationController
   load_and_authorize_resource
   before_action :set_player, only: %i[ show edit update destroy ]
+  before_action :set_position, only: %i[ edit new create update ]
+  before_action :set_gender, only: %i[ edit new create update ]
+
+  def set_position
+    @positions = Player::POSITION_HASH.map { |key, value| [value, key] }
+  end
+
+  def set_gender
+    @genders = Player::GENDER_HASH.map { |key, value| [value, key] }
+  end
 
   # GET /players or /players.json
   def index
@@ -67,6 +77,6 @@ class PlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def player_params
-      params.require(:player).permit(:number, :name, :last_name, :position, :birthday, :weight, :height, :nationality)
+      params.require(:player).permit(:number, :name, :last_name, :position, :birthday, :weight, :height, :nationality, :gender)
     end
 end

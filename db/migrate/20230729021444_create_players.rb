@@ -10,6 +10,7 @@ class CreatePlayers < ActiveRecord::Migration[7.0]
       t.float :height
       t.references :team, null: false, foreign_key: true
       t.string :nationality
+      t.string :gender, limit: 1
 
       t.timestamps
     end

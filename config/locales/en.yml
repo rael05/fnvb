@@ -101,3 +101,7 @@ en:
   user_no_team: 'Without team'
   new_calendar: 'New calendar'
   password_instructions: 'Send me reset password instructions'
+  search_by_name: 'Search by name'
+  search: 'Search'
+  search_tournaments: 'Search tournaments'
+  search_users: 'Search users'

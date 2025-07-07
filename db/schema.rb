@@ -150,6 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_27_022740) do
     t.float "height"
     t.bigint "team_id", null: false
     t.string "nationality"
+    t.string "gender", limit: 1
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_players_on_team_id"

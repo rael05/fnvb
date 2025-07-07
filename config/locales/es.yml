@@ -115,3 +115,6 @@ es:
   user_no_team: 'Sin Equipo'
   new_calendar: 'Calendario Nuevo'
   password_instructions: 'Instrucciones para restablecer la contraseña'
+  search_by_name: 'Buscar por nombre'
+  search: 'Buscar'
+  search_tournaments: 'Buscar torneos'

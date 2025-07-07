@@ -4,7 +4,11 @@ class TournamentsController < ApplicationController
 
   # GET /tournaments or /tournaments.json
   def index
-    @tournaments = Tournament.all
+    if params[:search].present?
+      @tournaments = Tournament.with_translations(I18n.locale).where("name ILIKE ?", "%#{params[:search]}%")
+    else
+      @tournaments = Tournament.all
+    end
   end
 
   # GET /tournaments/1 or /tournaments/1.json
@@ -85,6 +89,6 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :description, :international, :image)
+      params.require(:tournament).permit(:name, :description, :international, :image, :search)
     end
 end

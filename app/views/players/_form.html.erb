@@ -26,7 +26,7 @@
     <div class="mb-3 row">
       <div class="col">
         <%= form.label :position, class: "form-label" %>
-        <%= form.text_field :position, class: "form-control" %>
+        <%= form.select :position, @positions, { prompt: "Seleccione una posición" }, class: "form-select" %>
       </div>
       <div class="col">
         <%= form.label :number, class: "form-label" %>
@@ -39,6 +39,13 @@
         <%= form.label :birthday, class: "form-label" %>
         <%= form.date_field :birthday, class: "form-control" %>
       </div>
+      <div class="col">
+        <%= form.label :gender, class: "form-label" %>
+        <%= form.select :gender, @genders, { prompt: "Seleccione un género" }, class: "form-select" %>
+      </div>
+    </div>
+
+    <div class="mb-3 row">
       <div class="col">
         <%= form.label :weight, class: "form-label" %>
         <%= form.number_field :weight, class: "form-control" %>
