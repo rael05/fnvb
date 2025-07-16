@@ -1,10 +1,35 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @player %>
-
-<div>
-  <%= link_to "Edit this player", edit_player_path(@player) %> |
-  <%= link_to "Back to players", players_path %>
-
-  <%= button_to "Destroy this player", @player, method: :delete %>
+<div class="card mx-auto my-4 shadow" style="max-width: 600px;">
+  <div class="row g-0">
+    <div class="col-md-4 d-flex align-items-center justify-content-center">
+      <% if @player.image.present? %>
+        <%= image_tag @player.image, class: "img-fluid rounded-start", style: "max-height: 220px;" %>
+      <% else %>
+        <%= image_tag "default_male.png", alt: "Default player image", class: "img-fluid rounded-start", style: "max-height: 220px;" %>
+      <% end %>
+    </div>
+    <div class="col-md-8">
+      <div class="card-header text-center">
+        <h3><%= "#{@player.name} #{@player.last_name}" %></h3>
+        <span class="badge bg-primary fs-6"><%= @player.position_name %></span>
+      </div>
+      <div class="card-body">
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item"><strong><%= t(:number) %>:</strong> <%= @player.number %></li>
+          <li class="list-group-item"><strong><%= t(:birthday) %>:</strong> <%= l(@player.birthday) %></li>
+          <li class="list-group-item"><strong><%= t(:gender) %>:</strong> <%= @player.gender_name %></li>
+          <li class="list-group-item"><strong><%= t(:weight) %>:</strong> <%= @player.weight %> kg</li>
+          <li class="list-group-item"><strong><%= t(:height) %>:</strong> <%= @player.height %> m</li>
+          <li class="list-group-item"><strong><%= t(:team) %>:</strong> <%= @player.team.team_name %></li>
+          <li class="list-group-item"><strong><%= t(:nationality) %>:</strong> <%= @player.nationality %></li>
+        </ul>
+        <div class="d-flex justify-content-between">
+          <%= link_to t(:edit), edit_player_path(@player), class: "btn btn-outline-info" %>
+          <%= link_to t(:back_to_players), players_path, class: "btn btn-outline-secondary" %>
+          <%= button_to t(:destroy), @player, method: :delete, data: { confirm: t(:are_you_sure) }, class: "btn btn-outline-danger" %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

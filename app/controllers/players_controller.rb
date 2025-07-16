@@ -14,7 +14,11 @@ class PlayersController < ApplicationController
 
   # GET /players or /players.json
   def index
-    @players = Player.all
+    if params[:search].present?
+      @players = Player.where("name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
+    else
+      @players = Player.all
+    end
   end
 
   # GET /players/1 or /players/1.json
@@ -77,6 +81,6 @@ class PlayersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def player_params
-      params.require(:player).permit(:number, :name, :last_name, :position, :birthday, :weight, :height, :nationality, :gender)
+      params.require(:player).permit(:number, :name, :last_name, :position, :birthday, :weight, :height, :nationality, :gender, :image)
     end
 end

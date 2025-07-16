@@ -68,6 +68,11 @@
       <%= form.text_field :nationality, class: "form-control" %>
     </div>
 
+    <div class="mb-3">
+      <%= form.label :image, "Foto del jugador", class: "form-label" %>
+      <%= form.file_field :image, class: "form-control" %>
+    </div>
+
     <div>
       <%= form.submit class: "btn btn-primary mb-2" %>
     </div>

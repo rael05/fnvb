@@ -8,6 +8,18 @@
     </a>
   </h1>
 
+  <!-- Formulario de búsqueda -->
+  <div class="text-center mt-3">
+    <%= form_with url: players_path, method: :get, local: true, class: "d-inline-block w-50" do |form| %>
+      <div class="input-group">
+        <%= form.text_field :search, value: params[:search], placeholder: t(:search_by_name), class: "form-control" %>
+        <button type="submit" class="btn btn-outline-primary">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </div>
+    <% end %>
+  </div>
+
   <!-- Contenedor de jugadores -->
   <div id="players" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
     <% @players.each do |player| %>
