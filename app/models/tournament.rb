@@ -8,4 +8,7 @@ class Tournament < ApplicationRecord
   validates_with FileValidator::ImageValidator, image_field_name: :image
 
   translates :name, :description
+
+  validates :name, presence: true
+  validates :description, presence: true
 end

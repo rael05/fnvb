@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   before_action :set_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
+  rescue_from CanCan::AccessDenied, with: :raise_not_found
 
   private
 
@@ -25,5 +26,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:user_name, :email, :first_name, :last_name, :password)}
 
     devise_parameter_sanitizer.permit(:account_update) { |u| u.permit(:user_name, :email, :first_name, :last_name, :password, :current_password)}
+  end
+
+  def raise_not_found(exception = nil)
+    raise ActionController::RoutingError, 'Not Found'
   end
 end

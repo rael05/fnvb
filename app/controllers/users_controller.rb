@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
+    @team_user = []
     @form_path = users_new_user_path
     @form_method = :post
     @action_buttom_label = t(:create_user)

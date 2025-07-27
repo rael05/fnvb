@@ -17,6 +17,8 @@ Rails.application.routes.draw do
     resources :games
     resources :game_details
     get 'calendars/get_teams_by_tournament/:team_id' => 'calendars#get_teams_by_tournament', as: 'teams_by_tournament'
-  end
 
+    match "/404", to: "errors#not_found", via: :all
+    match "/500", to: "errors#internal_server_error", via: :all
+  end
 end

@@ -34,11 +34,11 @@
           <div class="card-body">
             <h5 class="card-title">
               <a href="<%= tournament_path(tournament) %>" class="link-dark" style="text-decoration: none">
-                <%= tournament.name.truncate(50) %>
+                <%= tournament.name&.truncate(50) %>
               </a>
             </h5>
             <p class="card-text">
-              <%= tournament.description.truncate(90) %>
+              <%= tournament.description&.truncate(90) %>
               <a href="<%= tournament_path(tournament) %>"> Leer más. </a>
             </p>
           </div>
