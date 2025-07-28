@@ -5,7 +5,16 @@ class CalendarsController < ApplicationController
 
   # GET /calendars or /calendars.json
   def index
-    @calendars = Calendar.all
+    @selected_year = params[:year].present? ? params[:year].to_i : Date.current.year
+    @tournaments = Tournament.where(year: @selected_year).pluck(:name, :id).unshift(["Todos los torneos", 0])
+    if params[:tournament_id].present? && params[:tournament_id].to_i > 0
+      @selected_tournament = params[:tournament_id].to_i
+      @calendars = Calendar.where(tournament_id: @selected_tournament)
+    else
+      @selected_tournament = 0
+      @calendars = Calendar.all
+    end
+    @tournament = Tournament.find_by(id: @selected_tournament)
     @formatted_data = Calendar.formattedData
 
     respond_to do |format|
@@ -86,7 +95,7 @@ class CalendarsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def calendar_params
-      params.require(:calendar).permit(:tournament_id, :team1, :team2, :description, :stage, :start_date_time, :status)
+      params.require(:calendar).permit(:tournament_id, :team1, :team2, :description, :stage, :start_date_time, :status, :year)
     end
 
     def variables_for_calendars

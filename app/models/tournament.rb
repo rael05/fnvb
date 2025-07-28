@@ -11,4 +11,12 @@ class Tournament < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+
+  def truncate_name
+    "#{name&.truncate(45)} (#{year})"
+  end
+
+  def completed_name
+    "#{name} (#{year})"
+  end
 end

@@ -34,7 +34,7 @@
           <div class="card-body">
             <h5 class="card-title">
               <a href="<%= tournament_path(tournament) %>" class="link-dark" style="text-decoration: none">
-                <%= tournament.name&.truncate(50) %>
+                <%= tournament.truncate_name %>
               </a>
             </h5>
             <p class="card-text">

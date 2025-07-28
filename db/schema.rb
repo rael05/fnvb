@@ -224,6 +224,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_27_022740) do
 
   create_table "tournaments", force: :cascade do |t|
     t.boolean "international"
+    t.integer "year", default: 2025
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

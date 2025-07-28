@@ -296,3 +296,7 @@ var organizer = new Organizer(
   calendar, // defining the calendar that the organizer is related to
   data_formatted // giving the organizer the static data that should be displayed
 );
+
+document.getElementById("year").addEventListener("change", function() {
+    window.location.href = `calendars?year=${this.value}`;
+});

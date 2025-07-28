@@ -42,11 +42,6 @@
       <%= form.datetime_local_field :start_date_time, class: "form-control" %>
     </div>
 
-    <div class="mb-3">
-      <%= form.label :status, class: "form-label" %>
-      <%= form.select(:status, options_for_select(@status_array, calendar.status), {}, class: "form-select") %>
-    </div>
-
     <div>
       <%= form.submit class: "btn btn-primary mb-2" %>
     </div>

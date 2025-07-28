@@ -26,7 +26,7 @@ class Calendar < ApplicationRecord
       day_formatted[day] << {
         "startTime": calendar[0].strftime("%H:%M"),
         "endTime": (calendar[0] + 2.hour).strftime("%H:%M"),
-        "text": "#{calendar[1]} (#{calendar[2]} VS #{calendar[3]})",
+        "text": "#{calendar[1]} (#{Team.find(calendar[2]).team_name} VS #{Team.find(calendar[3]).team_name})",
         "link": "calendars/#{calendar[4]}",
       }
 

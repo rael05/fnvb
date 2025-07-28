@@ -14,6 +14,23 @@
 
   <%= content_tag :div, id: "calendar_data_formatted", data: {calendar: @formatted_data} do %>
   <% end %>
+  
+  <div class="text-center mt-3">
+    <%= form_with url: calendars_path, method: :get, local: true, class: "d-inline-block" do |form| %>
+      <%= form.select :year, options_for_select((Date.current.year - 5..Date.current.year + 5).to_a.reverse, @selected_year), {}, class: "form-select d-inline-block w-auto ms-2" %>
+      <%= form.select :tournament_id, options_for_select(@tournaments, @selected_tournament), {},
+          {class: "form-select d-inline-block w-auto"} %>
+      <button type="submit" class="btn btn-outline-primary ms-2" data-turbo="false">
+        <%= t(:search) %>
+      </button>
+    <% end %>
+  </div>
+
+  <% if @selected_tournament.present? && @selected_tournament.to_i > 0 %>
+    <div class="border p-4 my-3 bg-light rounded-3">
+      <%= render "shared/juegos", tournament: @tournament %>
+    </div>
+  <% end %>
 
   <div class="row justify-content-md-center px-4 pt-3 pb-2">
     <div id="calendarContainer" class="col p-0"></div>
@@ -24,3 +41,4 @@
   <%= link_to "PDF", calendars_path(format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
   <%= link_to "EXCEL", calendars_path(format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>
 </div>
+
