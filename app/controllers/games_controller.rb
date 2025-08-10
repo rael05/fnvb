@@ -67,11 +67,20 @@ class GamesController < ApplicationController
     end
 
     def team_for_game
-      @team_options = Team.all.map { |team| [team.team_name, team.id]}
+      @calendar = Calendar.find_by(id: params[:calendar_id])
+      return redirect_to :not_found unless @calendar
+      @team_options = [[@calendar.teamDetail1.team_name, @calendar.teamDetail1.id], [@calendar.teamDetail2.team_name, @calendar.teamDetail2.id]]
+      if @game.winning_team && @game.lose_team
+        @winning_team = @game.winning_team
+        @lose_team = @game.lose_team
+      else
+        @winning_team = @calendar.teamDetail1.id
+        @lose_team = @calendar.teamDetail2.id
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:winning_team, :lose_team, :score, :description)
+      params.require(:game).permit(:winning_team, :lose_team, :score, :description, :calendar_id)
     end
 end

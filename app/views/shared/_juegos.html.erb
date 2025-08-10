@@ -1,5 +1,5 @@
 <div>
-    <h3>Juegos del torneo <%= @tournament.truncate_name %></h3>
+    <h3>Agenda del torneo <%= @tournament.truncate_name %></h3>
 
     <div class="accordion accordion-flush border" id="accordionFlushExample">
         <% tournament.calendars.each_with_index do | calendar, index | %>
@@ -16,7 +16,9 @@
                 </button>
             </h2>
             <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item’s accordion body.</div>
+                <div class="accordion-body">
+                    <%= link_to "Registrar Juego", new_game_path(calendar_id: calendar.id), class: "btn btn-outline-success me-2" %>
+                </div>
             </div>
             </div>
         <% end %>

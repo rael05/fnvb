@@ -12,14 +12,16 @@
       </div>
     <% end %>
 
-    <div class="mb-3">
-      <%= form.label :winning_team, style: "display: block", class: "form-label" %>
-      <%= form.select(:winning_team, options_for_select(@team_options, game.winning_team), {}, class: "form-select") %>
-    </div>
+    <div class="mb-3 row">
+      <div class="col">
+        <%= form.label :winning_team, style: "display: block", class: "form-label" %>
+        <%= form.select(:winning_team, options_for_select(@team_options, @winning_team), {}, class: "form-select") %>
+      </div>
 
-    <div class="mb-3">
-      <%= form.label :lose_team, style: "display: block", class: "form-label" %>
-      <%= form.select(:winning_team, options_for_select(@team_options, game.winning_team), {}, class: "form-select") %>
+      <div class="col">
+        <%= form.label :lose_team, style: "display: block", class: "form-label" %>
+        <%= form.select(:lose_team, options_for_select(@team_options, @lose_team), {}, class: "form-select") %>
+      </div>
     </div>
 
     <div class="mb-3">
@@ -37,3 +39,26 @@
     </div>
   <% end %>
 </div>
+
+<script>
+  const selectWinning = document.getElementById("game_winning_team");
+  const selectLose = document.getElementById("game_lose_team");
+  const options1 = selectWinning.options[0].value;
+  const options2 = selectWinning.options[1].value;
+
+  selectWinning.addEventListener("change", function() {
+    if (this.value == selectLose.value  && this.value == options1) {
+      selectLose.value = options2;
+    } else if (this.value == selectLose.value  && this.value == options2) {
+      selectLose.value = options1;
+    }
+  });
+
+  selectLose.addEventListener("change", function() {
+    if (this.value == selectWinning.value && this.value == options1) {
+      selectWinning.value = options2;
+    } else if (this.value == selectWinning.value && this.value == options2) {
+      selectWinning.value = options1;
+    }
+  });
+</script>
