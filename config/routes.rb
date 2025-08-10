@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     devise_for :users
     resources :tournaments
@@ -16,6 +15,7 @@ Rails.application.routes.draw do
     resources :players
     resources :games
     resources :game_details
+    resources :albums
     get 'calendars/get_teams_by_tournament/:team_id' => 'calendars#get_teams_by_tournament', as: 'teams_by_tournament'
 
     match "/404", to: "errors#not_found", via: :all, as: :not_found

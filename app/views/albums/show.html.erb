@@ -1,0 +1,44 @@
+<p style="color: green"><%= notice %></p>
+
+<div id="<%= dom_id @album %>">
+  <p>
+    <strong>Name:</strong>
+    <%= @album.name %>
+  </p>
+
+  <% if @album.main_image.attached? %>
+    <%= image_tag @album.main_image, class: "img-fluid rounded-start", style: "max-height: 220px;" %>
+  <% else %>
+    <p>No hay imágenes</p>
+  <% end %>
+
+  <h3>Imágenes</h3>
+  <% if @album.images.attached? %>
+    <% @album.images.each_with_index do |photo, index| %>
+    <%= image_tag photo, class: "img-fluid img-thumbnail clickable-image rounded-start", style: "max-height: 220px;",
+        data: { bs_toggle: "modal", bs_target: "#imageModal#{index}", image_url: url_for(photo) } %>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="imageModal<%=index%>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-body text-center">
+            <%= image_tag photo , class: "img-fluid", style: "max-height: 500px;" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+  <% else %>
+    <p>No hay imágenes</p>
+  <% end %>
+
+</div>
+
+
+<div>
+  <%= link_to "Edit this album", edit_album_path(@album) %> |
+  <%= link_to "Back to albums", albums_path %>
+
+  <%= button_to "Destroy this album", @album, method: :delete %>
+</div>
