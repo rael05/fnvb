@@ -1,10 +1,64 @@
 <h1>Editing album</h1>
 
-<%= render "form", album: @album %>
+<div class="px-3 py-2 border rounded-3">
+  <%= form_with(model: @album) do |form| %>
+    <% if @album.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(@album.errors.count, "error") %> prohibited this album from being saved:</h2>
+
+        <ul>
+          <% @album.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= form.label :name, style: "display: block", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= label_tag :tournament_name, "Selecciona un torneo", class: "form-label" %>
+      <%= text_field_tag :tournament_name, @tournament_name, class: "form-control", disabled: true %>
+    </div>
+
+    <div class="mb-3" style="display: none">
+      <%= form.label :tournament_id %>
+      <%= form.text_field :tournament_id, value: @tournament_id %>
+    </div>
+
+    <div class="field mb-3">
+      <%= form.label :main_image, "Subir Imagen principal del Album", class: "form-label" %>
+      <%= form.file_field :main_image, accept: "image/*", class: "form-control" %>
+      <% if @album.main_image.present? %>
+        <%= image_tag @album.main_image, style: "display: block; max-height: 220px" %>
+      <% end %>
+    </div>
+
+    <div class="field mb-3">
+      <%= form.label :images, "Subir imágenes", class: "form-label" %>
+      <%= form.file_field :images, multiple: true, accept: "image/*", class: "form-control" %>
+      <% if @album.images.any? %>
+        <div class="row">
+          <% @album.images.each do |image| %>
+            <div class="col-3">
+              <%= image_tag image, style: "display: block; width: 99%; margin-top: 10px" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+</div>
 
 <br>
 
 <div>
-  <%= link_to "Show this album", @album %> |
-  <%= link_to "Back to albums", albums_path %>
+  <%= link_to "Show this album", @album, class: "btn btn-primary" %>
 </div>

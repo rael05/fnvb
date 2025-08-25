@@ -13,10 +13,19 @@ class AlbumsController < ApplicationController
   # GET /albums/new
   def new
     @album = Album.new
+    @current_tournament = Tournament.find_by(id: params[:tournament_id])
+    if @current_tournament.present?
+      @tournament_name = @current_tournament&.name
+      @tournament_id = @current_tournament&.id
+      return
+    end
+    redirect_to :not_found
   end
 
   # GET /albums/1/edit
   def edit
+    @tournament_name = @album&.name
+    @tournament_id = @album&.tournament_id
   end
 
   # POST /albums or /albums.json
@@ -65,6 +74,6 @@ class AlbumsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def album_params
-      params.require(:album).permit(:name, :enable, :main_image, images: [])
+      params.require(:album).permit(:name, :tournament_id, :enable, :main_image, images: [])
     end
 end

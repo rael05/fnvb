@@ -14,21 +14,31 @@ class GamesController < ApplicationController
 
   # GET /games/new
   def new
-    @game = Game.new
+    @game = Game.new(calendar_id: params[:calendar_id])
   end
 
   # GET /games/1/edit
   def edit
+    @gameDetail = GameDetail.new(game_id: @game.id)
+  end
+
+  def create_game_detail
+    @gameDetail = GameDetail.new(game_detail_params)
+    if @gameDetail.save
+      redirect_to edit_game_path(@game), notice: "Detalle de jugada agregado."
+    else
+      redirect_to edit_game_path(@game), alert: "Error al agregar detalle de jugada."
+    end
   end
 
   # POST /games or /games.json
   def create
     @game = Game.new(game_params)
-    @game.user_id = current_users.id
+    @game.user_id = current_user.id
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to game_url(@game), notice: "Game was successfully created." }
+        format.html { redirect_to edit_game_path(@game), notice: "Game was successfully created." }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -41,7 +51,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to game_url(@game), notice: "Game was successfully updated." }
+        format.html { redirect_to edit_game_path(@game), notice: "Game was successfully updated." }
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -67,7 +77,7 @@ class GamesController < ApplicationController
     end
 
     def team_for_game
-      @calendar = Calendar.find_by(id: params[:calendar_id])
+      @calendar = Calendar.find_by(id: params[:calendar_id]) || Calendar.find_by(id: @game.calendar_id)
       return redirect_to :not_found unless @calendar
       @team_options = [[@calendar.teamDetail1.team_name, @calendar.teamDetail1.id], [@calendar.teamDetail2.team_name, @calendar.teamDetail2.id]]
       if @game.winning_team && @game.lose_team
@@ -81,6 +91,10 @@ class GamesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_params
-      params.require(:game).permit(:winning_team, :lose_team, :score, :description, :calendar_id)
+      params.require(:game).permit(:winning_team, :lose_team, :win_score, :lose_score, :description, :calendar_id)
+    end
+
+    def game_detail_params
+      params.require(:game_detail).permit(:game_id, :player_id, :team_id, :detail_type, :number_set, :order)
     end
 end

@@ -1,44 +1,44 @@
 <p style="color: green"><%= notice %></p>
 
 <div id="<%= dom_id @album %>">
-  <p>
-    <strong>Name:</strong>
-    <%= @album.name %>
-  </p>
+  <div class="shadow p-3 rounded-3">
+    <h1 class="text-center ">
+      <%= @album.name %>
+    </h1>
 
-  <% if @album.main_image.attached? %>
-    <%= image_tag @album.main_image, class: "img-fluid rounded-start", style: "max-height: 220px;" %>
-  <% else %>
-    <p>No hay imágenes</p>
-  <% end %>
-
-  <h3>Imágenes</h3>
-  <% if @album.images.attached? %>
-    <% @album.images.each_with_index do |photo, index| %>
-    <%= image_tag photo, class: "img-fluid img-thumbnail clickable-image rounded-start", style: "max-height: 220px;",
-        data: { bs_toggle: "modal", bs_target: "#imageModal#{index}", image_url: url_for(photo) } %>
-    
-    <!-- Modal -->
-    <div class="modal fade" id="imageModal<%=index%>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-body text-center">
-            <%= image_tag photo , class: "img-fluid", style: "max-height: 500px;" %>
-          </div>
-        </div>
-      </div>
-    </div>
+    <% if @album.main_image.attached? %>
+      <%= image_tag @album.main_image, class: "img-fluid rounded py-2 mx-auto d-block", style: "max-height: 300px;" %>
+    <% else %>
+      <p>No hay imágenes</p>
     <% end %>
-  <% else %>
-    <p>No hay imágenes</p>
-  <% end %>
 
-</div>
-
-
-<div>
-  <%= link_to "Edit this album", edit_album_path(@album) %> |
-  <%= link_to "Back to albums", albums_path %>
-
-  <%= button_to "Destroy this album", @album, method: :delete %>
+    <hr>
+    <div class="row mx-1">
+      <% if @album.images.attached? %>
+        <% @album.images.each_with_index do |photo, index| %>
+          <div class="col-2 p-1">
+            <%= image_tag photo, class: "clickable-image rounded w-100", style: "max-height: 220px;",
+                data: { bs_toggle: "modal", bs_target: "#imageModal#{index}", image_url: url_for(photo) } %>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="imageModal<%=index%>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-body text-center">
+                    <%= image_tag photo , class: "img-fluid", style: "max-height: 500px;" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <p>No hay imágenes</p>
+      <% end %>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+      <%= link_to "Edit this album", edit_album_path(@album), class: "btn btn-outline-success ms-2" %>
+      <%= button_to "Deshabilitar", @album, method: :delete, class: "btn btn-outline-danger ms-2" %>
+    </div>
+  </div>
 </div>

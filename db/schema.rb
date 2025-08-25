@@ -44,9 +44,11 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "albums", force: :cascade do |t|
     t.string "name"
-    t.boolean "enable"
+    t.boolean "enable", default: true
+    t.bigint "tournament_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_albums_on_tournament_id"
   end
 
   create_table "announcement_translations", force: :cascade do |t|
@@ -119,10 +121,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "game_details", force: :cascade do |t|
     t.bigint "game_id", null: false
-    t.string "game_time"
+    t.bigint "player_id"
+    t.bigint "team_id", null: false
+    t.string "detail_type", limit: 1
+    t.integer "number_set"
+    t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_game_details_on_game_id"
+    t.index ["player_id"], name: "index_game_details_on_player_id"
+    t.index ["team_id"], name: "index_game_details_on_team_id"
   end
 
   create_table "game_translations", force: :cascade do |t|
@@ -137,8 +145,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "games", force: :cascade do |t|
     t.integer "winning_team"
+    t.integer "win_score"
     t.integer "lose_team"
-    t.string "score"
+    t.integer "lose_score"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -258,10 +267,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "albums", "tournaments"
   add_foreign_key "announcements", "users"
   add_foreign_key "articles", "users"
   add_foreign_key "calendars", "tournaments"
   add_foreign_key "game_details", "games"
+  add_foreign_key "game_details", "players"
+  add_foreign_key "game_details", "teams"
   add_foreign_key "games", "calendars"
   add_foreign_key "games", "users"
   add_foreign_key "players", "teams"
