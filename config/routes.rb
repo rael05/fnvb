@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
     devise_for :users
     resources :tournaments
+    patch 'tournaments/:id/enable_change' => 'tournaments#enable_change', as: 'enable_change_tournament'
     root :to => "home#index"
     resources :users
     post 'users/new_user' => 'users#new_user'
@@ -17,6 +18,8 @@ Rails.application.routes.draw do
     resources :game_details
     resources :albums
     get 'calendars/get_teams_by_tournament/:team_id' => 'calendars#get_teams_by_tournament', as: 'teams_by_tournament'
+    get 'players/:id/get_players' => 'players#get_players', as: 'get_players'
+    post 'games/game_details' => 'games#game_details', as: 'save_game_details'
 
     match "/404", to: "errors#not_found", via: :all, as: :not_found
     match "/500", to: "errors#internal_server_error", via: :all

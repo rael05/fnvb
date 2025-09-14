@@ -46,6 +46,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.string "name"
     t.boolean "enable", default: true
     t.bigint "tournament_id", null: false
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tournament_id"], name: "index_albums_on_tournament_id"
@@ -64,6 +65,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "announcements", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_announcements_on_user_id"
@@ -82,6 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "articles", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_articles_on_user_id"
@@ -104,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.string "stage", limit: 1, default: "C"
     t.datetime "start_date_time"
     t.string "status", limit: 1, default: "P"
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["tournament_id"], name: "index_calendars_on_tournament_id"
@@ -126,6 +130,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.string "detail_type", limit: 1
     t.integer "number_set"
     t.integer "order"
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_game_details_on_game_id"
@@ -149,6 +154,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.integer "lose_team"
     t.integer "lose_score"
     t.bigint "user_id", null: false
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "calendar_id", null: false
@@ -167,6 +173,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.bigint "team_id", null: false
     t.string "nationality"
     t.string "gender", limit: 1
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["team_id"], name: "index_players_on_team_id"
@@ -185,6 +192,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
 
   create_table "statistics", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_statistics_on_user_id"
@@ -214,6 +222,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
     t.string "statistical_last_name"
     t.string "international_referee_name"
     t.string "international_referee_last_name"
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -241,6 +250,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_08_10_051807) do
   create_table "tournaments", force: :cascade do |t|
     t.boolean "international"
     t.integer "year", default: 2025
+    t.boolean "enabled", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

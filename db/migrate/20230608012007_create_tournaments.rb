@@ -3,6 +3,7 @@ class CreateTournaments < ActiveRecord::Migration[7.0]
     create_table :tournaments do |t|
       t.boolean :international
       t.integer :year, default: Date.current.year
+      t.boolean :enabled, default: true
 
       t.timestamps
     end

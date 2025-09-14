@@ -11,6 +11,7 @@ class CreatePlayers < ActiveRecord::Migration[7.0]
       t.references :team, null: false, foreign_key: true
       t.string :nationality
       t.string :gender, limit: 1
+      t.boolean :enabled, default: true
 
       t.timestamps
     end

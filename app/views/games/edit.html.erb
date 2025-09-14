@@ -29,12 +29,12 @@
     <div class="mb-3 row">
       <div class="col">
         <%= form.label :win_score, style: "display: block", class: "form-label" %>
-        <%= form.number_field :win_score, class: "form-control" %>
+        <%= form.number_field :win_score, class: "form-control", min: 0 %>
       </div>
 
       <div class="col">
         <%= form.label :lose_score, style: "display: block", class: "form-label" %>
-        <%= form.number_field :lose_score, class: "form-control" %>
+        <%= form.number_field :lose_score, class: "form-control", min: 0 %>
       </div>
     </div>
 
@@ -59,22 +59,31 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Registro de Jugada</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <%= form_with(model: @gameDetail) do |form| %>
+        <%= form_with model: @gameDetail, url: "/games/game_details", method: :post do |form| %>
+          <div class="modal-body py-0">
+            <%=form.number_field :game_id, value: @game.id, class: "d-none"%>
             <div class="mb-3">
               <%= form.label :team_id, class: "col-form-label" %>
               <%= form.select(:team_id, options_for_select(@team_options), {}, class: "form-select") %>
             </div>
             <div class="mb-3">
-              <label for="message-text" class="col-form-label">Message:</label>
-              <textarea class="form-control" id="message-text"></textarea>
+              <%= form.label :player_id, class: "col-form-label" %>
+              <%= form.select(:player_id, options_for_select(@payer_options), {}, class: "form-select") %>
             </div>
-          <% end %>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Guardar</button>
-        </div>
+            <div class="mb-3">
+              <%= form.label :detail_type, class: "col-form-label" %>
+              <%= form.select(:detail_type, options_for_select(@detail_types), {}, class: "form-select") %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :number_set, class: "col-form-label" %>
+              <%= form.number_field :number_set, class: "form-control", min: 1, max: 5 %>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <%= form.submit class: "btn btn-primary" %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -101,6 +110,30 @@
     } else if (this.value == selectWinning.value && this.value == options2) {
       selectWinning.value = options1;
     }
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const teamSelect = document.getElementById("game_detail_team_id");
+    const playerSelect = document.getElementById("game_detail_player_id");
+
+    teamSelect.addEventListener("change", function() {
+      const teamId = this.value;
+      if (!teamId) {
+        playerSelect.innerHTML = "";
+        return;
+      }
+      fetch(`/players/${teamId}/get_players`)
+        .then(response => response.json())
+        .then(data => {
+          playerSelect.innerHTML = "";
+          data.forEach(function(player) {
+            const option = document.createElement("option");
+            option.value = player.id;
+            option.text = player.name;
+            playerSelect.appendChild(option);
+          });
+        });
+    });
   });
 </script>
 

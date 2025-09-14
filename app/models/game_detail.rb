@@ -4,7 +4,7 @@ class GameDetail < ApplicationRecord
   translates :description
 
   DETAIL_TYPE_HASH = {
-    T: 'Ataque', R: 'Rec-Ataque', D: 'Def-Ataque', B: 'Bloqueo',
-    E: 'Error Saque', A: 'Error Ataque', F: 'Error NF'
+    T: 'Ataque', R: 'Recepción Ataque', D: 'Defensa Ataque', B: 'Bloqueo',
+    E: 'Error Saque', A: 'Error Ataque', F: 'Error No Forzado'
   }
 end

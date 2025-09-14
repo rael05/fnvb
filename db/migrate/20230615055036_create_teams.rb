@@ -24,6 +24,7 @@ class CreateTeams < ActiveRecord::Migration[7.0]
       t.string :statistical_last_name
       t.string :international_referee_name
       t.string :international_referee_last_name
+      t.boolean :enabled, default: true
 
       t.timestamps
     end

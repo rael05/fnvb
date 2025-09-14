@@ -3,6 +3,10 @@ class Player < ApplicationRecord
 
   has_one_attached :image
 
+  def full_name
+    "(#{number}) #{name} #{last_name}"
+  end
+
   def position_name
     POSITION_HASH[position.to_sym]
   end

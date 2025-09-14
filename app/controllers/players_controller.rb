@@ -73,6 +73,12 @@ class PlayersController < ApplicationController
     end
   end
 
+  # GET players/:id/get_players
+  def get_players
+    @players = Player.where(team_id: params[:id]).map { |player| { id: player.id, name: player.full_name } }.unshift(id: nil, name: "Sin Jugador")
+    render json: @players
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_player

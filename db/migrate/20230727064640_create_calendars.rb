@@ -7,6 +7,7 @@ class CreateCalendars < ActiveRecord::Migration[7.0]
       t.string :stage, limit: 1, default: 'C'
       t.datetime :start_date_time
       t.string :status, limit: 1, default: 'P'
+      t.boolean :enabled, default: true
 
       t.timestamps
     end

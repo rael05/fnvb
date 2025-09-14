@@ -21,14 +21,15 @@
   </div>
 
   <div id="tournaments" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
-    <% @tournaments.each do |tournament| %>
+    <% @tournaments.each_with_index do |tournament, index| %>
       <div class="col">
-        <div class="card">
+        <div class="card <%= "bg-black bg-opacity-25" unless tournament.enabled%>">
           <a href="<%= tournament_path(tournament) %>">
+            <% opacity = tournament.enabled ? 'opacity: 1;' : 'opacity: 0.3;' %>
             <% if tournament.image.present? %>
-              <%= image_tag tournament.image, class: 'card-img-top' %>
+              <%= image_tag tournament.image, class: 'card-img-top', style: opacity %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top') %>
+              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top', style: opacity) %>
             <% end %>
           </a>
           <div class="card-body">
@@ -51,9 +52,24 @@
                   </a>
                 </div>
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
-                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
-                    <i class="fa-solid fa-trash"></i>
+                  <a href="#" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle" data-bs-toggle="modal" data-bs-target="#modal-<%= index %>">
+                    <i class="fa-solid <%= tournament.enabled ? "fa-eye-slash" : "fa-eye" %>"></i>
                   </a>
+
+                  <div class="modal fade" id="modal-<%= index %>" tabindex="-1" aria-labelledby="modal-<%= index %>Label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-body">
+                          <p class="text-center fs-5 fw-bold">Esta seguro de <%= tournament.enabled ? "deshabilitar" : "habilitar" %> el torneo: "<%= tournament.name %>"?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          <%= button_to "Aceptar", enable_change_tournament_path(tournament), method: :patch, class: "btn btn-danger" %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </small>

@@ -4,7 +4,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Tournament
+    can :read, Tournament.where(enabled: true)
     can :read, Team
     can :read, Article
     can :read, Statistic
@@ -12,6 +12,7 @@ class Ability
     can :read, Calendar
     can :read, Player
     can :read, Game
+    can :get_players, Player
 
     if user&.present?
       can :read, User.find(user.id)
@@ -26,6 +27,7 @@ class Ability
 
     if user&.isVice?
       can :manage, Game
+      can :game_details, Game
       return(can :manage, Tournament)
     end
 

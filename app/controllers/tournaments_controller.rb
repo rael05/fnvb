@@ -1,13 +1,12 @@
 class TournamentsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_tournament, only: %i[ show edit update destroy generate_calendar]
+  before_action :set_tournament, only: %i[ show edit update destroy generate_calendar enable_change]
 
   # GET /tournaments or /tournaments.json
   def index
+    @tournaments = current_user&.isVice? ? Tournament.all : Tournament.where(enabled: true)
     if params[:search].present?
-      @tournaments = Tournament.with_translations(I18n.locale).where("name ILIKE ?", "%#{params[:search]}%")
-    else
-      @tournaments = Tournament.all
+      @tournaments = @tournaments.with_translations(I18n.locale).where("name ILIKE ?", "%#{params[:search]}%")
     end
   end
 
@@ -78,6 +77,14 @@ class TournamentsController < ApplicationController
     end
     respond_to do |format|
       format.html { render :show, status: :ok, location: @tournament }
+    end
+  end
+
+  def enable_change
+    @tournament.update(enabled: !@tournament.enabled)
+    respond_to do |format|
+      format.html { redirect_to tournaments_url, notice: t(:tournament_was_successfully_disabled) }
+      format.json { head :no_content }
     end
   end
 

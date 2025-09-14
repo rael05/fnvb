@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
   end
 
   def raise_not_found(exception = nil)
-    raise ActionController::RoutingError, 'Not Found'
+    #debugger
+    #raise ActionController::RoutingError, 'Not Found'
+    render 'errors/not_found', status: :not_found
   end
 end

@@ -7,6 +7,7 @@ class CreateGameDetails < ActiveRecord::Migration[7.0]
       t.string :detail_type, limit: 1
       t.integer :number_set
       t.integer :order
+      t.boolean :enabled, default: true
 
       t.timestamps
     end

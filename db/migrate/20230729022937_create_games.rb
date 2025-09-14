@@ -6,6 +6,7 @@ class CreateGames < ActiveRecord::Migration[7.0]
       t.integer :lose_team
       t.integer :lose_score
       t.references :user, null: false, foreign_key: true
+      t.boolean :enabled, default: true
 
       t.timestamps
     end
