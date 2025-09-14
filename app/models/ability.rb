@@ -4,14 +4,24 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Tournament.where(enabled: true)
-    can :read, Team
-    can :read, Article
-    can :read, Statistic
-    can :read, Announcement
-    can :read, Calendar
-    can :read, Player
-    can :read, Game
+    can :index, Tournament
+    can :index, Team
+    can :index, Article
+    can :index, Statistic
+    can :index, Announcement
+    can :index, Calendar
+    can :index, Player
+    can :index, Game
+
+    can :show, Tournament.where(enabled: true)
+    can :show, Team.where(enabled: true)
+    can :show, Article.where(enabled: true)
+    can :show, Statistic.where(enabled: true)
+    can :show, Announcement.where(enabled: true)
+    can :show, Calendar.where(enabled: true)
+    can :show, Player.where(enabled: true)
+    can :show, Game.where(enabled: true)
+
     can :get_players, Player
 
     if user&.present?
@@ -53,6 +63,7 @@ class Ability
   private
   def divulgationBasicsAbilities(model, user)
     can :create, model
+    can :enable_change, model
     if model&.find_by(user_id: user.id)&.present?
       return(can :manage, model.find_by(user_id: user.id))
     end

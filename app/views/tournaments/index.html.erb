@@ -59,12 +59,22 @@
                   <div class="modal fade" id="modal-<%= index %>" tabindex="-1" aria-labelledby="modal-<%= index %>Label" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalLabel-<%= index %>">
+                            <%= tournament.enabled ? "Deshabilitar torneo" : "Habilitar torneo" %>
+                          </h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
                         <div class="modal-body">
-                          <p class="text-center fs-5 fw-bold">Esta seguro de <%= tournament.enabled ? "deshabilitar" : "habilitar" %> el torneo: "<%= tournament.name %>"?</p>
+                          ¿Estás seguro que deseas <%= tournament.enabled ? "deshabilitar" : "habilitar" %> el torneo: "<%= tournament.name %>"?
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                          <%= button_to "Aceptar", enable_change_tournament_path(tournament), method: :patch, class: "btn btn-danger" %>
+                          <%= button_to (tournament.enabled ? "Deshabilitar" : "Habilitar"),
+                              enable_change_tournament_path(tournament),
+                              method: :patch,
+                              class: "btn btn-danger",
+                              form: { data: { turbo: false } } %>
                         </div>
                       </div>
                     </div>

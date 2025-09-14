@@ -9,12 +9,13 @@
   </h1>
 
   <div id="articles" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
-    <% @articles.each do |article| %>
+    <% @articles.each_with_index do |article, index| %>
       <div class="col">
-        <div class="card">
+        <div class="card <%= "bg-black bg-opacity-25" unless article.enabled%>">
           <a href="<%= article_path(article) %>">
+            <% opacity = article.enabled ? 'opacity: 1;' : 'opacity: 0.3;' %>
             <% if article.image.present? %>
-              <%= image_tag article.image, class: 'card-img-top' %>
+              <%= image_tag article.image, class: 'card-img-top', style: opacity %>
             <% end %>
           </a>
           <div class="card-body">
@@ -43,12 +44,38 @@
                   </a>
                 </div>
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
-                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
-                    <i class="fa-solid fa-eye-slash"></i>
+                  <!-- Botón para abrir el modal -->
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#modal-<%= index %>" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                    <i class="fa-solid <%= article.enabled ? "fa-eye-slash" : "fa-eye" %>"></i>
                   </a>
                 </div>
               </div>
             </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para cambiar enabled -->
+      <div class="modal fade" id="modal-<%= index %>" tabindex="-1" aria-labelledby="modalLabel-<%= index %>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLabel-<%= index %>">
+                <%= article.enabled ? "Deshabilitar artículo" : "Habilitar artículo" %>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              ¿Estás seguro que deseas <%= article.enabled ? "deshabilitar" : "habilitar" %> el artículo: "<%= article.title %>"?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <%= button_to (article.enabled ? "Deshabilitar" : "Habilitar"),
+                    enable_change_article_path(article),
+                    method: :patch,
+                    class: "btn btn-danger",
+                    form: { data: { turbo: false } } %>
+            </div>
           </div>
         </div>
       </div>
