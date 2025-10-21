@@ -13,7 +13,11 @@ Rails.application.routes.draw do
     post 'users/new_user' => 'users#new_user'
     get 'users/:id/change_password_yourself' => 'users#change_password_yourself', as: 'change_password'
     get 'tournaments/:id/generate_calendar' => 'tournaments#generate_calendar', as: 'generate_calendar'
-    resources :teams
+    resources :teams do
+      member do
+        patch :enable_change
+      end
+    end
     resources :articles do
       member do
         patch :enable_change
@@ -22,10 +26,18 @@ Rails.application.routes.draw do
     resources :announcements
     resources :statistics
     resources :calendars
-    resources :players
+    resources :players do
+      member do
+        patch :enable_change
+      end
+    end
     resources :games
     resources :game_details
-    resources :albums
+    resources :albums do
+      member do
+        patch :enable_change
+      end
+    end
     get 'calendars/get_teams_by_tournament/:team_id' => 'calendars#get_teams_by_tournament', as: 'teams_by_tournament'
     get 'players/:id/get_players' => 'players#get_players', as: 'get_players'
     post 'games/game_details' => 'games#game_details', as: 'save_game_details'

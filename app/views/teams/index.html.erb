@@ -21,14 +21,14 @@
   </div>
 
   <div id="teams" class="mt-2 row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-3">
-    <% @teams.each do |team| %>
+    <% @teams.each_with_index do |team, index| %>
       <div class="col">
-        <div class="card">
+        <div class="card <%= "bg-black bg-opacity-25" unless team.enabled %>">
           <a href="<%= team_path(team) %>">
             <% if team.image.present? %>
-              <%= image_tag team.image, class: 'card-img-top', style: 'height: 180px' %>
+              <%= image_tag team.image, class: 'card-img-top', style: team.enabled ? 'height: 180px' : 'height: 180px; opacity: 0.3;' %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top') %>
+              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top', style: team.enabled ? '' : 'opacity: 0.3;') %>
             <% end %>
           </a>
           <div class="card-body">
@@ -42,9 +42,9 @@
               <%= team.delegate_name + " " + team.delegate_last_name %>
             </p>
             <strong style="font-size: 15px;">Entrenador:</strong>
-            <P class="card-text">
+            <p class="card-text">
               <%= team.head_coach_name + " " + team.head_coach_last_name %>
-            </P>
+            </p>
           </div>
           <div class="card-footer">
             <small class="text-body-secondary">
@@ -55,12 +55,38 @@
                   </a>
                 </div>
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
-                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
+                  <!-- Botón para abrir el modal -->
+                  <a href="#" data-bs-toggle="modal" data-bs-target="#modal-<%= index %>" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
                     <i class="fa-solid fa-eye-slash"></i>
                   </a>
                 </div>
               </div>
             </small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal para cambiar enabled -->
+      <div class="modal fade" id="modal-<%= index %>" tabindex="-1" aria-labelledby="modalLabel-<%= index %>" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLabel-<%= index %>">
+                <%= team.enabled ? "Deshabilitar equipo" : "Habilitar equipo" %>
+              </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+              ¿Estás seguro que deseas <%= team.enabled ? "deshabilitar" : "habilitar" %> este equipo?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <%= button_to (team.enabled ? "Deshabilitar" : "Habilitar"),
+                    enable_change_team_path(team),
+                    method: :patch,
+                    class: "btn btn-danger",
+                    form: { data: { turbo: false } } %>
+            </div>
           </div>
         </div>
       </div>

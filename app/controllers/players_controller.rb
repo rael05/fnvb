@@ -14,10 +14,9 @@ class PlayersController < ApplicationController
 
   # GET /players or /players.json
   def index
+    @players = current_user&.isInternacional? || current_user&.isVice? ? Player.all : Player.where(enabled: true)
     if params[:search].present?
-      @players = Player.where("name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
-    else
-      @players = Player.all
+      @players = @players.where("name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end
   end
 

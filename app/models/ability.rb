@@ -12,6 +12,7 @@ class Ability
     can :index, Calendar
     can :index, Player
     can :index, Game
+    can :index, Album
 
     can :show, Tournament.where(enabled: true)
     can :show, Team.where(enabled: true)
@@ -21,6 +22,7 @@ class Ability
     can :show, Calendar.where(enabled: true)
     can :show, Player.where(enabled: true)
     can :show, Game.where(enabled: true)
+    can :show, Album.where(enabled: true)
 
     can :get_players, Player
 
@@ -38,6 +40,8 @@ class Ability
     if user&.isVice?
       can :manage, Game
       can :game_details, Game
+      can :enable_change, Player
+      can :enable_change, Team
       return(can :manage, Tournament)
     end
 
@@ -56,6 +60,7 @@ class Ability
       divulgationBasicsAbilities(Article, user)
       divulgationBasicsAbilities(Statistic, user)
       divulgationBasicsAbilities(Announcement, user)
+      can :manage, Album
       return(can :manage, Calendar)
     end
   end

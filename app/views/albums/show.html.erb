@@ -38,7 +38,32 @@
     </div>
     <div class="d-flex justify-content-center mt-3">
       <%= link_to "Edit this album", edit_album_path(@album), class: "btn btn-outline-success ms-2" %>
-      <%= button_to "Deshabilitar", @album, method: :delete, class: "btn btn-outline-danger ms-2" %>
+      <!-- Botón para abrir el modal de habilitar/deshabilitar -->
+      <button type="button" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#modal-enable-album">
+        <%= @album.enabled ? "Deshabilitar" : "Habilitar" %>
+      </button>
+    </div>
+
+    <!-- Modal para habilitar/deshabilitar álbum -->
+    <div class="modal fade" id="modal-enable-album" tabindex="-1" aria-labelledby="modalEnableAlbumLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalEnableAlbumLabel">
+              <%= @album.enabled ? "Deshabilitar álbum" : "Habilitar álbum" %>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro que deseas <%= @album.enabled ? "deshabilitar" : "habilitar" %> este álbum?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <%= button_to (@album.enabled ? "Deshabilitar" : "Habilitar"),
+                  enable_change_album_path(@album), method: :patch, class: "btn btn-danger" %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

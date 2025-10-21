@@ -4,10 +4,9 @@ class TeamsController < ApplicationController
 
   # GET /teams or /teams.json
   def index
+    @teams = current_user&.isInternacional? || current_user&.isVice? ? Team.all : Team.where(enabled: true)
     if params[:search].present?
-      @teams = Team.where("team_name ILIKE ?", "%#{params[:search]}%")
-    else
-      @teams = Team.all
+      @teams = @teams.where("team_name ILIKE ?", "%#{params[:search]}%")
     end
   end
 
