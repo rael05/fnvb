@@ -418,6 +418,8 @@ article_1 = Article.create({
   description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 })
 article_1.image.attach(io: File.open("#{Rails.root}/app/assets/images/leonas.jpg"), filename: 'Leonas')
+article_1.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
+article_1.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: 'lorem-ipsumEN')
 
 article_2 = Article.create({
   user_id: di_user.id,
@@ -425,6 +427,8 @@ article_2 = Article.create({
   description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 })
 article_2.image.attach(io: File.open("#{Rails.root}/app/assets/images/edicion.jpg"), filename: 'Edicion')
+article_2.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
+article_2.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: 'lorem-ipsumEN')
 
 article_3 = Article.create({
   user_id: di_user.id,
@@ -432,6 +436,57 @@ article_3 = Article.create({
   description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
 })
 article_3.image.attach(io: File.open("#{Rails.root}/app/assets/images/sequia.jpg"), filename: 'sequia')
+article_3.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
+article_3.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: 'lorem-ipsumEN')
+
+I18n.locale = :en
+article_1.update({title: "Leonas maintain first place in women's volleyball", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
+article_2.update({title: "Second edition of the Women's Volleyball League in Nicaragua is approaching", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
+article_3.update({title: "Nicaragua ends drought and takes bronze", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
+I18n.locale = :es
+
+announcement_1 = Announcement.create({
+  user_id: di_user.id,
+  title: "Convocatoria a la selección nacional mayor",
+  description: "La Federación Nicaragüense de Voleibol convoca a las atletas seleccionadas a presentarse al campamento nacional de preparación.\n\nLas prácticas se realizarán de lunes a viernes en el Gimnasio de Voleibol. Cada participante deberá llevar su uniforme de entrenamiento y documento de identificación."
+})
+announcement_1.image.attach(io: File.open("#{Rails.root}/app/assets/images/leonas.jpg"), filename: "seleccion-nacional.jpg")
+announcement_1.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: "convocatoria-seleccion-es.pdf")
+announcement_1.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: "national-team-call-en.pdf")
+
+announcement_2 = Announcement.create({
+  user_id: di_user.id,
+  title: "Inscripciones abiertas para el campeonato nacional juvenil",
+  description: "Se invita a clubes y asociaciones departamentales a inscribir sus equipos para el Campeonato Nacional Juvenil.\n\nLas delegaciones deben enviar la lista de jugadores y cuerpo técnico antes del cierre de inscripción. El calendario oficial se publicará una vez confirmados los equipos participantes."
+})
+announcement_2.image.attach(io: File.open("#{Rails.root}/app/assets/images/juego-1.jpeg"), filename: "campeonato-juvenil.jpeg")
+announcement_2.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: "inscripcion-juvenil-es.pdf")
+announcement_2.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: "youth-registration-en.pdf")
+
+statistic_1 = Statistic.create({
+  user_id: di_user.id,
+  title: "Resultados de la Liga Nacional Femenina",
+  description: "Resumen estadístico de la última jornada de la Liga Nacional Femenina.\n\nEl informe incluye resultados por encuentro, posiciones de los equipos y principales indicadores individuales de las jugadoras."
+})
+statistic_1.image.attach(io: File.open("#{Rails.root}/app/assets/images/edicion.jpg"), filename: "liga-femenina.jpg")
+statistic_1.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: "resultados-liga-es.pdf")
+statistic_1.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: "league-results-en.pdf")
+
+statistic_2 = Statistic.create({
+  user_id: di_user.id,
+  title: "Balance de participación por departamento",
+  description: "Este informe presenta la participación de equipos y atletas por departamento durante la temporada.\n\nLos datos permiten observar el alcance de las competencias y orientar la planificación de futuras actividades de desarrollo."
+})
+statistic_2.image.attach(io: File.open("#{Rails.root}/app/assets/images/tournament_ball.jpg"), filename: "participacion-departamental.jpg")
+statistic_2.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: "participacion-es.pdf")
+statistic_2.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: "participation-en.pdf")
+
+I18n.locale = :en
+announcement_1.update({title: "Call-up for the senior national team", description: "The Nicaraguan Volleyball Federation invites the selected athletes to attend the national training camp.\n\nPractice will take place Monday through Friday at the Volleyball Gym. Each participant should bring training gear and identification."})
+announcement_2.update({title: "Registration open for the national youth championship", description: "Clubs and departmental associations are invited to register their teams for the National Youth Championship.\n\nDelegations must submit their player and coaching staff lists before registration closes. The official schedule will be published once participating teams are confirmed."})
+statistic_1.update({title: "National Women's League results", description: "Statistical summary of the latest round of the National Women's League.\n\nThe report includes match results, team standings, and key individual indicators for the athletes."})
+statistic_2.update({title: "Participation report by department", description: "This report presents team and athlete participation by department during the season.\n\nThe data shows the reach of the competitions and supports planning for future development activities."})
+I18n.locale = :es
 
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 1.days, team1: nicaragua_team.id, team2: guatemala_team.id, description: 'Partido inaugural del torneo'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 2.days, team1: nicaragua_team.id, team2: salvador_team.id, description: 'Partido jugado en el estadio nacional'})

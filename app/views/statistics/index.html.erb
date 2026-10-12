@@ -2,7 +2,7 @@
 
 <div class="shadow p-3 rounded-3">
   <h1 class="text-center border-bottom pb-2">
-    Statistics
+    <%= t(:statistics) %>
     <a href="<%= new_statistic_path %>" style="text-decoration: none" class="ms-3">
       <i class="fa-solid fa-circle-plus fa-xs"></i>
     </a>
@@ -14,17 +14,17 @@
         <div class="card">
           <a href="<%= statistic_path(statistic) %>">
             <% if statistic.image.present? %>
-              <%= image_tag statistic.image, class: 'card-img-top' %>
+              <%= image_tag statistic.image, class: 'card-img-top', width: '100%', height: '200', object_fit: 'cover' %>
             <% end %>
           </a>
           <div class="card-body">
             <h5 class="card-title">
               <a href="<%= statistic_path(statistic) %>" class="link-dark" style="text-decoration: none">
-                <%= statistic.title.truncate(50) %>
+                <%= statistic.title&.truncate(50) %>
               </a>
             </h5>
             <p class="card-text">
-              <%= statistic.description.truncate(90) %>
+              <%= statistic.description&.truncate(85) %>
               <a href="<%= statistic_path(statistic) %>"> Leer más. </a>
             </p>
           </div>

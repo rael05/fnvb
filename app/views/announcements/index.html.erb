@@ -2,7 +2,7 @@
 
 <div class="shadow p-3 rounded-3">
   <h1 class="text-center border-bottom pb-2">
-    Announcements
+    <%= t(:announcement) %>
     <a href="<%= new_announcement_path %>" style="text-decoration: none" class="ms-3">
       <i class="fa-solid fa-circle-plus fa-xs"></i>
     </a>
@@ -14,17 +14,17 @@
         <div class="card">
           <a href="<%= announcement_path(announcement) %>">
             <% if announcement.image.present? %>
-              <%= image_tag announcement.image, class: 'card-img-top' %>
+              <%= image_tag announcement.image, class: 'card-img-top', width: '100%', height: '200', object_fit: 'cover' %>
             <% end %>
           </a>
           <div class="card-body">
             <h5 class="card-title">
               <a href="<%= announcement_path(announcement) %>" class="link-dark" style="text-decoration: none">
-                <%= announcement.title.truncate(50) %>
+                <%= announcement.title&.truncate(50) %>
               </a>
             </h5>
             <p class="card-text">
-              <%= announcement.description.truncate(90) %>
+              <%= announcement.description.truncate(85) %>
               <a href="<%= announcement_path(announcement) %>"> Leer más. </a>
             </p>
           </div>

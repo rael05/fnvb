@@ -1,70 +1,116 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :head do %>
+  <style>
+    .announcement-show {
+      --content-navy: #102b55;
+      --content-red: #c9233c;
+      --content-muted: #64748b;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: clamp(1.25rem, 4vw, 3rem) 0;
+      color: #273449;
+    }
 
-<div class="shadow p-2 pt-2 rounded-2">
-  <h3 class="mb-0">
-    <a href="<%= announcements_path %>" style="text-decoration: none">
-      <i class="fa-regular fa-circle-left fa-sm"></i>
-    </a><%= @announcement.title %>
-  </h3>
-  <p class="ms-2 text-secondary"> Convocatoria creada el <%= @announcement.created_at.strftime('%b %d, %Y') %> </p>
-  <% if @announcement.image.present? %>
-    <%= image_tag @announcement.image, class: 'img-fluid rounded-2 w-75 mb-1 d-block mx-auto' %>
+    .announcement-show .content-back {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      margin-bottom: 1.25rem;
+      color: var(--content-muted);
+      text-decoration: none;
+    }
+
+    .announcement-show .content-back:hover { color: var(--content-red); }
+    .announcement-show .content-panel { overflow: hidden; border: 1px solid #e7edf5; border-radius: 1rem; background: #fff; box-shadow: 0 .75rem 2.25rem rgba(16, 43, 85, .08); }
+    .announcement-show .content-header, .announcement-show .content-body { padding: clamp(1.5rem, 4vw, 2.75rem); }
+    .announcement-show .content-title { color: var(--content-navy); font-weight: 800; line-height: 1.2; }
+    .announcement-show .content-meta { color: var(--content-muted); font-size: .95rem; }
+    .announcement-show .content-image { display: block; width: 100%; max-height: 560px; object-fit: cover; background: #f1f5f9; }
+    .announcement-show .content-description { font-size: 1.08rem; line-height: 1.8; }
+    .announcement-show .content-description p:last-child { margin-bottom: 0; }
+    .announcement-show .content-heading { color: var(--content-navy); font-weight: 750; }
+    .announcement-show .content-file { height: 100%; border: 1px solid #e7edf5; border-radius: .85rem; background: #f8fafc; }
+    .announcement-show .content-footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1.5rem; margin-top: 2rem; padding-top: 1.25rem; border-top: 1px solid #e7edf5; color: var(--content-muted); font-size: .9rem; }
+  </style>
+<% end %>
+
+<main class="announcement-show">
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="status">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
   <% end %>
-  <p class="my-2 border-top border-2"><%= simple_format @announcement.description %></p>
 
-  <h5>Archivos de la noticia</h5>
+  <%= link_to announcements_path, class: "content-back" do %>
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Volver a convocatorias</span>
+  <% end %>
 
-  <div class="row row-cols-1 row-cols-md-2 g-2 mb-3">
-    <% if @announcement.pdf_es_file.present? %>
-      <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"> <%= @announcement.pdf_es_file.filename %> </h5>
-            <p class="card-text">Archivo en español</p>
-            <%= link_to(
-                  'Ver archivo',
-                  rails_blob_path(@announcement.pdf_es_file, disposition: 'preview'),
-                  class: 'card-link'
-                ) %>
-            <%= link_to(
-                  'Descargar',
-                  rails_blob_path(@announcement.pdf_es_file, disposition: 'attachment'),
-                  class: 'card-link'
-                ) %>
-          </div>
-        </div>
-      </div>
+  <article class="content-panel">
+    <header class="content-header">
+      <span class="text-danger fw-bold text-uppercase small">Convocatorias FNVB</span>
+      <h1 class="content-title display-6 mt-2 mb-3"><%= @announcement.title %></h1>
+      <p class="content-meta mb-0"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>Publicada el <%= l(@announcement.created_at.to_date, format: :long) %></p>
+    </header>
+
+    <% if @announcement.image.present? %>
+      <%= image_tag @announcement.image, alt: @announcement.title, class: "content-image" %>
     <% end %>
 
-    <% if @announcement.pdf_en_file.present? %>
-      <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"> <%= @announcement.pdf_en_file.filename %> </h5>
-            <p class="card-text">Archivo en ingles</p>
-            <%= link_to(
-                  'Ver archivo',
-                  rails_blob_path(@announcement.pdf_en_file, disposition: 'preview'),
-                  class: 'card-link'
-                ) %>
-            <%= link_to(
-                  'Descargar',
-                  rails_blob_path(@announcement.pdf_en_file, disposition: 'attachment'),
-                  class: 'card-link'
-                ) %>
+    <div class="content-body">
+      <div class="content-description"><%= simple_format @announcement.description %></div>
+
+      <% if @announcement.pdf_es_file.present? || @announcement.pdf_en_file.present? %>
+        <section class="mt-5" aria-labelledby="announcement-files-heading">
+          <h2 id="announcement-files-heading" class="content-heading h4 mb-3">Documentos adjuntos</h2>
+          <div class="row g-3">
+            <% if @announcement.pdf_es_file.present? %>
+              <div class="col-md-6">
+                <div class="content-file p-3 p-md-4">
+                  <div class="d-flex gap-3">
+                    <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
+                    <div class="min-w-0">
+                      <h3 class="h6 fw-bold mb-1">Documento en español</h3>
+                      <p class="small text-secondary text-break mb-3"><%= @announcement.pdf_es_file.filename %></p>
+                      <div class="d-flex flex-wrap gap-3">
+                        <%= link_to "Ver archivo", rails_blob_path(@announcement.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to "Descargar", rails_blob_path(@announcement.pdf_es_file, disposition: "attachment") %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <% if @announcement.pdf_en_file.present? %>
+              <div class="col-md-6">
+                <div class="content-file p-3 p-md-4">
+                  <div class="d-flex gap-3">
+                    <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
+                    <div class="min-w-0">
+                      <h3 class="h6 fw-bold mb-1">Documento en inglés</h3>
+                      <p class="small text-secondary text-break mb-3"><%= @announcement.pdf_en_file.filename %></p>
+                      <div class="d-flex flex-wrap gap-3">
+                        <%= link_to "Ver archivo", rails_blob_path(@announcement.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to "Descargar", rails_blob_path(@announcement.pdf_en_file, disposition: "attachment") %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
           </div>
-        </div>
-      </div>
-    <% end %>
+        </section>
+      <% end %>
+
+      <footer class="content-footer">
+        <span>Última actualización: <%= l(@announcement.updated_at.to_date, format: :long) %></span>
+        <span>Publicada por <%= @announcement.user.full_name %></span>
+      </footer>
+    </div>
+  </article>
+
+  <div class="d-flex flex-wrap gap-2 mt-3">
+    <%= link_to "Volver a convocatorias", announcements_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
+    <%= link_to "Editar convocatoria", edit_announcement_path(@announcement), class: "btn btn-outline-primary rounded-pill px-4" %>
+    <%= button_to "Eliminar convocatoria", @announcement, method: :delete, class: "btn btn-outline-danger rounded-pill px-4", form: { data: { turbo_confirm: "¿Eliminar esta convocatoria?" } } %>
   </div>
-
-  <p class="ms-2 text-secondary mb-0"> Ultima modificación <%= @announcement.updated_at.strftime('%b %d, %Y') %> </p>
-  <p class="ms-2 text-secondary mt-0"> Convocatoria escrita por <%= @announcement.user.full_name %> </p>
-
-  <%= link_to "Back to announcements", announcements_path, class: 'btn btn-outline-secondary' %>
-  <%= link_to "Edit this announcement", edit_announcement_path(@announcement), class: 'btn btn-outline-info' %>
-</div>
-
-<div>
-  <%= button_to "Destroy this announcement", @announcement, method: :delete, class: 'btn btn-outline-danger mt-3' %>
-</div>
+</main>

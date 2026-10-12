@@ -2,7 +2,7 @@
 
 <div class="shadow p-3 rounded-3">
   <h1 class="text-center border-bottom pb-2">
-    Articles
+    <%= t(:news) %>
     <a href="<%= new_article_path %>" style="text-decoration: none" class="ms-3">
       <i class="fa-solid fa-circle-plus fa-xs"></i>
     </a>
@@ -15,18 +15,18 @@
           <a href="<%= article_path(article) %>">
             <% opacity = article.enabled ? 'opacity: 1;' : 'opacity: 0.3;' %>
             <% if article.image.present? %>
-              <%= image_tag article.image, class: 'card-img-top', style: opacity %>
+              <%= image_tag article.image, class: 'card-img-top', style: opacity, width: '100%', height: '200', object_fit: 'cover' %>
             <% end %>
           </a>
           <div class="card-body">
             <h5 class="card-title">
               <a href="<%= article_path(article) %>" class="link-dark" style="text-decoration: none">
-                <%= article.title.truncate(50) %>
+                <%= article.title&.truncate(50) %>
               </a>
             </h5>
             <p class="card-text">
-              <%= article.description.truncate(90) %>
-              <a href="<%= article_path(article) %>"> Leer más. </a>
+              <%= article.description&.truncate(85) %>
+              <a href="<%= article_path(article) %>"> <%= t(:read_more) %> </a>
             </p>
           </div>
           <div class="card-footer">
@@ -35,7 +35,7 @@
               <br>
               Ultima modificación <%= article.updated_at.strftime('%b %d, %Y') %>
               <br>
-              Escrita por <%= article.user.full_name.truncate(28) %>
+              Escrita por <%= article.user.full_name&.truncate(28) %>
               <br>
               <div class="row ms-0 mt-1">
                 <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">

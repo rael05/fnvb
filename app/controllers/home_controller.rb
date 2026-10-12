@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @threeArticles = Article.limit(3)
+    @threeArticles = Article.where(enabled: true).limit(3)
   end
 end
