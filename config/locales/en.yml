@@ -99,6 +99,8 @@ en:
   add_player: 'Add Player'
   user_team_warning: 'This user already has a team created'
   user_no_team: 'Without team'
+  record_was_successfully_enabled: 'The record was enabled successfully.'
+  record_was_successfully_disabled: 'The record was disabled successfully.'
   new_calendar: 'New calendar'
   password_instructions: 'Send me reset password instructions'
   search_by_name: 'Search by name'

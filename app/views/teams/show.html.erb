@@ -80,7 +80,9 @@
       </div>
       <div class="d-flex justify-content-center">
         <%= link_to "Editar", edit_team_path(@team), class: "btn btn-outline-info me-2" %>
-        <%= button_to "Elimiar", @team, method: :delete, class: "btn btn-outline-danger ms-2" %>
+        <%= button_to(enable_change_team_path(@team), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
+          <i class="fa-solid <%= @team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @team.enabled? ? "Deshabilitar" : "Habilitar" %>
+        <% end %>
       </div>
     </div>
     <div class="col shadow p-3 ms-3 mb-5 bg-body-tertiary rounded">
@@ -113,6 +115,50 @@
           <% end %>
         </tbody>
       </table>
+
+      <section class="team-upcoming mt-5 text-start">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <span class="team-upcoming__eyebrow">Calendario</span>
+            <h2 class="team-upcoming__title mb-0">Próximos partidos</h2>
+          </div>
+          <%= link_to calendars_path, class: "team-upcoming__calendar-link" do %>
+            Ver calendario <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+          <% end %>
+        </div>
+
+        <% if @upcoming_matches.any? %>
+          <div class="row g-3">
+            <% @upcoming_matches.each do |match| %>
+              <% opponent = match.team_one&.id == @team.id ? match.team_two : match.team_one %>
+              <div class="col-12 col-lg-6">
+                <article class="team-upcoming__match h-100">
+                  <div class="team-upcoming__date">
+                    <i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>
+                    <%= l(match.start_date_time, format: :short) %>
+                    <span class="team-upcoming__time"><%= l(match.start_date_time, format: "%H:%M") %></span>
+                  </div>
+                  <div class="team-upcoming__versus">
+                    <span class="team-upcoming__team"><%= @team.team_name %></span>
+                    <span class="team-upcoming__vs">VS</span>
+                    <span class="team-upcoming__team"><%= opponent&.team_name || "Rival por definir" %></span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mt-3">
+                    <span class="team-upcoming__tournament"><%= match.tournament.name %> <%= match.tournament.year %></span>
+                    <%= link_to "Detalles", calendar_path(match), class: "team-upcoming__details" %>
+                  </div>
+                </article>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="team-upcoming__empty">
+            <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
+            <span>No hay partidos próximos programados para este equipo.</span>
+          </div>
+        <% end %>
+      </section>
+
       <div class="d-flex justify-content-end">
         <%= link_to "PDF", team_path(@team, format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
         <%= link_to "EXCEL", team_path(@team, format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>

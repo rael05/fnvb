@@ -1,35 +1,192 @@
-<p style="color: green"><%= notice %></p>
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+  </div>
+<% end %>
 
-<div class="card mx-auto my-4 shadow" style="max-width: 600px;">
-  <div class="row g-0">
-    <div class="col-md-4 d-flex align-items-center justify-content-center">
-      <% if @player.image.present? %>
-        <%= image_tag @player.image, class: "img-fluid rounded-start", style: "max-height: 220px;" %>
-      <% else %>
-        <%= image_tag "default_male.png", alt: "Default player image", class: "img-fluid rounded-start", style: "max-height: 220px;" %>
-      <% end %>
-    </div>
-    <div class="col-md-8">
-      <div class="card-header text-center">
-        <h3><%= "#{@player.name} #{@player.last_name}" %></h3>
-        <span class="badge bg-primary fs-6"><%= @player.position_name %></span>
+<main class="player-profile my-4 my-lg-5">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <%= link_to players_path, class: "player-profile__back" do %>
+      <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i><%= t(:back_to_players) %>
+    <% end %>
+    <% if @player.enabled? %>
+      <span class="player-profile__status"><span></span>Activo</span>
+    <% else %>
+      <span class="player-profile__status player-profile__status--inactive"><span></span>Inactivo</span>
+    <% end %>
+  </div>
+
+  <section class="player-profile__hero shadow-sm">
+    <div class="row g-0 align-items-stretch">
+      <div class="col-lg-5 player-profile__photo-wrap">
+        <% if @player.image.present? %>
+          <%= image_tag @player.image, alt: "Foto de #{@player.name} #{@player.last_name}", class: "player-profile__photo" %>
+        <% elsif @player.gender == "F" %>
+          <%= image_tag "default_female.png", alt: "Imagen predeterminada", class: "player-profile__photo player-profile__photo--default" %>
+        <% else %>
+          <%= image_tag "default_male.png", alt: "Imagen predeterminada", class: "player-profile__photo player-profile__photo--default" %>
+        <% end %>
+        <div class="player-profile__number" aria-label="Número de camiseta">
+          <span>#</span><%= @player.number.presence || "—" %>
+        </div>
       </div>
-      <div class="card-body">
-        <ul class="list-group list-group-flush mb-3">
-          <li class="list-group-item"><strong><%= t(:number) %>:</strong> <%= @player.number %></li>
-          <li class="list-group-item"><strong><%= t(:birthday) %>:</strong> <%= l(@player.birthday) %></li>
-          <li class="list-group-item"><strong><%= t(:gender) %>:</strong> <%= @player.gender_name %></li>
-          <li class="list-group-item"><strong><%= t(:weight) %>:</strong> <%= @player.weight %> kg</li>
-          <li class="list-group-item"><strong><%= t(:height) %>:</strong> <%= @player.height %> m</li>
-          <li class="list-group-item"><strong><%= t(:team) %>:</strong> <%= @player.team.team_name %></li>
-          <li class="list-group-item"><strong><%= t(:nationality) %>:</strong> <%= @player.nationality %></li>
-        </ul>
-        <div class="d-flex justify-content-between">
-          <%= link_to t(:edit), edit_player_path(@player), class: "btn btn-outline-info" %>
-          <%= link_to t(:back_to_players), players_path, class: "btn btn-outline-secondary" %>
-          <%= button_to t(:destroy), @player, method: :delete, data: { confirm: t(:are_you_sure) }, class: "btn btn-outline-danger" %>
+
+      <div class="col-lg-7 player-profile__intro ps-3 pe-3">
+        <p class="player-profile__eyebrow mb-2">Perfil del jugador</p>
+        <h1 class="player-profile__name"><%= @player.name %><br><strong><%= @player.last_name %></strong></h1>
+        <span class="player-profile__position"><i class="fa-solid fa-volleyball me-2" aria-hidden="true"></i><%= @player.position_name.presence || "Posición no especificada" %></span>
+
+        <div class="player-profile__team mt-4">
+          <span class="player-profile__team-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <div>
+            <span class="player-profile__meta-label"><%= t(:team) %></span>
+            <%= link_to @player.team.team_name, team_path(@player.team), class: "player-profile__team-link" %>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square ms-auto" aria-hidden="true"></i>
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="row g-3 mt-2" aria-label="Características físicas">
+    <div class="col-6 col-lg-3">
+      <div class="player-profile__stat h-100">
+        <span class="player-profile__stat-icon"><i class="fa-solid fa-ruler-vertical" aria-hidden="true"></i></span>
+        <span class="player-profile__meta-label"><%= t(:height) %></span>
+        <strong><%= @player.height.present? ? "#{@player.height} m" : "—" %></strong>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="player-profile__stat h-100">
+        <span class="player-profile__stat-icon"><i class="fa-solid fa-weight-scale" aria-hidden="true"></i></span>
+        <span class="player-profile__meta-label"><%= t(:weight) %></span>
+        <strong><%= @player.weight.present? ? "#{@player.weight} kg" : "—" %></strong>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="player-profile__stat h-100">
+        <span class="player-profile__stat-icon"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i></span>
+        <span class="player-profile__meta-label"><%= t(:birthday) %></span>
+        <strong class="player-profile__stat-small"><%= @player.birthday.present? ? l(@player.birthday) : "—" %></strong>
+      </div>
+    </div>
+    <div class="col-6 col-lg-3">
+      <div class="player-profile__stat h-100">
+        <span class="player-profile__stat-icon"><i class="fa-solid fa-flag" aria-hidden="true"></i></span>
+        <span class="player-profile__meta-label"><%= t(:nationality) %></span>
+        <strong class="player-profile__stat-small"><%= @player.nationality.presence || "—" %></strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="player-team mt-4 p-4 p-lg-5">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-7">
+        <p class="player-profile__eyebrow mb-2">Su equipo</p>
+        <div class="d-flex align-items-center gap-3">
+          <% if @team.image.present? %>
+            <%= image_tag @team.image, alt: "Escudo de #{@team.team_name}", class: "player-team__logo" %>
+          <% else %>
+            <span class="player-team__logo player-team__logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+          <% end %>
+          <div>
+            <h2 class="player-team__name mb-1"><%= link_to @team.team_name, team_path(@team) %></h2>
+            <p class="player-team__coach mb-0">
+              <i class="fa-solid fa-clipboard-user me-2" aria-hidden="true"></i>
+              Entrenador: <%= [@team.head_coach_name, @team.head_coach_last_name].compact.join(" ").presence || "No registrado" %>
+            </p>
+          </div>
+        </div>
+
+        <div class="player-team__tournaments mt-4">
+          <span class="player-profile__meta-label">Torneos recientes</span>
+          <% if @team_tournaments.any? %>
+            <div class="d-flex flex-wrap gap-2 mt-2">
+              <% @team_tournaments.each do |tournament| %>
+                <%= link_to tournament.completed_name, tournament_path(tournament), class: "player-team__tournament" %>
+              <% end %>
+            </div>
+          <% else %>
+            <span class="player-team__muted">Sin torneos registrados</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="player-team__roster">
+          <span class="player-team__roster-icon"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span>
+          <div>
+            <strong><%= @team.players.count %></strong>
+            <span>jugadores en la plantilla</span>
+          </div>
+          <%= link_to "Ver equipo", team_path(@team), class: "player-team__view ms-auto" %>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="player-matches mt-5">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-3">
+      <div>
+        <p class="player-profile__eyebrow mb-1">Resultados recientes</p>
+        <h2 class="player-profile__section-title mb-0">Últimos partidos del equipo</h2>
+      </div>
+      <span class="player-matches__count"><%= @recent_games.size %> partidos</span>
+    </div>
+
+    <% if @recent_games.any? %>
+      <div class="player-matches__list">
+        <% @recent_games.each do |game| %>
+          <% calendar = game.calendar %>
+          <% winner = [calendar.team_one, calendar.team_two].compact.find { |team| team.id == game.winning_team } %>
+          <% loser = [calendar.team_one, calendar.team_two].compact.find { |team| team.id == game.lose_team } %>
+          <% team_won = game.winning_team == @team.id %>
+          <article class="player-match">
+            <div class="player-match__date">
+              <i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>
+              <%= l(calendar.start_date_time, format: :short) %>
+            </div>
+            <div class="player-match__teams">
+              <span class="player-match__team"><%= winner&.team_name || "Equipo ganador" %></span>
+              <strong class="player-match__score"><%= game.win_score.presence || "—" %><span>:</span><%= game.lose_score.presence || "—" %></strong>
+              <span class="player-match__team"><%= loser&.team_name || "Equipo rival" %></span>
+            </div>
+            <div class="player-match__meta">
+              <span><%= calendar.tournament.name %> <%= calendar.tournament.year %></span>
+              <span class="player-match__result <%= team_won ? 'player-match__result--win' : 'player-match__result--loss' %>"><%= team_won ? "Victoria" : "Derrota" %></span>
+            </div>
+            <%= link_to "Ver partido", calendar_path(calendar), class: "player-match__link" %>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="player-matches__empty">
+        <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
+        <p class="mb-0">Aún no hay partidos finalizados registrados para este equipo.</p>
+      </div>
+    <% end %>
+  </section>
+
+  <section class="player-profile__details mt-4 p-4 p-lg-5">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+      <div>
+        <p class="player-profile__eyebrow mb-1">Información general</p>
+        <h2 class="player-profile__section-title mb-0">Datos del jugador</h2>
+      </div>
+      <span class="player-profile__gender"><i class="fa-solid fa-user me-2" aria-hidden="true"></i><%= @player.gender_name.presence || "—" %></span>
+    </div>
+  </section>
+
+  <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
+    <%= link_to edit_player_path(@player), class: "btn player-profile__edit" do %>
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t(:edit) %>
+    <% end %>
+    <%= button_to(enable_change_player_path(@player),
+          method: :patch,
+          class: "btn player-profile__toggle #{'player-profile__toggle--disable' if @player.enabled?} #{'player-profile__toggle--enable' unless @player.enabled?}",
+          form: { data: { turbo_confirm: (@player.enabled? ? "¿Deseas deshabilitar este jugador?" : "¿Deseas habilitar este jugador?") } }) do %>
+      <i class="fa-solid <%= @player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @player.enabled? ? "Deshabilitar" : "Habilitar" %>
+    <% end %>
   </div>
-</div>
+</main>

@@ -18,10 +18,27 @@ class PlayersController < ApplicationController
     if params[:search].present?
       @players = @players.where("name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end
+
+    @players = @players.order(:id)
+    @players_per_page = 12
+    @total_pages = (@players.count.to_f / @players_per_page).ceil
+    @current_page = params[:page].to_i.clamp(1, [@total_pages, 1].max)
+    @players = @players.offset((@current_page - 1) * @players_per_page).limit(@players_per_page)
   end
 
   # GET /players/1 or /players/1.json
   def show
+    @team = @player.team
+    @team_tournaments = @team.tournaments.order(year: :desc).limit(3)
+    @recent_games = Game.joins(:calendar)
+                        .includes(calendar: [:tournament, :team_one, :team_two])
+                        .where(enabled: true, calendars: { status: Calendar::TYPE_STATUS[:finished] })
+                        .where("calendars.team1 = :team_id OR calendars.team2 = :team_id", team_id: @team.id)
+                        .where.not(winning_team: nil)
+                        .where.not(lose_team: nil)
+                        .where.not(calendars: { start_date_time: nil })
+                        .order(Arel.sql("calendars.start_date_time DESC, games.id DESC"))
+                        .limit(5)
   end
 
   # GET /players/new

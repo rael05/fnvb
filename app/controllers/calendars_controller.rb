@@ -38,6 +38,9 @@ class CalendarsController < ApplicationController
 
   # GET /calendars/1 or /calendars/1.json
   def show
+    @team_one = @calendar.team_one
+    @team_two = @calendar.team_two
+    @game = @calendar.games.where(enabled: true).order(created_at: :desc).first
   end
 
   # GET /calendars/new

@@ -1,10 +1,128 @@
-<p style="color: green"><%= notice %></p>
+<% calendar = @game.calendar %>
+<% team_one = calendar&.teamDetail1 %>
+<% team_two = calendar&.teamDetail2 %>
+<% winner = Team.find_by(id: @game.winning_team) %>
+<% loser = Team.find_by(id: @game.lose_team) %>
+<% team_one_score = team_one&.id == winner&.id ? @game.win_score : (team_one&.id == loser&.id ? @game.lose_score : nil) %>
+<% team_two_score = team_two&.id == winner&.id ? @game.win_score : (team_two&.id == loser&.id ? @game.lose_score : nil) %>
+<% details = @game.game_details.order(:number_set, :order) %>
 
-<%= render @game %>
+<main class="game-show container my-4 my-lg-5">
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <% end %>
 
-<div>
-  <%= link_to "Edit this game", edit_game_path(@game) %> |
-  <%= link_to "Back to games", games_path %>
+  <div class="game-show__topline">
+    <%= link_to calendar ? calendar_path(calendar) : games_path, class: "game-show__back" do %>
+      <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i><%= calendar ? "Volver al calendario" : "Volver a partidos" %>
+    <% end %>
+    <span class="game-show__status <%= @game.enabled? ? 'game-show__status--enabled' : 'game-show__status--disabled' %>">
+      <i class="fa-solid <%= @game.enabled? ? 'fa-circle-check' : 'fa-circle-pause' %> me-1" aria-hidden="true"></i>
+      <%= @game.enabled? ? "Partido habilitado" : "Partido deshabilitado" %>
+    </span>
+  </div>
 
-  <%= button_to "Destroy this game", @game, method: :delete %>
-</div>
+  <section class="game-show__scoreboard shadow-sm">
+    <div class="game-show__heading">
+      <p class="game-show__eyebrow mb-1"><%= calendar&.tournament&.name || "Partido" %></p>
+      <h1>Resultado del encuentro</h1>
+      <% if calendar&.start_date_time.present? %>
+        <p class="game-show__date"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i><%= l(calendar.start_date_time, format: :long) %></p>
+      <% end %>
+    </div>
+
+    <div class="game-show__teams">
+      <div class="game-show__team <%= 'game-show__team--winner' if winner && team_one&.id == winner.id %>">
+        <% if team_one&.image&.attached? %>
+          <%= image_tag team_one.image, alt: "Escudo de #{team_one.team_name}", class: "game-show__logo" %>
+        <% else %>
+          <span class="game-show__logo game-show__logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+        <% end %>
+        <h2><%= team_one&.team_name || "Equipo por definir" %></h2>
+        <% if team_one %><%= link_to "Ver equipo", team_path(team_one), class: "game-show__team-link" %><% end %>
+        <strong class="game-show__team-score"><%= team_one_score || "—" %></strong>
+      </div>
+
+      <div class="game-show__result">
+        <span>MARCADOR</span>
+        <strong><%= team_one_score || "—" %><i>:</i><%= team_two_score || "—" %></strong>
+        <% if winner %><small>Ganador: <%= winner.team_name %></small><% end %>
+      </div>
+
+      <div class="game-show__team <%= 'game-show__team--winner' if winner && team_two&.id == winner.id %>">
+        <% if team_two&.image&.attached? %>
+          <%= image_tag team_two.image, alt: "Escudo de #{team_two.team_name}", class: "game-show__logo" %>
+        <% else %>
+          <span class="game-show__logo game-show__logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+        <% end %>
+        <h2><%= team_two&.team_name || "Equipo por definir" %></h2>
+        <% if team_two %><%= link_to "Ver equipo", team_path(team_two), class: "game-show__team-link" %><% end %>
+        <strong class="game-show__team-score"><%= team_two_score || "—" %></strong>
+      </div>
+    </div>
+
+    <% if @game.description.present? %>
+      <p class="game-show__description mb-0"><%= @game.description %></p>
+    <% end %>
+  </section>
+
+  <section class="game-show__details-grid" aria-label="Información del partido">
+    <div class="game-show__info-card">
+      <span class="game-show__info-icon"><i class="fa-solid fa-trophy" aria-hidden="true"></i></span>
+      <div><span>Etapa</span><strong><%= calendar&.stage.present? ? (Calendar::TYPE_STAGE.key(calendar.stage)&.to_s&.humanize || calendar.stage) : "—" %></strong></div>
+    </div>
+    <div class="game-show__info-card">
+      <span class="game-show__info-icon"><i class="fa-solid fa-volleyball" aria-hidden="true"></i></span>
+      <div><span>Estado del calendario</span><strong><%= calendar&.status.present? ? (Calendar::TYPE_STATUS.key(calendar.status)&.to_s&.humanize || calendar.status) : "—" %></strong></div>
+    </div>
+    <div class="game-show__info-card">
+      <span class="game-show__info-icon"><i class="fa-solid fa-user-pen" aria-hidden="true"></i></span>
+      <div><span>Registrado por</span><strong><%= @game.user&.full_name || @game.user&.user_name || "—" %></strong></div>
+    </div>
+  </section>
+
+  <section class="game-show__plays mt-4">
+    <div class="game-show__section-heading">
+      <div>
+        <p class="game-show__eyebrow mb-1">Desarrollo</p>
+        <h2>Detalles del partido</h2>
+      </div>
+      <span class="game-show__play-count"><%= pluralize(details.size, "jugada", "jugadas") %></span>
+    </div>
+
+    <% if details.any? %>
+      <div class="table-responsive game-show__table-wrap">
+        <table class="table align-middle mb-0">
+          <thead><tr><th>Set</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <% details.each do |detail| %>
+              <% detail_team = Team.find_by(id: detail.team_id) %>
+              <% detail_player = Player.find_by(id: detail.player_id) %>
+              <tr>
+                <td><span class="game-show__set">Set <%= detail.number_set || "—" %></span></td>
+                <td><%= detail_team&.team_name || "—" %></td>
+                <td><%= detail_player ? detail_player.full_name : "Sin jugador" %></td>
+                <td><span class="game-show__action"><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></span></td>
+                <td class="game-show__play-description"><%= detail.description.presence || "—" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <div class="game-show__empty"><i class="fa-regular fa-clipboard" aria-hidden="true"></i><span>Aún no hay jugadas registradas para este partido.</span></div>
+    <% end %>
+  </section>
+
+  <div class="game-show__actions mt-4">
+    <%= link_to edit_game_path(@game), class: "btn game-show__edit" do %>
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>Editar partido
+    <% end %>
+    <%= button_to enable_change_game_path(@game), method: :patch, class: "btn game-show__toggle #{'game-show__toggle--disable' if @game.enabled?} #{'game-show__toggle--enable' unless @game.enabled?}", form: { data: { turbo: false, turbo_confirm: (@game.enabled? ? "¿Deseas deshabilitar este partido?" : "¿Deseas habilitar este partido?") } } do %>
+      <i class="fa-solid <%= @game.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game.enabled? ? "Deshabilitar partido" : "Habilitar partido" %>
+    <% end %>
+  </div>
+</main>

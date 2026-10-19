@@ -17,7 +17,7 @@
           <th scope="col"><%= t(:full_name) %></th>
           <th scope="col">Rol</th>
           <th scope="col">Edit</th>
-          <th scope="col">Delete</th>
+          <th scope="col">Estado</th>
         </tr>
       </thead>
       <tbody>
@@ -32,16 +32,36 @@
               <i class="fa-solid fa-pen-to-square"></i>
             </a>
           </td>
-          <td>
-            <a href="" class="link-danger d-flex justify-content-center link-hover">
-              <i class="fa-solid fa-eye-slash"></i>
-            </a>
+          <td class="text-center">
+            <span class="badge <%= user.enabled? ? 'text-bg-success' : 'text-bg-secondary' %> me-2"><%= user.enabled? ? "Habilitado" : "Deshabilitado" %></span>
+            <% unless user == current_user %>
+              <%= button_to enable_change_user_path(user), method: :patch, class: "btn btn-link p-0 #{user.enabled? ? 'link-danger' : 'link-success'}", title: (user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta"), aria: { label: (user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta") }, form: { data: { turbo: false } } do %>
+              <% end %>
+            <% end %>
           </td>
         </tr>
       <% end %>
       </tbody>
     </table>
   </div>
+
+  <% if @total_pages > 1 %>
+    <nav class="mt-4" aria-label="Paginación de usuarios">
+      <ul class="pagination justify-content-center mb-0">
+        <li class="page-item <%= 'disabled' if @current_page == 1 %>">
+          <%= link_to 'Anterior', users_path(page: @current_page - 1), class: 'page-link', aria: { label: 'Anterior' } %>
+        </li>
+        <% (1..@total_pages).each do |page| %>
+          <li class="page-item <%= 'active' if page == @current_page %>">
+            <%= link_to page, users_path(page: page), class: 'page-link', aria: { current: (page == @current_page ? 'page' : nil) } %>
+          </li>
+        <% end %>
+        <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
+          <%= link_to 'Siguiente', users_path(page: @current_page + 1), class: 'page-link', aria: { label: 'Siguiente' } %>
+        </li>
+      </ul>
+    </nav>
+  <% end %>
 
   <%= link_to t(:new_user), new_user_path, class: 'btn btn-primary mt-1' %>
 </div>

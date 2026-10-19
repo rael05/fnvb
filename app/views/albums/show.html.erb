@@ -1,69 +1,110 @@
-<p style="color: green"><%= notice %></p>
+<% tournament = Tournament.find_by(id: @album.tournament_id) %>
+<% photos = @album.images %>
 
-<div id="<%= dom_id @album %>">
-  <div class="shadow p-3 rounded-3">
-    <h1 class="text-center ">
-      <%= @album.name %>
-    </h1>
+<main class="album-show container my-4 my-lg-5">
+  <% if notice.present? %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <%= notice %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  <% end %>
 
-    <% if @album.main_image.attached? %>
-      <%= image_tag @album.main_image, class: "img-fluid rounded py-2 mx-auto d-block", style: "max-height: 300px;" %>
+  <div class="album-show__topline">
+    <% if tournament %>
+      <%= link_to tournament_path(tournament), class: "album-show__back" do %>
+        <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>Volver al torneo
+      <% end %>
     <% else %>
-      <p>No hay imágenes</p>
+      <%= link_to albums_path, class: "album-show__back" do %>
+        <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i>Volver a galerías
+      <% end %>
     <% end %>
+    <span class="album-show__status <%= @album.enabled? ? 'album-show__status--enabled' : 'album-show__status--disabled' %>">
+      <i class="fa-solid <%= @album.enabled? ? 'fa-eye' : 'fa-eye-slash' %> me-1" aria-hidden="true"></i>
+      <%= @album.enabled? ? "Galería habilitada" : "Galería deshabilitada" %>
+    </span>
+  </div>
 
-    <hr>
-    <div class="row mx-1">
-      <% if @album.images.attached? %>
-        <% @album.images.each_with_index do |photo, index| %>
-          <div class="col-2 p-1">
-            <%= image_tag photo, class: "clickable-image rounded w-100", style: "max-height: 220px;",
-                data: { bs_toggle: "modal", bs_target: "#imageModal#{index}", image_url: url_for(photo) } %>
-            
-            <!-- Modal -->
-            <div class="modal fade" id="imageModal<%=index%>" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                  <div class="modal-body text-center">
-                    <%= image_tag photo , class: "img-fluid", style: "max-height: 500px;" %>
-                  </div>
+  <section class="album-show__hero shadow-sm">
+    <div class="album-show__cover">
+      <% if @album.main_image.attached? %>
+        <%= image_tag @album.main_image, class: "album-show__cover-image", alt: "Portada de #{@album.name}" %>
+      <% else %>
+        <div class="album-show__cover-placeholder"><i class="fa-regular fa-images" aria-hidden="true"></i></div>
+      <% end %>
+      <div class="album-show__cover-shade"></div>
+      <div class="album-show__cover-content">
+        <% if tournament %><p class="album-show__eyebrow"><%= tournament.completed_name %></p><% end %>
+        <h1><%= @album.name %></h1>
+        <span><i class="fa-regular fa-images me-2" aria-hidden="true"></i><%= pluralize(photos.count, "fotografía", "fotografías") %></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="album-show__gallery mt-4">
+    <div class="album-show__section-heading">
+      <div>
+        <p class="album-show__eyebrow mb-1">Recuerdos</p>
+        <h2>Fotos de la galería</h2>
+      </div>
+      <span class="album-show__count"><%= photos.count %> fotos</span>
+    </div>
+
+    <% if photos.attached? %>
+      <div class="album-show__grid">
+        <% photos.each_with_index do |photo, index| %>
+          <button type="button" class="album-show__photo" data-bs-toggle="modal" data-bs-target="#albumPhotoModal<%= index %>" aria-label="Ampliar fotografía <%= index + 1 %>">
+            <%= image_tag photo, alt: "Fotografía #{index + 1} de #{@album.name}" %>
+            <span><i class="fa-solid fa-expand" aria-hidden="true"></i></span>
+          </button>
+
+          <div class="modal fade album-show__modal" id="albumPhotoModal<%= index %>" tabindex="-1" aria-label="Fotografía <%= index + 1 %>" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl modal-fullscreen-lg-down">
+              <div class="modal-content">
+                <div class="modal-header border-0">
+                  <span class="modal-title"><%= @album.name %> · <%= index + 1 %> / <%= photos.count %></span>
+                  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                  <%= image_tag photo, class: "img-fluid", alt: "Fotografía #{index + 1} de #{@album.name}" %>
                 </div>
               </div>
             </div>
           </div>
         <% end %>
-      <% else %>
-        <p>No hay imágenes</p>
-      <% end %>
-    </div>
-    <div class="d-flex justify-content-center mt-3">
-      <%= link_to "Edit this album", edit_album_path(@album), class: "btn btn-outline-success ms-2" %>
-      <!-- Botón para abrir el modal de habilitar/deshabilitar -->
-      <button type="button" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#modal-enable-album">
-        <%= @album.enabled ? "Deshabilitar" : "Habilitar" %>
-      </button>
-    </div>
+      </div>
+    <% else %>
+      <div class="album-show__empty">
+        <i class="fa-regular fa-image" aria-hidden="true"></i>
+        <strong>Esta galería todavía no tiene fotografías.</strong>
+      </div>
+    <% end %>
+  </section>
 
-    <!-- Modal para habilitar/deshabilitar álbum -->
-    <div class="modal fade" id="modal-enable-album" tabindex="-1" aria-labelledby="modalEnableAlbumLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modalEnableAlbumLabel">
-              <%= @album.enabled ? "Deshabilitar álbum" : "Habilitar álbum" %>
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-            ¿Estás seguro que deseas <%= @album.enabled ? "deshabilitar" : "habilitar" %> este álbum?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <%= button_to (@album.enabled ? "Deshabilitar" : "Habilitar"),
-                  enable_change_album_path(@album), method: :patch, class: "btn btn-danger" %>
-          </div>
+  <div class="album-show__actions mt-4">
+    <%= link_to edit_album_path(@album), class: "btn album-show__edit" do %>
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>Editar galería
+    <% end %>
+    <button type="button" class="btn album-show__toggle <%= @album.enabled? ? 'album-show__toggle--disable' : 'album-show__toggle--enable' %>" data-bs-toggle="modal" data-bs-target="#modal-enable-album">
+      <i class="fa-solid <%= @album.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @album.enabled? ? "Deshabilitar galería" : "Habilitar galería" %>
+    </button>
+  </div>
+
+  <div class="modal fade" id="modal-enable-album" tabindex="-1" aria-labelledby="modalEnableAlbumLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modalEnableAlbumLabel"><%= @album.enabled? ? "Deshabilitar galería" : "Habilitar galería" %></h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">¿Confirmas que deseas <%= @album.enabled? ? "deshabilitar" : "habilitar" %> esta galería?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <%= button_to enable_change_album_path(@album), method: :patch, class: "btn #{@album.enabled? ? 'btn-danger' : 'btn-success'}" do %>
+            <i class="fa-solid <%= @album.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @album.enabled? ? "Deshabilitar" : "Habilitar" %>
+          <% end %>
         </div>
       </div>
     </div>
   </div>
-</div>
+</main>

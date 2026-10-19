@@ -96,6 +96,8 @@
   <div class="d-flex flex-wrap gap-2 mt-3">
     <%= link_to "Volver a estadísticas", statistics_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
     <%= link_to "Editar estadística", edit_statistic_path(@statistic), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to "Eliminar estadística", @statistic, method: :delete, class: "btn btn-outline-danger rounded-pill px-4", form: { data: { turbo_confirm: "¿Eliminar esta estadística?" } } %>
+    <%= button_to(enable_change_statistic_path(@statistic), method: :patch, class: "btn #{'btn-outline-danger' if @statistic.enabled?} #{'btn-outline-success' unless @statistic.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: (@statistic.enabled? ? "¿Deshabilitar esta estadística?" : "¿Habilitar esta estadística?") } }) do %>
+      <i class="fa-solid <%= @statistic.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística" %>
+    <% end %>
   </div>
 </main>

@@ -39,6 +39,10 @@ class User < ApplicationRecord
     [first_name, last_name].join(' ')
   end
 
+  def active_for_authentication?
+    super && enabled?
+  end
+
   def team_name
     if team_id
       return team.team_name

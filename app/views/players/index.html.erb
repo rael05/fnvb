@@ -62,7 +62,7 @@
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
                   <!-- Botón para abrir el modal -->
                   <a href="#" data-bs-toggle="modal" data-bs-target="#modal-<%= index %>" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
-                    <i class="fa-solid fa-eye-slash"></i>
+                    <i class="fa-solid <%= player.enabled ? 'fa-eye-slash' : 'fa-eye' %>"></i>
                   </a>
                 </div>
               </div>
@@ -86,15 +86,31 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <%= button_to (player.enabled ? "Deshabilitar" : "Habilitar"),
-                    enable_change_player_path(player),
-                    method: :patch,
-                    class: "btn btn-danger",
-                    form: { data: { turbo: false } } %>
+              <%= button_to(enable_change_player_path(player), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
+                <i class="fa-solid <%= player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= player.enabled? ? "Deshabilitar" : "Habilitar" %>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
     <% end %>
   </div>
+
+  <% if @total_pages > 1 %>
+    <nav class="mt-4" aria-label="Paginación de jugadores">
+      <ul class="pagination justify-content-center mb-0">
+        <li class="page-item <%= 'disabled' if @current_page == 1 %>">
+          <%= link_to 'Anterior', players_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: 'Anterior' } %>
+        </li>
+        <% (1..@total_pages).each do |page| %>
+          <li class="page-item <%= 'active' if page == @current_page %>">
+            <%= link_to page, players_path(page: page, search: params[:search]), class: 'page-link', aria: { current: (page == @current_page ? 'page' : nil) } %>
+          </li>
+        <% end %>
+        <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
+          <%= link_to 'Siguiente', players_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: 'Siguiente' } %>
+        </li>
+      </ul>
+    </nav>
+  <% end %>
 </div>

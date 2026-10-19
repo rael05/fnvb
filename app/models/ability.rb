@@ -29,6 +29,7 @@ class Ability
     if user&.present?
       can :read, User.find(user.id)
       can :edit, User.find(user.id)
+      can :enable_change, User.find(user.id)
       can :change_password_yourself, User.find(user.id)
     end
 
@@ -39,6 +40,7 @@ class Ability
 
     if user&.isVice?
       can :manage, Game
+      can :manage, GameDetail
       can :game_details, Game
       can :enable_change, Player
       can :enable_change, Team

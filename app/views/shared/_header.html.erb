@@ -1,97 +1,84 @@
-<div class="rounded-end me-2 pt-1 pb-1 bg-primary">
-  <div class="text-white container-xxl">
-    <p class="mb-0">
-      <i class="fa-solid fa-phone"></i>
-      &nbsp
-      COCH +56 22 270 3603 / EDUCACIÓN
-      &nbsp
-      <i class="fa-solid fa-envelope"></i>
-      fnvb@fnvb.gob.ni
-      &nbsp
-      <i class="fa-brands fa-facebook-f"></i>
-      &nbsp
-      <i class="fa-brands fa-twitter"></i>
-      &nbsp
-      <i class="fa-brands fa-instagram"></i>
-    </p>
-  </div>
-</div>
-<nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-center">
-  <div class="ms-4">
-    <%= link_to image_tag("fnvb.png", alt: 'FNVB', width: 70, height: 65), :root %>
-  </div>
-  <div class="container-xxl">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <%= link_to(t(:home), :root, class: params["controller"] == "home" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= t(:about_us) %>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:tournaments), :tournaments, class: params["controller"] == "tournaments" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:teams), :teams, class: params["controller"] == "teams" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:players), :players, class: params["controller"] == "players" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item" data-turbo="false">
-          <%= link_to(t(:calendars), :calendars, class: params["controller"] == "calendars" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:announcement), :announcements, class: params["controller"] == "announcements" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:news), :articles, class: params["controller"] == "articles" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-        <li class="nav-item">
-          <%= link_to(t(:statistics), :statistics, class: params["controller"] == "statistics" ? 'nav-link link-danger' : 'nav-link') %>
-        </li>
-      </ul>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <%= link_to('ES', { locale: :es }, class: 'nav-link')%>
-        </li>
-        <li class="nav-item nav-link">
-          |
-        </li>
-        <li class="nav-item">
-          <%= link_to('EN', { locale: :en }, class: 'nav-link')%>
-        </li>
-        &nbsp
-        &nbsp
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fa-solid fa-user"></i>
-          </a>
-          <ul class="dropdown-menu">
-            <% if user_signed_in? %>
-              <%= link_to(current_user.email, current_user, class: 'dropdown-item') %>
-              <% if current_user.isPresident? %>
-                <%= link_to('Gestionar Usuarios', users_path, class: 'dropdown-item') %>
-              <% end %>
-              <li><hr class="dropdown-divider"></li>
-              <%= button_to(t(:log_out), destroy_user_session_path, method: :delete, class: 'dropdown-item') %>
-            <% else %>
-              <%= link_to(t(:log_in), :new_user_session, class: 'dropdown-item') %>
-            <% end %>
-          </ul>
-        </li>
-      </ul>
+<header class="site-header">
+  <div class="site-header__utility">
+    <div class="container-xxl d-flex justify-content-between align-items-center py-2 px-3 px-lg-4">
+      <span class="site-header__contact">
+        <i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>
+        fnvb@fnvb.gob.ni
+      </span>
+      <div class="site-header__socials" aria-label="Redes sociales">
+        <span aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></span>
+        <span aria-label="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></span>
+        <span aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></span>
+      </div>
     </div>
   </div>
-</nav>
+
+  <nav class="navbar navbar-expand-lg site-header__navbar">
+    <div class="container-xxl px-3 px-lg-4">
+      <%= link_to :root, class: "navbar-brand site-header__brand" do %>
+        <%= image_tag "fnvb.png", alt: "", width: 64, height: 60 %>
+        <span>FNVB</span>
+      <% end %>
+
+      <button class="navbar-toggler site-header__toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Abrir menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto site-header__nav">
+          <li class="nav-item">
+            <%= link_to t(:home), :root, class: "nav-link #{'active' if params[:controller] == 'home'}" %>
+          </li>
+          <li class="nav-item site-header__nav-label"><span class="nav-link"><%= t(:about_us) %></span></li>
+          <li class="nav-item">
+            <%= link_to t(:tournaments), :tournaments, class: "nav-link #{'active' if params[:controller] == 'tournaments'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to t(:teams), :teams, class: "nav-link #{'active' if params[:controller] == 'teams'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to t(:players), :players, class: "nav-link #{'active' if params[:controller] == 'players'}" %>
+          </li>
+          <li class="nav-item" data-turbo="false">
+            <%= link_to t(:calendars), :calendars, class: "nav-link #{'active' if params[:controller] == 'calendars'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to t(:announcement), :announcements, class: "nav-link #{'active' if params[:controller] == 'announcements'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to t(:news), :articles, class: "nav-link #{'active' if params[:controller] == 'articles'}" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to t(:statistics), :statistics, class: "nav-link #{'active' if params[:controller] == 'statistics'}" %>
+          </li>
+        </ul>
+
+        <div class="site-header__actions">
+          <div class="site-header__languages" aria-label="Idioma">
+            <%= link_to 'ES', { locale: :es }, class: ('active' if I18n.locale == :es) %>
+            <span aria-hidden="true">/</span>
+            <%= link_to 'EN', { locale: :en }, class: ('active' if I18n.locale == :en) %>
+          </div>
+
+          <div class="dropdown">
+            <button class="site-header__account dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Cuenta de usuario">
+              <i class="fa-solid fa-user" aria-hidden="true"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end site-header__account-menu">
+              <% if user_signed_in? %>
+                <li><%= link_to current_user.email, current_user, class: 'dropdown-item' %></li>
+                <% if current_user.isPresident? %>
+                  <li><%= link_to 'Gestionar Usuarios', users_path, class: 'dropdown-item' %></li>
+                <% end %>
+                <li><hr class="dropdown-divider"></li>
+                <li><%= button_to t(:log_out), destroy_user_session_path, method: :delete, class: 'dropdown-item' %></li>
+              <% else %>
+                <li><%= link_to t(:log_in), :new_user_session, class: 'dropdown-item' %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

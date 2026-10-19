@@ -43,9 +43,9 @@
                   </a>
                 </div>
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
-                  <a href="/" style="text-decoration: none" class="link-danger position-absolute top-50 start-50 translate-middle">
-                    <i class="fa-solid fa-eye-slash"></i>
-                  </a>
+                  <%= button_to(enable_change_statistic_path(statistic), method: :patch, class: "btn btn-link p-0 link-danger position-absolute top-50 start-50 translate-middle", title: (statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística"), aria: { label: (statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística") }, form: { data: { turbo: false } }) do %>
+                    <i class="fa-solid <%= statistic.enabled? ? 'fa-eye-slash' : 'fa-eye' %>"></i>
+                  <% end %>
                 </div>
               </div>
             </small>

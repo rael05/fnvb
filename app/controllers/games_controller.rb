@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   load_and_authorize_resource
-  before_action :set_game, only: %i[ show edit update destroy game_details ]
+  before_action :set_game, only: %i[ show edit update destroy ]
   before_action :team_for_game, only: %i[ new edit update ]
 
   # GET /games or /games.json
@@ -24,15 +24,15 @@ class GamesController < ApplicationController
 
   def game_details
     @gameDetail = GameDetail.new(game_detail_params)
+    @game = @gameDetail.game
     
     respond_to do |format|
       if @gameDetail.save
-        debugger
         format.html { redirect_to edit_game_path(@game), notice: "El detalle del juego fue guardado exitosamente." }
         format.json { render :show, status: :created, location: @game }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
+        format.html { redirect_to edit_game_path(@game), alert: @gameDetail.errors.full_messages.to_sentence }
+        format.json { render json: @gameDetail.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -87,7 +87,8 @@ class GamesController < ApplicationController
     return redirect_to :not_found unless @calendar
 
     @team_options = [[@calendar.teamDetail1.team_name, @calendar.teamDetail1.id], [@calendar.teamDetail2.team_name, @calendar.teamDetail2.id]]
-    @payer_options = Player.where(team_id: @calendar.teamDetail1.id).map { |p| [p.full_name, p.id] }.unshift(["Sin Jugador", nil])
+    team_ids = [@calendar.teamDetail1&.id, @calendar.teamDetail2&.id].compact
+    @payer_options = Player.where(team_id: team_ids).map { |p| [p.full_name, p.id] }.unshift(["Sin Jugador", nil])
     @detail_types = GameDetail::DETAIL_TYPE_HASH.to_a.map { |type| [type[1], type[0]] }
 
     if @game.winning_team && @game.lose_team

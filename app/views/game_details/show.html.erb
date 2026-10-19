@@ -6,5 +6,7 @@
   <%= link_to "Edit this game detail", edit_game_detail_path(@game_detail) %> |
   <%= link_to "Back to game details", game_details_path %>
 
-  <%= button_to "Destroy this game detail", @game_detail, method: :delete %>
+  <%= button_to(enable_change_game_detail_path(@game_detail), method: :patch, class: "btn btn-outline-danger", form: { data: { turbo: false } }) do %>
+    <i class="fa-solid <%= @game_detail.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game_detail.enabled? ? "Deshabilitar jugada" : "Habilitar jugada" %>
+  <% end %>
 </div>

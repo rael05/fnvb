@@ -8,12 +8,25 @@ class TeamsController < ApplicationController
     if params[:search].present?
       @teams = @teams.where("team_name ILIKE ?", "%#{params[:search]}%")
     end
+
+    @teams = @teams.order(:id)
+    @teams_per_page = 12
+    @total_pages = (@teams.count.to_f / @teams_per_page).ceil
+    @current_page = params[:page].to_i.clamp(1, [@total_pages, 1].max)
+    @teams = @teams.offset((@current_page - 1) * @teams_per_page).limit(@teams_per_page)
   end
 
   # GET /teams/1 or /teams/1.json
   def show
     respond_to do |format|
-      format.html
+      format.html do
+        @upcoming_matches = Calendar.includes(:tournament, :team_one, :team_two)
+                                    .where(enabled: true, status: Calendar::TYPE_STATUS[:pending])
+                                    .where("team1 = :team_id OR team2 = :team_id", team_id: @team.id)
+                                    .where("start_date_time >= ?", Time.current)
+                                    .order(:start_date_time)
+                                    .limit(5)
+      end
       format.pdf do
         render pdf: @team.team_name, template: "teams/show_pdf", formats: [:pdf]
       end

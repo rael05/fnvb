@@ -5,15 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A', user_name: 'tester1', first_name: 'Ernesto', last_name: 'Espinoza'})
-User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V', user_name: 'tester2', first_name: 'Carlos', last_name: 'Salgado'})
-di_user = User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D', user_name: 'tester3', first_name: 'Fernando', last_name: 'Torrez'})
-User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G', user_name: 'tester4', first_name: 'Hippo', last_name: 'Maltez'})
+User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A', user_name: 'tester1', first_name: 'Ernesto', last_name: 'Espinoza', enabled: true})
+User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V', user_name: 'tester2', first_name: 'Carlos', last_name: 'Salgado', enabled: true})
+di_user = User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D', user_name: 'tester3', first_name: 'Fernando', last_name: 'Torrez', enabled: true})
+User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G', user_name: 'tester4', first_name: 'Hippo', last_name: 'Maltez', enabled: true})
 
-User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A', user_name: 'tester5', first_name: 'Roberto Carlos', last_name: 'White' })
-User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', user_name: 'tester6', first_name: 'Angel', last_name: 'Juarez'})
-User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7', first_name: 'Jackson', last_name: 'Hernandez'})
-User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8', first_name: 'Tamara', last_name: 'Cortez'})
+User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A', user_name: 'tester5', first_name: 'Roberto Carlos', last_name: 'White', enabled: true})
+User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', user_name: 'tester6', first_name: 'Angel', last_name: 'Juarez', enabled: true})
+User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7', first_name: 'Jackson', last_name: 'Hernandez', enabled: true})
+User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8', first_name: 'Tamara', last_name: 'Cortez', enabled: true})
 
 I18n.locale = :en
 first_tournament = Tournament.create({international: false, name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
@@ -23,6 +23,24 @@ first_tournament.update({international: false, name: 'Torneo Latinoamerica Mascu
 second_tournament.update({international: true, name: 'Torneo Latinoamerica Femenino', description: 'Torneo Latinoamericano Femenino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
 
 first_tournament.image.attach(io: File.open("#{Rails.root}/app/assets/images/Tournament1.png"), filename: 'Tournament1')
+
+attach_album_image = lambda do |attachment, filename|
+  File.open(Rails.root.join("app/assets/images", filename)) do |image|
+    attachment.attach(io: image, filename: filename)
+  end
+end
+
+men_album = Album.create!({name: "Momentos del torneo masculino", tournament_id: first_tournament.id, enabled: true})
+attach_album_image.call(men_album.main_image, "juego-1.jpeg")
+["leonas.jpg", "edicion.jpg", "sequia.jpg"].each do |filename|
+  attach_album_image.call(men_album.images, filename)
+end
+
+women_album = Album.create!({name: "Galería del torneo femenino", tournament_id: second_tournament.id, enabled: true})
+attach_album_image.call(women_album.main_image, "leonas.jpg")
+["juego-1.jpeg", "edicion.jpg", "sequia.jpg"].each do |filename|
+  attach_album_image.call(women_album.images, filename)
+end
 
 nicaragua_team = Team.create({
   team_name: 'Nicaragua', color_shirt1: 'Azul', color_short1: 'Blanco', color_shirt2: 'Blanco',
@@ -409,13 +427,13 @@ TournamentTeam.create({tournament_id: first_tournament.id, team_id: costarica_te
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: salvador_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: hondura_team.id})
 
-User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: nicaragua_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz'})
-User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10', first_name: 'Maria Carmen', last_name: 'Martínez'})
+User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: nicaragua_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz', enabled: true})
+User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10', first_name: 'Maria Carmen', last_name: 'Martínez', enabled: true})
 
 article_1 = Article.create({
   user_id: 3,
   title: "Leonas mantienen el primer lugar en voleibol femenino",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  description: "Las Leonas conservaron el primer lugar de la competencia tras una nueva jornada de voleibol femenino. El resultado refleja el trabajo colectivo del equipo y mantiene a Nicaragua entre las selecciones más destacadas del torneo.",
 })
 article_1.image.attach(io: File.open("#{Rails.root}/app/assets/images/leonas.jpg"), filename: 'Leonas')
 article_1.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
@@ -424,7 +442,7 @@ article_1.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/l
 article_2 = Article.create({
   user_id: di_user.id,
   title: "Se acerca, segunda edición de Liga de Voleibol Femenino en Nicaragua",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  description: "La segunda edición de la Liga de Voleibol Femenino reunirá a clubes y atletas de distintas regiones del país. La organización prepara el calendario y los detalles de participación para una temporada que busca impulsar el desarrollo del voleibol femenino nacional.",
 })
 article_2.image.attach(io: File.open("#{Rails.root}/app/assets/images/edicion.jpg"), filename: 'Edicion')
 article_2.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
@@ -433,16 +451,16 @@ article_2.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/l
 article_3 = Article.create({
   user_id: di_user.id,
   title: "Nicaragua termina sequía y se alza con el bronce",
-  description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  description: "La selección de Nicaragua obtuvo la medalla de bronce y puso fin a una etapa sin subir al podio. El resultado reconoce el esfuerzo de las atletas y el trabajo realizado durante la competencia.",
 })
 article_3.image.attach(io: File.open("#{Rails.root}/app/assets/images/sequia.jpg"), filename: 'sequia')
 article_3.pdf_es_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumESP.pdf"), filename: 'lorem-ipsumESP')
 article_3.pdf_en_file.attach(io: File.open("#{Rails.root}/app/assets/documents/lorem-ipsumEN.pdf"), filename: 'lorem-ipsumEN')
 
 I18n.locale = :en
-article_1.update({title: "Leonas maintain first place in women's volleyball", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
-article_2.update({title: "Second edition of the Women's Volleyball League in Nicaragua is approaching", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
-article_3.update({title: "Nicaragua ends drought and takes bronze", description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."})
+article_1.update({title: "Leonas maintain first place in women's volleyball", description: "The Leonas held on to first place after another round of women's volleyball. The result reflects the team's collective effort and keeps Nicaragua among the leading national teams in the tournament."})
+article_2.update({title: "Second edition of the Women's Volleyball League in Nicaragua is approaching", description: "The second edition of the Women's Volleyball League will bring together clubs and athletes from across the country. Organizers are preparing the schedule and participation details for a season focused on developing women's volleyball in Nicaragua."})
+article_3.update({title: "Nicaragua ends drought and takes bronze", description: "Nicaragua's national team won the bronze medal, ending a stretch without a podium finish. The result recognizes the athletes' effort and the work they put in throughout the competition."})
 I18n.locale = :es
 
 announcement_1 = Announcement.create({
@@ -488,9 +506,9 @@ statistic_1.update({title: "National Women's League results", description: "Stat
 statistic_2.update({title: "Participation report by department", description: "This report presents team and athlete participation by department during the season.\n\nThe data shows the reach of the competitions and supports planning for future development activities."})
 I18n.locale = :es
 
-Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 1.days, team1: nicaragua_team.id, team2: guatemala_team.id, description: 'Partido inaugural del torneo'})
-Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 2.days, team1: nicaragua_team.id, team2: salvador_team.id, description: 'Partido jugado en el estadio nacional'})
-Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 3.days, team1: nicaragua_team.id, team2: costarica_team.id, description: 'Nicaragua vs Costa Rica'})
+calendar_nicaragua_guatemala = Calendar.create!({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) - 3.days, team1: nicaragua_team.id, team2: guatemala_team.id, status: 'T', description: 'Partido inaugural del torneo'})
+calendar_nicaragua_salvador = Calendar.create!({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) - 2.days, team1: nicaragua_team.id, team2: salvador_team.id, status: 'T', description: 'Partido jugado en el estadio nacional'})
+calendar_nicaragua_costarica = Calendar.create!({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) - 1.day, team1: nicaragua_team.id, team2: costarica_team.id, status: 'T', description: 'Nicaragua vs Costa Rica'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 4.days, team1: nicaragua_team.id, team2: panama_team.id, description: 'Primer partido en las canchas de la ciudad'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 5.days, team1: nicaragua_team.id, team2: hondura_team.id, description: 'Partido partrociannado por VISA'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 10, min: 0, sec: 0) + 6.days, team1: guatemala_team.id, team2: salvador_team.id, description: 'Guatemala vs El Salvador'})
@@ -503,3 +521,37 @@ Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.curre
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 13, min: 0, sec: 0) + 4.days, team1: costarica_team.id, team2: panama_team.id, description: 'Con la colaboración de Claro'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 13, min: 0, sec: 0) + 3.days, team1: costarica_team.id, team2: hondura_team.id, description: 'Primer partido del jugador mas joven del torneo'})
 Calendar.create({tournament_id: first_tournament.id, start_date_time: Time.current.change(hour: 13, min: 0, sec: 0) + 2.days, team1: panama_team.id, team2: hondura_team.id, description: 'Finalización de la etapa de clasificación'})
+
+# Resultados de prueba vinculados al calendario y sus acciones por set.
+game_nicaragua_guatemala = Game.create!({
+  calendar: calendar_nicaragua_guatemala, user: di_user,
+  winning_team: nicaragua_team.id, win_score: 3, lose_team: guatemala_team.id, lose_score: 1,
+  description: 'Nicaragua se impuso en cuatro sets.'
+})
+game_nicaragua_salvador = Game.create!({
+  calendar: calendar_nicaragua_salvador, user: di_user,
+  winning_team: salvador_team.id, win_score: 3, lose_team: nicaragua_team.id, lose_score: 2,
+  description: 'El Salvador ganó un partido disputado hasta el quinto set.'
+})
+game_nicaragua_costarica = Game.create!({
+  calendar: calendar_nicaragua_costarica, user: di_user,
+  winning_team: nicaragua_team.id, win_score: 3, lose_team: costarica_team.id, lose_score: 0,
+  description: 'Nicaragua ganó el encuentro en sets corridos.'
+})
+
+[
+  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 10), 'T', 1, 1, 'Ataque ganador de Nicaragua'],
+  [game_nicaragua_guatemala, guatemala_team, guatemala_team.players.find_by(number: 8), 'B', 2, 2, 'Bloqueo de Guatemala'],
+  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 4), 'T', 3, 3, 'Punto de ataque para cerrar el partido'],
+  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 10), 'T', 1, 1, 'Ataque de El Salvador'],
+  [game_nicaragua_salvador, nicaragua_team, nicaragua_team.players.find_by(number: 8), 'R', 3, 2, 'Recepción y contraataque de Nicaragua'],
+  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 4), 'T', 5, 3, 'Punto decisivo del quinto set'],
+  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 14), 'B', 1, 1, 'Bloqueo de Nicaragua'],
+  [game_nicaragua_costarica, costarica_team, costarica_team.players.find_by(number: 8), 'E', 2, 2, 'Error de saque de Costa Rica'],
+  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 3), 'T', 3, 3, 'Último ataque del encuentro']
+].each do |game, team, player, detail_type, number_set, order, description|
+  GameDetail.create!(
+    game: game, team_id: team.id, player_id: player&.id, detail_type: detail_type,
+    number_set: number_set, order: order, description: description
+  )
+end

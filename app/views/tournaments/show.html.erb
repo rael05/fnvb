@@ -2,7 +2,7 @@
 
 <div class="container text-center">
   <div class="row">
-    <div class="col-3 shadow p-3 me-3 mb-5 bg-body-tertiary rounded">
+    <div class="col-12 col-lg-3 shadow p-3 mb-4 mb-lg-5 bg-body-tertiary rounded">
       <div>
         <p>
           <% if @tournament.image.present? %>
@@ -22,25 +22,12 @@
       </div>
       <div class="d-flex justify-content-center">
         <%= link_to "Editar", edit_tournament_path(@tournament), class: "btn btn-outline-success ms-2" %>
-        <%= button_to "Elimiar", @tournament, method: :delete, class: "btn btn-outline-danger ms-2" %>
-      </div>
-      <%= link_to "Agregar Galeria", new_album_path(tournament_id: @tournament.id), class: "btn btn-primary mt-2" %>
-      <hr>
-      <p> <strong> Galerias de fotos </strong></p>
-      <div class="row">
-        <% @tournament.albums.each do |album| %>
-          <div class="col-6 p-2">
-            <%= link_to(
-                  album_path(album), "data-bs-toggle": "tooltip",
-                  "data-bs-placement": "bottom", "title": "Imagenes: #{album.images.count}"
-                ) do %>
-              <%= image_tag album.main_image, class: "rounded-5 img-thumbnail" %>
-            <% end %>
-          </div>
+        <%= button_to(enable_change_tournament_path(@tournament), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
+          <i class="fa-solid <%= @tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @tournament.enabled? ? "Deshabilitar" : "Habilitar" %>
         <% end %>
       </div>
     </div>
-    <div class="col shadow p-3 ms-3 mb-5 bg-body-tertiary rounded">
+    <div class="col-12 col-lg-9 shadow p-3 mb-4 mb-lg-5 bg-body-tertiary rounded">
       <h1 class="mb-3">
         <a href="<%= tournaments_path %>" style="text-decoration: none" class="me-3">
           <i class="fa-regular fa-circle-left fa-sm"></i>
@@ -73,4 +60,44 @@
       <%= render "shared/juegos", tournament: @tournament %>
     </div>
   </div>
+
+  <section class="tournament-gallery mt-2 mt-lg-3">
+    <div class="tournament-gallery__heading">
+      <div>
+        <p class="tournament-gallery__eyebrow mb-1">Momentos del torneo</p>
+        <h2 class="mb-0">Galería de fotos</h2>
+      </div>
+      <%= link_to new_album_path(tournament_id: @tournament.id), class: "btn tournament-gallery__add" do %>
+        <i class="fa-solid fa-circle-plus me-2" aria-hidden="true"></i>Agregar galería
+      <% end %>
+    </div>
+
+    <% if @tournament.albums.any? %>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-1">
+        <% @tournament.albums.each do |album| %>
+          <div class="col">
+            <%= link_to album_path(album), class: "tournament-gallery__card" do %>
+              <div class="tournament-gallery__image-wrap">
+                <% if album.main_image.attached? %>
+                  <%= image_tag album.main_image, class: "tournament-gallery__image", alt: album.name %>
+                <% else %>
+                  <%= image_tag "tournament_ball.jpg", class: "tournament-gallery__image", alt: "Galería sin portada" %>
+                <% end %>
+                <span class="tournament-gallery__count"><i class="fa-regular fa-images me-1" aria-hidden="true"></i><%= album.images.count %></span>
+              </div>
+              <div class="tournament-gallery__caption">
+                <h3><%= album.name %></h3>
+                <span>Ver galería <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i></span>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="tournament-gallery__empty">
+        <i class="fa-regular fa-images" aria-hidden="true"></i>
+        <div><strong>Aún no hay galerías</strong><p class="mb-0">Agrega fotos para guardar los mejores momentos de este torneo.</p></div>
+      </div>
+    <% end %>
+  </section>
 </div>

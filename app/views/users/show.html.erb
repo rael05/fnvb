@@ -79,4 +79,8 @@
     <%= link_to t(:edit_this_user), edit_user_path(@user), class: 'btn btn-outline-info' %>
   </div>
 </div>
-<%= button_to t(:destroy_this_user), @user, method: :delete, class: 'btn btn-outline-danger mt-3' %>
+<% unless @user == current_user %>
+  <%= button_to(enable_change_user_path(@user), method: :patch, class: "btn btn-outline-danger mt-3", form: { data: { turbo_confirm: (@user.enabled? ? "¿Deshabilitar esta cuenta?" : "¿Habilitar esta cuenta?") } }) do %>
+    <i class="fa-solid <%= @user.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta" %>
+  <% end %>
+<% end %>

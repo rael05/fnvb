@@ -1,13 +1,116 @@
-<p style="color: green"><%= notice %></p>
-
-<div class="shadow p-2 pt-2 rounded-2">
-  <%= render @calendar %>
-  <div data-turbo="false" class="d-inline">
-    <%= link_to "Back to calendars", calendars_path, class: 'btn btn-outline-secondary' %>
+<% if notice.present? %>
+  <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <%= notice %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
   </div>
-  <%= link_to "Edit this calendar", edit_calendar_path(@calendar), class: 'btn btn-outline-info' %>
-</div>
+<% end %>
 
-<div>
-  <%= button_to "Destroy this calendar", @calendar, method: :delete, class: 'btn btn-outline-danger mt-3' %>
-</div>
+<% stage_key = Calendar::TYPE_STAGE.key(@calendar.stage) %>
+<% status_key = Calendar::TYPE_STATUS.key(@calendar.status) %>
+<% team_one_score = @game&.winning_team == @team_one&.id ? @game&.win_score : (@game&.lose_team == @team_one&.id ? @game&.lose_score : nil) %>
+<% team_two_score = @game&.winning_team == @team_two&.id ? @game&.win_score : (@game&.lose_team == @team_two&.id ? @game&.lose_score : nil) %>
+
+<main class="calendar-show my-4 my-lg-5">
+  <div class="calendar-show__back-row mb-3">
+    <%= link_to calendars_path, class: "calendar-show__back" do %>
+      <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i><%= t(:calendars) %>
+    <% end %>
+  </div>
+
+  <section class="calendar-show__hero shadow-sm">
+    <div class="calendar-show__hero-top">
+      <div>
+        <p class="calendar-show__eyebrow mb-1"><%= t(:tournament) %></p>
+        <h1 class="calendar-show__tournament mb-0">
+          <%= link_to @calendar.tournament.name, tournament_path(@calendar.tournament) %>
+          <span><%= @calendar.tournament.year %></span>
+        </h1>
+      </div>
+      <span class="calendar-show__status calendar-show__status--<%= status_key || 'unknown' %>">
+        <span></span><%= status_key ? t(status_key) : @calendar.status %>
+      </span>
+    </div>
+
+    <div class="calendar-show__matchup">
+      <div class="calendar-show__team">
+        <% if @team_one&.image&.present? %>
+          <%= image_tag @team_one.image, alt: "Escudo de #{@team_one.team_name}", class: "calendar-show__team-logo" %>
+        <% else %>
+          <span class="calendar-show__team-logo calendar-show__team-logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+        <% end %>
+        <h2><%= @team_one&.team_name || "Equipo por definir" %></h2>
+        <% if @team_one %>
+          <%= link_to "Ver equipo", team_path(@team_one), class: "calendar-show__team-link" %>
+        <% end %>
+        <% if @game.present? %>
+          <strong class="calendar-show__score"><%= team_one_score.presence || "—" %></strong>
+        <% end %>
+      </div>
+
+      <div class="calendar-show__versus"><%= @game.present? ? ":" : "VS" %></div>
+
+      <div class="calendar-show__team">
+        <% if @team_two&.image&.present? %>
+          <%= image_tag @team_two.image, alt: "Escudo de #{@team_two.team_name}", class: "calendar-show__team-logo" %>
+        <% else %>
+          <span class="calendar-show__team-logo calendar-show__team-logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
+        <% end %>
+        <h2><%= @team_two&.team_name || "Equipo por definir" %></h2>
+        <% if @team_two %>
+          <%= link_to "Ver equipo", team_path(@team_two), class: "calendar-show__team-link" %>
+        <% end %>
+        <% if @game.present? %>
+          <strong class="calendar-show__score"><%= team_two_score.presence || "—" %></strong>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @calendar.description.present? %>
+      <p class="calendar-show__description mb-0"><%= @calendar.description %></p>
+    <% end %>
+  </section>
+
+  <section class="calendar-show__details row g-3 mt-2">
+    <div class="col-sm-6 col-lg-4">
+      <div class="calendar-show__detail h-100">
+        <span class="calendar-show__detail-icon"><i class="fa-regular fa-calendar" aria-hidden="true"></i></span>
+        <div>
+          <span class="calendar-show__label">Fecha y hora</span>
+          <strong><%= @calendar.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : "Por confirmar" %></strong>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+      <div class="calendar-show__detail h-100">
+        <span class="calendar-show__detail-icon"><i class="fa-solid fa-trophy" aria-hidden="true"></i></span>
+        <div>
+          <span class="calendar-show__label">Etapa</span>
+          <strong><%= stage_key ? t(stage_key) : "—" %></strong>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-lg-4">
+      <div class="calendar-show__detail h-100">
+        <span class="calendar-show__detail-icon"><i class="fa-solid fa-volleyball" aria-hidden="true"></i></span>
+        <div>
+          <span class="calendar-show__label">Estado del encuentro</span>
+          <strong><%= status_key ? t(status_key) : @calendar.status %></strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="calendar-show__actions mt-4">
+    <% if @game.present? %>
+      <%= link_to game_path(@game), class: "btn calendar-show__game-detail" do %>
+        <i class="fa-solid fa-clipboard-list me-2" aria-hidden="true"></i>Ver detalle del partido
+      <% end %>
+    <% end %>
+    <%= link_to edit_calendar_path(@calendar), class: "btn calendar-show__edit" do %>
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>Editar encuentro
+    <% end %>
+    <%= button_to(enable_change_calendar_path(@calendar), method: :patch, class: "btn calendar-show__toggle #{'calendar-show__toggle--disable' if @calendar.enabled?} #{'calendar-show__toggle--enable' unless @calendar.enabled?}", form: { data: { turbo_confirm: (@calendar.enabled? ? "¿Deseas deshabilitar este encuentro?" : "¿Deseas habilitar este encuentro?") } }) do %>
+      <i class="fa-solid <%= @calendar.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @calendar.enabled? ? "Deshabilitar encuentro" : "Habilitar encuentro" %>
+    <% end %>
+  </div>
+</main>

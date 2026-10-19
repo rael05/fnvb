@@ -1,5 +1,8 @@
 class Calendar < ApplicationRecord
   belongs_to :tournament
+  belongs_to :team_one, class_name: "Team", foreign_key: :team1, optional: true
+  belongs_to :team_two, class_name: "Team", foreign_key: :team2, optional: true
+  has_many :games
   translates :description
 
   TYPE_STAGE = {

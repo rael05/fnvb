@@ -6,7 +6,11 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = User.order(:id)
+    @users_per_page = 8
+    @total_pages = (@users.count.to_f / @users_per_page).ceil
+    @current_page = params[:page].to_i.clamp(1, [@total_pages, 1].max)
+    @users = @users.offset((@current_page - 1) * @users_per_page).limit(@users_per_page)
   end
 
   # GET /users/1 or /users/1.json

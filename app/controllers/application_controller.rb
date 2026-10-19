@@ -8,9 +8,15 @@ class ApplicationController < ActionController::Base
   def enable_change
     model = controller_name.classify.constantize
     record = model.find(params[:id])
-    record.update(enabled: !record.enabled)
+    record.update!(enabled: !record.enabled)
+    disabling_current_account = record.is_a?(User) && record == current_user && !record.enabled?
+    sign_out(record) if disabling_current_account
     respond_to do |format|
-      format.html { redirect_to url_for(controller: controller_name, action: :index), notice: t("#{controller_name.singularize}_was_successfully_disabled") }
+      notice_key = record.enabled? ? :record_was_successfully_enabled : :record_was_successfully_disabled
+      format.html do
+        destination = disabling_current_account ? root_path : url_for(controller: controller_name, action: :index)
+        redirect_to destination, notice: t(notice_key)
+      end
       format.json { head :no_content }
     end
   end

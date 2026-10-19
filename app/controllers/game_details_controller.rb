@@ -1,5 +1,6 @@
 class GameDetailsController < ApplicationController
   before_action :set_game_detail, only: %i[ show edit update destroy ]
+  before_action :set_form_options, only: %i[ edit update ]
 
   # GET /game_details or /game_details.json
   def index
@@ -17,6 +18,7 @@ class GameDetailsController < ApplicationController
 
   # GET /game_details/1/edit
   def edit
+    authorize! :edit, @game_detail
   end
 
   # POST /game_details or /game_details.json
@@ -36,9 +38,11 @@ class GameDetailsController < ApplicationController
 
   # PATCH/PUT /game_details/1 or /game_details/1.json
   def update
+    authorize! :update, @game_detail
+
     respond_to do |format|
       if @game_detail.update(game_detail_params)
-        format.html { redirect_to game_detail_url(@game_detail), notice: "Game detail was successfully updated." }
+        format.html { redirect_to edit_game_path(@game_detail.game), notice: "El detalle del partido fue actualizado." }
         format.json { render :show, status: :ok, location: @game_detail }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +69,15 @@ class GameDetailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_detail_params
-      params.require(:game_detail).permit(:game_id, :game_time, :description)
+      params.require(:game_detail).permit(:game_id, :team_id, :player_id, :detail_type, :number_set, :order, :description)
+    end
+
+    def set_form_options
+      calendar = @game_detail.game.calendar
+      teams = [calendar.teamDetail1, calendar.teamDetail2].compact
+      @team_options = teams.map { |team| [team.team_name, team.id] }
+      @player_options = Player.where(team_id: teams.map(&:id)).map { |player| [player.full_name, player.id] }
+      @player_options.unshift(["Sin jugador", nil])
+      @detail_types = GameDetail::DETAIL_TYPE_HASH.map { |key, value| [value, key] }
     end
 end

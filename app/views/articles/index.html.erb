@@ -70,11 +70,9 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-              <%= button_to (article.enabled ? "Deshabilitar" : "Habilitar"),
-                    enable_change_article_path(article),
-                    method: :patch,
-                    class: "btn btn-danger",
-                    form: { data: { turbo: false } } %>
+              <%= button_to(enable_change_article_path(article), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
+                <i class="fa-solid <%= article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= article.enabled? ? "Deshabilitar" : "Habilitar" %>
+              <% end %>
             </div>
           </div>
         </div>
