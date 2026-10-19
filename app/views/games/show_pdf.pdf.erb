@@ -1,0 +1,88 @@
+<meta charset="utf-8" />
+<style>
+  body { color: #26364f; font-family: Arial, sans-serif; font-size: 9pt; }
+  h1, h2 { color: #172b4d; }
+  .header { border-bottom: 3px solid #c9273b; margin-bottom: 18px; padding-bottom: 12px; }
+  .brand { color: #172b4d; font-size: 10pt; font-weight: bold; letter-spacing: 1px; text-align: center; text-transform: uppercase; }
+  .title { margin: 12px 0 4px; text-align: center; }
+  .generated { color: #748198; font-size: 8pt; text-align: center; }
+  .section-title { border-bottom: 1px solid #dfe5ed; font-size: 12pt; margin: 18px 0 8px; padding-bottom: 5px; }
+  .meta, .details, .score { border-collapse: collapse; width: 100%; }
+  .meta td { border: 1px solid #e2e7ee; padding: 7px 9px; vertical-align: top; width: 50%; }
+  .meta tr:nth-child(odd) td { background: #f7f9fc; }
+  .label { color: #718096; display: block; font-size: 7pt; font-weight: bold; letter-spacing: .4px; margin-bottom: 3px; text-transform: uppercase; }
+  .value { color: #26364f; font-size: 9pt; }
+  .score { margin: 12px 0; }
+  .score td { background: #172b4d; color: #fff; padding: 12px; text-align: center; width: 40%; }
+  .score td.points { font-size: 20pt; font-weight: bold; width: 20%; }
+  .details thead { display: table-header-group; }
+  .details th, .details td { border: 1px solid #dfe5ed; padding: 6px; text-align: left; vertical-align: top; }
+  .details th { background: #172b4d; color: #fff; font-size: 7.5pt; }
+  .details tbody tr:nth-child(even) { background: #f5f7fa; }
+  .details tr { page-break-inside: avoid; }
+  .number { text-align: center !important; white-space: nowrap; }
+  .empty { background: #f7f9fc; color: #748198; padding: 12px; }
+  .footer { border-top: 1px solid #dfe5ed; color: #8994a5; font-size: 8pt; margin-top: 20px; padding-top: 8px; text-align: center; }
+</style>
+
+<div class="header">
+  <div class="brand">FNVB · Federación Nicaragüense de Voleibol</div>
+  <div class="title">
+    <span class="label">Reporte del partido</span>
+    <h1><%= @team_one&.team_name || "Equipo por definir" %> vs. <%= @team_two&.team_name || "Equipo por definir" %></h1>
+  </div>
+  <div class="generated">Reporte generado el <%= l(Time.current, format: :long) %></div>
+</div>
+
+<h2 class="section-title">Resultado</h2>
+<table class="score">
+  <tr>
+    <td><%= @team_one&.team_name || "Equipo por definir" %></td>
+    <td class="points"><%= @team_one&.id == @winner&.id ? @game.win_score : (@team_one&.id == @game.lose_team ? @game.lose_score : "—") %></td>
+    <td class="points"><%= @team_two&.id == @winner&.id ? @game.win_score : (@team_two&.id == @game.lose_team ? @game.lose_score : "—") %></td>
+    <td><%= @team_two&.team_name || "Equipo por definir" %></td>
+  </tr>
+</table>
+<p><strong>Ganador:</strong> <%= @winner&.team_name || "Sin resultado registrado" %></p>
+
+<h2 class="section-title">Información del partido</h2>
+<table class="meta">
+  <tr>
+    <td><span class="label">Torneo</span><span class="value"><%= @calendar&.tournament&.name || "—" %></span></td>
+    <td><span class="label">Fecha y hora</span><span class="value"><%= @calendar&.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : "Sin fecha asignada" %></span></td>
+  </tr>
+  <tr>
+    <td><span class="label">Etapa</span><span class="value"><%= @calendar&.stage.present? ? (Calendar::TYPE_STAGE.key(@calendar.stage)&.to_s&.humanize || @calendar.stage) : "—" %></span></td>
+    <td><span class="label">Estado del calendario</span><span class="value"><%= @calendar&.status.present? ? (Calendar::TYPE_STATUS.key(@calendar.status)&.to_s&.humanize || @calendar.status) : "—" %></span></td>
+  </tr>
+  <tr>
+    <td><span class="label">Registrado por</span><span class="value"><%= @game.user&.full_name || @game.user&.user_name || "—" %></span></td>
+    <td><span class="label">Estado del partido</span><span class="value"><%= @game.enabled? ? "Habilitado" : "Deshabilitado" %></span></td>
+  </tr>
+  <% if @game.description.present? %>
+    <tr><td colspan="2"><span class="label">Descripción</span><span class="value"><%= @game.description %></span></td></tr>
+  <% end %>
+</table>
+
+<h2 class="section-title">Jugadas registradas (<%= @game_details.size %>)</h2>
+<% if @game_details.any? %>
+  <table class="details">
+    <thead><tr><th class="number">Set</th><th class="number">Minuto</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th></tr></thead>
+    <tbody>
+      <% @game_details.each do |detail| %>
+        <tr>
+          <td class="number"><%= detail.number_set || "—" %></td>
+          <td class="number"><%= detail.played_minute.present? ? "#{detail.played_minute}′" : "—" %></td>
+          <td><%= @detail_teams[detail.team_id]&.team_name || "—" %></td>
+          <td><%= @detail_players[detail.player_id]&.full_name || "Sin jugador" %></td>
+          <td><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></td>
+          <td><%= detail.description.presence || "—" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="empty">Este partido aún no tiene jugadas registradas.</div>
+<% end %>
+
+<div class="footer">Federación Nicaragüense de Voleibol · FNVB</div>

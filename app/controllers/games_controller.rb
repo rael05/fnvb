@@ -10,6 +10,23 @@ class GamesController < ApplicationController
 
   # GET /games/1 or /games/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        @calendar = @game.calendar
+        @team_one = @calendar.teamDetail1
+        @team_two = @calendar.teamDetail2
+        @winner = Team.find_by(id: @game.winning_team)
+        @game_details = @game.game_details.order(:number_set, :played_minute, :order).to_a
+        @detail_teams = Team.where(id: @game_details.map(&:team_id).compact.uniq).index_by(&:id)
+        @detail_players = Player.where(id: @game_details.map(&:player_id).compact.uniq).index_by(&:id)
+
+        render pdf: "reporte-partido-#{@game.id}",
+               template: "games/show_pdf",
+               formats: [:pdf],
+               disposition: "attachment"
+      end
+    end
   end
 
   # GET /games/new
@@ -106,6 +123,6 @@ class GamesController < ApplicationController
   end
 
   def game_detail_params
-    params.require(:game_detail).permit(:game_id, :player_id, :team_id, :detail_type, :number_set, :order)
+    params.require(:game_detail).permit(:game_id, :player_id, :team_id, :detail_type, :number_set, :played_minute, :order)
   end
 end

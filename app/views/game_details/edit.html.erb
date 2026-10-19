@@ -25,15 +25,19 @@
         <%= form.select :player_id, options_for_select(@player_options, @game_detail.player_id), {}, class: "form-select" %>
       </div>
       <div class="row g-3 mb-3">
-        <div class="col-sm-6">
+        <div class="col-md-5">
           <%= form.label :detail_type, "Tipo de acción", class: "form-label" %>
           <%= form.select :detail_type, options_for_select(@detail_types, @game_detail.detail_type), {}, class: "form-select" %>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-2">
           <%= form.label :number_set, "Set", class: "form-label" %>
           <%= form.number_field :number_set, class: "form-control", min: 1, max: 5 %>
         </div>
-        <div class="col-sm-3">
+        <div class="col-md-2">
+          <%= form.label :played_minute, "Minuto de juego", class: "form-label" %>
+          <%= form.number_field :played_minute, class: "form-control", min: 0, placeholder: "Ej. 12" %>
+        </div>
+        <div class="col-md-3">
           <%= form.label :order, "Orden", class: "form-label" %>
           <%= form.number_field :order, class: "form-control", min: 1 %>
         </div>

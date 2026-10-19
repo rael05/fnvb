@@ -39,6 +39,22 @@ class PlayersController < ApplicationController
                         .where.not(calendars: { start_date_time: nil })
                         .order(Arel.sql("calendars.start_date_time DESC, games.id DESC"))
                         .limit(5)
+
+    respond_to do |format|
+      format.html
+      format.pdf do
+        @player_game_details = GameDetail.joins(game: :calendar)
+                                         .where(player_id: @player.id, enabled: true, games: { enabled: true }, calendars: { enabled: true, status: Calendar::TYPE_STATUS[:finished] })
+        @game_detail_counts = @player_game_details.group(:detail_type).count
+        @registered_action_count = @player_game_details.count
+        @matches_with_recorded_actions = @player_game_details.distinct.count(:game_id)
+
+        render pdf: "ficha-#{@player.full_name.parameterize}",
+               template: "players/show_pdf",
+               formats: [:pdf],
+               disposition: "attachment"
+      end
+    end
   end
 
   # GET /players/new

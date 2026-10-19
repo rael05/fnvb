@@ -9,6 +9,24 @@ class TournamentsController < ApplicationController
 
   # GET /tournaments/1 or /tournaments/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        if params[:report] == "calendar"
+          @calendars = @tournament.calendars.includes(:team_one, :team_two).order(:start_date_time)
+          render pdf: "agenda-#{@tournament.name.parameterize}",
+                 template: "tournaments/calendar_report",
+                 formats: [:pdf],
+                 disposition: "attachment"
+        else
+          @teams = @tournament.teams.order(:team_name)
+          render pdf: "equipos-#{@tournament.name.parameterize}",
+                 template: "tournaments/teams_report",
+                 formats: [:pdf],
+                 disposition: "attachment"
+        end
+      end
+    end
   end
 
   # GET /tournaments/new

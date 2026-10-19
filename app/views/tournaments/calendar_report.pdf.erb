@@ -1,0 +1,56 @@
+<meta charset="utf-8" />
+<style>
+  body { color: #26364f; font-family: Arial, sans-serif; font-size: 9pt; }
+  h1, h2 { color: #172b4d; }
+  .header { border-bottom: 3px solid #c9273b; margin-bottom: 18px; padding-bottom: 12px; }
+  .brand { color: #172b4d; font-size: 10pt; font-weight: bold; letter-spacing: 1px; text-align: center; text-transform: uppercase; }
+  .title { margin: 12px 0 4px; text-align: center; }
+  .generated { color: #748198; font-size: 8pt; text-align: center; }
+  .summary { background: #f1f4f8; border-left: 4px solid #c9273b; margin-bottom: 16px; padding: 9px 12px; }
+  .schedule { border-collapse: collapse; width: 100%; }
+  .schedule thead { display: table-header-group; }
+  .schedule th, .schedule td { border: 1px solid #dfe5ed; padding: 7px 8px; text-align: left; vertical-align: top; }
+  .schedule th { background: #172b4d; color: #fff; font-size: 8pt; }
+  .schedule tbody tr:nth-child(even) { background: #f5f7fa; }
+  .schedule tr { page-break-inside: avoid; }
+  .number, .date, .time { text-align: center !important; white-space: nowrap; }
+  .teams { font-weight: bold; }
+  .stage { color: #52647e; }
+  .empty { background: #f7f9fc; color: #748198; padding: 12px; }
+  .footer { border-top: 1px solid #dfe5ed; color: #8994a5; font-size: 8pt; margin-top: 20px; padding-top: 8px; text-align: center; }
+</style>
+
+<div class="header">
+  <div class="brand">FNVB · Federación Nicaragüense de Voleibol</div>
+  <div class="title">
+    <span>Agenda de partidos</span>
+    <h1><%= @tournament.completed_name %></h1>
+  </div>
+  <div class="generated">Reporte generado el <%= l(Time.current, format: :long) %></div>
+</div>
+
+<div class="summary"><strong>Partidos agendados:</strong> <%= @calendars.size %></div>
+
+<% if @calendars.any? %>
+  <table class="schedule">
+    <thead>
+      <tr><th class="number">N.º</th><th>Partido</th><th class="date">Fecha</th><th class="time">Hora</th><th>Etapa</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <% @calendars.each_with_index do |calendar, index| %>
+        <tr>
+          <td class="number"><%= index + 1 %></td>
+          <td class="teams"><%= calendar.team_one&.team_name || "Equipo por definir" %> vs. <%= calendar.team_two&.team_name || "Equipo por definir" %></td>
+          <td class="date"><%= calendar.start_date_time.present? ? l(calendar.start_date_time.to_date, format: :short) : "Sin fecha" %></td>
+          <td class="time"><%= calendar.start_date_time.present? ? calendar.start_date_time.strftime("%H:%M") : "—" %></td>
+          <td class="stage"><%= calendar.stage.present? ? (Calendar::TYPE_STAGE.key(calendar.stage)&.to_s&.humanize || calendar.stage) : "—" %></td>
+          <td><%= calendar.description.presence || "—" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="empty">Este torneo aún no tiene partidos agendados.</div>
+<% end %>
+
+<div class="footer">Federación Nicaragüense de Voleibol · FNVB</div>

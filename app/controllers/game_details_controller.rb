@@ -69,7 +69,7 @@ class GameDetailsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def game_detail_params
-      params.require(:game_detail).permit(:game_id, :team_id, :player_id, :detail_type, :number_set, :order, :description)
+      params.require(:game_detail).permit(:game_id, :team_id, :player_id, :detail_type, :number_set, :played_minute, :order, :description)
     end
 
     def set_form_options

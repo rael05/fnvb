@@ -540,18 +540,18 @@ game_nicaragua_costarica = Game.create!({
 })
 
 [
-  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 10), 'T', 1, 1, 'Ataque ganador de Nicaragua'],
-  [game_nicaragua_guatemala, guatemala_team, guatemala_team.players.find_by(number: 8), 'B', 2, 2, 'Bloqueo de Guatemala'],
-  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 4), 'T', 3, 3, 'Punto de ataque para cerrar el partido'],
-  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 10), 'T', 1, 1, 'Ataque de El Salvador'],
-  [game_nicaragua_salvador, nicaragua_team, nicaragua_team.players.find_by(number: 8), 'R', 3, 2, 'Recepción y contraataque de Nicaragua'],
-  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 4), 'T', 5, 3, 'Punto decisivo del quinto set'],
-  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 14), 'B', 1, 1, 'Bloqueo de Nicaragua'],
-  [game_nicaragua_costarica, costarica_team, costarica_team.players.find_by(number: 8), 'E', 2, 2, 'Error de saque de Costa Rica'],
-  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 3), 'T', 3, 3, 'Último ataque del encuentro']
-].each do |game, team, player, detail_type, number_set, order, description|
+  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 10), 'T', 1, 4, 1, 'Ataque ganador de Nicaragua'],
+  [game_nicaragua_guatemala, guatemala_team, guatemala_team.players.find_by(number: 8), 'B', 2, 31, 2, 'Bloqueo de Guatemala'],
+  [game_nicaragua_guatemala, nicaragua_team, nicaragua_team.players.find_by(number: 4), 'T', 3, 68, 3, 'Punto de ataque para cerrar el partido'],
+  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 10), 'T', 1, 8, 1, 'Ataque de El Salvador'],
+  [game_nicaragua_salvador, nicaragua_team, nicaragua_team.players.find_by(number: 8), 'R', 3, 54, 2, 'Recepción y contraataque de Nicaragua'],
+  [game_nicaragua_salvador, salvador_team, salvador_team.players.find_by(number: 4), 'T', 5, 126, 3, 'Punto decisivo del quinto set'],
+  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 14), 'B', 1, 17, 1, 'Bloqueo de Nicaragua'],
+  [game_nicaragua_costarica, costarica_team, costarica_team.players.find_by(number: 8), 'E', 2, 42, 2, 'Error de saque de Costa Rica'],
+  [game_nicaragua_costarica, nicaragua_team, nicaragua_team.players.find_by(number: 3), 'T', 3, 73, 3, 'Último ataque del encuentro']
+].each do |game, team, player, detail_type, number_set, played_minute, order, description|
   GameDetail.create!(
     game: game, team_id: team.id, player_id: player&.id, detail_type: detail_type,
-    number_set: number_set, order: order, description: description
+    number_set: number_set, played_minute: played_minute, order: order, description: description
   )
 end

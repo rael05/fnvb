@@ -17,8 +17,8 @@
   </div>
 
   <div>
-    <%= form.label :game_time, style: "display: block" %>
-    <%= form.text_field :game_time %>
+    <%= form.label :played_minute, "Minuto de juego", style: "display: block" %>
+    <%= form.number_field :played_minute, min: 0 %>
   </div>
 
   <div>

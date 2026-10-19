@@ -5,8 +5,8 @@
   </p>
 
   <p>
-    <strong>Game time:</strong>
-    <%= game_detail.game_time %>
+    <strong>Minuto de juego:</strong>
+    <%= game_detail.played_minute.present? ? "#{game_detail.played_minute}′" : "No registrado" %>
   </p>
 
   <p>

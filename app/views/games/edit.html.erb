@@ -76,14 +76,15 @@
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead class="table-light">
-            <tr><th>Set</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th><th></th></tr>
+            <tr><th>Set</th><th>Minuto</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th><th></th></tr>
           </thead>
           <tbody>
-            <% @game.game_details.order(:number_set, :order).each do |detail| %>
+            <% @game.game_details.order(:number_set, :played_minute, :order).each do |detail| %>
               <% detail_team = Team.find_by(id: detail.team_id) %>
               <% detail_player = Player.find_by(id: detail.player_id) %>
               <tr>
                 <td><span class="badge text-bg-light">Set <%= detail.number_set || "—" %></span></td>
+                <td><%= detail.played_minute.present? ? "#{detail.played_minute}′" : "—" %></td>
                 <td><%= detail_team&.team_name || "—" %></td>
                 <td><%= detail_player&.full_name || "Sin jugador" %></td>
                 <td><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></td>
@@ -125,6 +126,10 @@
             <div class="mb-3">
               <%= form.label :number_set, class: "col-form-label" %>
               <%= form.number_field :number_set, class: "form-control", min: 1, max: 5 %>
+            </div>
+            <div class="mb-3">
+              <%= form.label :played_minute, "Minuto de juego", class: "col-form-label" %>
+              <%= form.number_field :played_minute, class: "form-control", min: 0, placeholder: "Ej. 12" %>
             </div>
           </div>
           <div class="modal-footer">

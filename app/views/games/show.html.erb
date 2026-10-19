@@ -5,7 +5,7 @@
 <% loser = Team.find_by(id: @game.lose_team) %>
 <% team_one_score = team_one&.id == winner&.id ? @game.win_score : (team_one&.id == loser&.id ? @game.lose_score : nil) %>
 <% team_two_score = team_two&.id == winner&.id ? @game.win_score : (team_two&.id == loser&.id ? @game.lose_score : nil) %>
-<% details = @game.game_details.order(:number_set, :order) %>
+<% details = @game.game_details %>
 
 <main class="game-show container my-4 my-lg-5">
   <% if notice.present? %>
@@ -96,13 +96,14 @@
     <% if details.any? %>
       <div class="table-responsive game-show__table-wrap">
         <table class="table align-middle mb-0">
-          <thead><tr><th>Set</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th></tr></thead>
+          <thead><tr><th>Set</th><th>Minuto</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th></tr></thead>
           <tbody>
-            <% details.each do |detail| %>
+            <% details.order(:number_set, :played_minute, :order).each do |detail| %>
               <% detail_team = Team.find_by(id: detail.team_id) %>
               <% detail_player = Player.find_by(id: detail.player_id) %>
               <tr>
                 <td><span class="game-show__set">Set <%= detail.number_set || "—" %></span></td>
+                <td><%= detail.played_minute.present? ? "#{detail.played_minute}′" : "—" %></td>
                 <td><%= detail_team&.team_name || "—" %></td>
                 <td><%= detail_player ? detail_player.full_name : "Sin jugador" %></td>
                 <td><span class="game-show__action"><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></span></td>
@@ -118,6 +119,9 @@
   </section>
 
   <div class="game-show__actions mt-4">
+    <%= link_to game_path(@game, format: :pdf), class: "btn btn-outline-danger" do %>
+      <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i>Descargar reporte PDF
+    <% end %>
     <%= link_to edit_game_path(@game), class: "btn game-show__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>Editar partido
     <% end %>

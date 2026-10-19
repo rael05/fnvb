@@ -1,0 +1,53 @@
+<meta charset="utf-8" />
+<style>
+  body { color: #24344d; font-family: Arial, sans-serif; font-size: 10pt; }
+  h1, h2, h3 { color: #172b4d; }
+  h1 { margin-bottom: 4px; text-align: center; }
+  .subtitle { color: #6d7a8e; margin: 0 0 22px; text-align: center; }
+  .summary { background: #f1f4f8; border-left: 4px solid #c9273b; margin-bottom: 20px; padding: 10px 13px; }
+  .team { border: 1px solid #d9e0e9; margin-bottom: 17px; page-break-inside: avoid; }
+  .team-heading { background: #172b4d; color: #fff; padding: 9px 12px; }
+  .team-heading h2 { color: #fff; display: inline; font-size: 14pt; margin: 0; }
+  .team-heading span { float: right; font-size: 9pt; }
+  .staff { border-collapse: collapse; margin: 9px 12px; width: calc(100% - 24px); }
+  .staff td { padding: 4px 7px; vertical-align: top; width: 50%; }
+  .staff strong { color: #52647e; }
+</style>
+
+<h1>FNVB · Federación Nicaragüense de Voleibol</h1>
+<p class="subtitle">Equipos registrados en <strong><%= @tournament.completed_name %></strong></p>
+
+<div class="summary">
+  <strong>Total de equipos:</strong> <%= @teams.size %>
+  &nbsp; | &nbsp;
+  <strong>Fecha de generación:</strong> <%= l(Time.current, format: :long) %>
+</div>
+
+<% if @teams.any? %>
+  <% @teams.each_with_index do |team, index| %>
+    <section class="team">
+      <div class="team-heading">
+        <h2><%= index + 1 %>. <%= team.team_name %></h2>
+        <span><%= team.enabled? ? "Habilitado" : "Deshabilitado" %></span>
+      </div>
+
+      <table class="staff">
+        <tr>
+          <td><strong>Delegado:</strong> <%= [team.delegate_name, team.delegate_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+          <td><strong>Entrenador principal:</strong> <%= [team.head_coach_name, team.head_coach_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+        </tr>
+        <tr>
+          <td><strong>Entrenador asistente:</strong> <%= [team.assistant_coach1_name, team.assistant_coach1_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+          <td><strong>Segundo asistente:</strong> <%= [team.assistant_coach2_name, team.assistant_coach2_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+        </tr>
+        <tr>
+          <td><strong>Uniforme 1:</strong> <%= [team.color_shirt1, team.color_short1].compact_blank.join(" · ").presence || "Sin especificar" %></td>
+          <td><strong>Uniforme 2:</strong> <%= [team.color_shirt2, team.color_short2].compact_blank.join(" · ").presence || "Sin especificar" %></td>
+        </tr>
+      </table>
+
+    </section>
+  <% end %>
+<% else %>
+  <p>No hay equipos registrados en este torneo.</p>
+<% end %>
