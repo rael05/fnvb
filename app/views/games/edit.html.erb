@@ -1,14 +1,14 @@
-<h1>Editing game</h1>
+<h1><%= t("ui.edit_resource", resource: t("ui.resources.game").capitalize) %></h1>
 
 <% if notice.present? %>
   <div class="alert alert-success alert-dismissible fade show" role="alert">
     <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('ui.close') %>"></button>
   </div>
 <% elsif alert.present? %>
   <div class="alert alert-danger alert-dismissible fade show" role="alert">
     <%= alert %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('ui.close') %>"></button>
   </div>
 <% end %>
 
@@ -16,7 +16,7 @@
   <%= form_with(model: @game) do |form| %>
     <% if @game.errors.any? %>
       <div style="color: red">
-        <h2><%= pluralize(@game.errors.count, "error") %> prohibited this game from being saved:</h2>
+        <h2><%= t("ui.form_errors", count: @game.errors.count, resource: t("ui.resources.game")) %></h2>
 
         <ul>
           <% @game.errors.each do |error| %>
@@ -28,35 +28,35 @@
 
     <div class="mb-3 row">
       <div class="col">
-        <%= form.label :winning_team, style: "display: block", class: "form-label" %>
+        <%= form.label :winning_team, t("ui.winning_team"), style: "display: block", class: "form-label" %>
         <%= form.select(:winning_team, options_for_select(@team_options, @winning_team), {}, class: "form-select") %>
       </div>
 
       <div class="col">
-        <%= form.label :lose_team, style: "display: block", class: "form-label" %>
+        <%= form.label :lose_team, t("ui.loser_team"), style: "display: block", class: "form-label" %>
         <%= form.select(:lose_team, options_for_select(@team_options, @lose_team), {}, class: "form-select") %>
       </div>
     </div>
 
     <div class="mb-3 row">
       <div class="col">
-        <%= form.label :win_score, style: "display: block", class: "form-label" %>
+        <%= form.label :win_score, t("ui.winning_score"), style: "display: block", class: "form-label" %>
         <%= form.number_field :win_score, class: "form-control", min: 0 %>
       </div>
 
       <div class="col">
-        <%= form.label :lose_score, style: "display: block", class: "form-label" %>
+        <%= form.label :lose_score, t("ui.losing_score"), style: "display: block", class: "form-label" %>
         <%= form.number_field :lose_score, class: "form-control", min: 0 %>
       </div>
     </div>
 
     <div class="mb-3">
-      <%= form.label :description, style: "display: block", class: "form-label" %>
+      <%= form.label :description, t("ui.description"), style: "display: block", class: "form-label" %>
       <%= form.text_field :description, class: "form-control" %>
     </div>
 
     <div class="ms-0 row">
-      <%= form.submit class: "btn btn-primary mb-2 col-2" %>
+      <%= form.submit t("ui.save_changes"), class: "btn btn-primary mb-2 col-2" %>
       <button type="button" class="btn btn-success ms-2 mb-2 col-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
         Agregar Detalles de jugada
       </button>
@@ -66,8 +66,8 @@
   <section class="mt-4">
     <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-3">
       <div>
-        <h2 class="h5 mb-1">Detalles de jugadas</h2>
-        <p class="text-muted small mb-0">Consulta y modifica las acciones registradas para este partido.</p>
+        <h2 class="h5 mb-1"><%= t("ui.play_details") %></h2>
+        <p class="text-muted small mb-0"><%= t("ui.record_match_actions") %></p>
       </div>
       <span class="badge text-bg-light"><%= pluralize(@game.game_details.size, "jugada", "jugadas") %></span>
     </div>
@@ -76,27 +76,27 @@
       <div class="table-responsive">
         <table class="table table-hover align-middle">
           <thead class="table-light">
-            <tr><th>Set</th><th>Minuto</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th><th></th></tr>
+            <tr><th><%= t("ui.set") %></th><th><%= t("ui.minute") %></th><th><%= t("team") %></th><th><%= t("ui.player_label") %></th><th><%= t("ui.action") %></th><th><%= t("ui.description") %></th><th></th></tr>
           </thead>
           <tbody>
             <% @game.game_details.order(:number_set, :played_minute, :order).each do |detail| %>
               <% detail_team = Team.find_by(id: detail.team_id) %>
               <% detail_player = Player.find_by(id: detail.player_id) %>
               <tr>
-                <td><span class="badge text-bg-light">Set <%= detail.number_set || "—" %></span></td>
+                <td><span class="badge text-bg-light"><%= t("ui.set") %> <%= detail.number_set || "—" %></span></td>
                 <td><%= detail.played_minute.present? ? "#{detail.played_minute}′" : "—" %></td>
                 <td><%= detail_team&.team_name || "—" %></td>
-                <td><%= detail_player&.full_name || "Sin jugador" %></td>
-                <td><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></td>
+                <td><%= detail_player&.full_name || t("ui.no_player") %></td>
+                <td><%= detail.detail_type.present? ? t("ui.actions.#{detail.detail_type}", default: detail.detail_type) : "—" %></td>
                 <td><%= detail.description.presence || "—" %></td>
-                <td class="text-end"><%= link_to edit_game_detail_path(detail), class: "btn btn-sm btn-outline-primary" do %><i class="fa-solid fa-pen me-1" aria-hidden="true"></i>Modificar<% end %></td>
+                <td class="text-end"><%= link_to edit_game_detail_path(detail), class: "btn btn-sm btn-outline-primary" do %><i class="fa-solid fa-pen me-1" aria-hidden="true"></i><%= t("ui.edit") %><% end %></td>
               </tr>
             <% end %>
           </tbody>
         </table>
       </div>
     <% else %>
-      <div class="alert alert-light border mb-3">Todavía no hay detalles registrados para este partido.</div>
+      <div class="alert alert-light border mb-3"><%= t("ui.no_details_yet") %></div>
     <% end %>
   </section>
 
@@ -105,8 +105,8 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo Registro de Jugada</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 class="modal-title fs-5" id="exampleModalLabel"><%= t("ui.new_play_record") %></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
         </div>
         <%= form_with model: @gameDetail, url: "/games/game_details", method: :post do |form| %>
           <div class="modal-body py-0">
@@ -128,13 +128,13 @@
               <%= form.number_field :number_set, class: "form-control", min: 1, max: 5 %>
             </div>
             <div class="mb-3">
-              <%= form.label :played_minute, "Minuto de juego", class: "col-form-label" %>
-              <%= form.number_field :played_minute, class: "form-control", min: 0, placeholder: "Ej. 12" %>
+              <%= form.label :played_minute, t("ui.minute"), class: "col-form-label" %>
+              <%= form.number_field :played_minute, class: "form-control", min: 0, placeholder: t("ui.example_minute") %>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <%= form.submit class: "btn btn-primary" %>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.close") %></button>
+            <%= form.submit t("ui.save_changes"), class: "btn btn-primary" %>
           </div>
         <% end %>
       </div>
@@ -193,6 +193,6 @@
 <br>
 
 <div>
-  <%= link_to "Show this game", @game %> |
-  <%= link_to "Back to games", games_path %>
+  <%= link_to t("ui.show_game"), @game %> |
+  <%= link_to t("ui.back_to_games"), games_path %>
 </div>

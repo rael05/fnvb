@@ -1,51 +1,51 @@
 <div id="<%= dom_id player %>">
   <p>
-    <strong>Number:</strong>
+    <strong><%= t("ui.number") %>:</strong>
     <%= player.number %>
   </p>
 
   <p>
-    <strong>Name:</strong>
+    <strong><%= t(:name) %>:</strong>
     <%= player.name %>
   </p>
 
   <p>
-    <strong>Last name:</strong>
+    <strong><%= t(:last_name) %>:</strong>
     <%= player.last_name %>
   </p>
 
   <p>
-    <strong>Position:</strong>
-    <%= player.position_name %>
+    <strong><%= t("ui.position") %>:</strong>
+    <%= player.position.present? ? t("ui.positions.#{player.position}") : "—" %>
   </p>
 
   <p>
-    <strong>Birthday:</strong>
+    <strong><%= t("ui.birth_date") %>:</strong>
     <%= player.birthday %>
   </p>
 
   <p>
-    <strong>Gender:</strong>
-    <%= player.gender_name %>
+    <strong><%= t("ui.gender") %>:</strong>
+    <%= player.gender.present? ? t("ui.genders.#{player.gender}") : "—" %>
   </p>
 
   <p>
-    <strong>Weight:</strong>
+    <strong><%= t("ui.weight") %>:</strong>
     <%= player.weight %>
   </p>
 
   <p>
-    <strong>Height:</strong>
+    <strong><%= t("ui.height") %>:</strong>
     <%= player.height %>
   </p>
 
   <p>
-    <strong>Team:</strong>
+    <strong><%= t("team") %>:</strong>
     <%= player.team.team_name %>
   </p>
 
   <p>
-    <strong>Nationality:</strong>
+    <strong><%= t("ui.nationality") %>:</strong>
     <%= player.nationality %>
   </p>
 

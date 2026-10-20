@@ -4,12 +4,12 @@ class UserMailer < ApplicationMailer
   def change_password_mail
     @user = params[:user]
     @password = params[:password]
-    mail(to: @user.email, subject: 'La FNVB Acaba de cambiar tu contraseña')
+    mail(to: @user.email, subject: I18n.t("ui.password_change_subject"))
   end
 
   def user_by_president
     @user = params[:user]
     @password = params[:password]
-    mail(to: @user.email, subject: 'Bienvenido a FNVB Aqui tus nuevas credenciales')
+    mail(to: @user.email, subject: I18n.t("ui.account_credentials_subject"))
   end
 end

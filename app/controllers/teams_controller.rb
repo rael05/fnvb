@@ -56,7 +56,7 @@ class TeamsController < ApplicationController
       if @team.save
         current_user.update(team_id: @team.id)
         TournamentTeam.create({ team_id: @team.id, tournament_id: current_user.tournament_id })
-        format.html { redirect_to team_url(@team), notice: "Team was successfully created." }
+        format.html { redirect_to team_url(@team), notice: t("ui.created_notice", resource: t("ui.resources.team").capitalize) }
         format.json { render :show, status: :created, location: @team }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -69,7 +69,7 @@ class TeamsController < ApplicationController
   def update
     respond_to do |format|
       if @team.update(team_params)
-        format.html { redirect_to team_url(@team), notice: "Team was successfully updated." }
+        format.html { redirect_to team_url(@team), notice: t("ui.updated_notice", resource: t("ui.resources.team").capitalize) }
         format.json { render :show, status: :ok, location: @team }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -83,7 +83,7 @@ class TeamsController < ApplicationController
     @team.destroy
 
     respond_to do |format|
-      format.html { redirect_to teams_url, notice: "Team was successfully destroyed." }
+      format.html { redirect_to teams_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.team").capitalize) }
       format.json { head :no_content }
     end
   end

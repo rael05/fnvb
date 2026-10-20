@@ -25,16 +25,16 @@
             </h5>
             <p class="card-text">
               <%= statistic.description&.truncate(85) %>
-              <a href="<%= statistic_path(statistic) %>"> Leer más. </a>
+              <a href="<%= statistic_path(statistic) %>"> <%= t("ui.read_more") %>. </a>
             </p>
           </div>
           <div class="card-footer">
             <small class="text-body-secondary">
-              Creada el <%= statistic.created_at.strftime('%b %d, %Y') %>
+              <%= t("ui.published_on") %> <%= l(statistic.created_at.to_date, format: :short) %>
               <br>
-              Ultima modificación <%= statistic.updated_at.strftime('%b %d, %Y') %>
+              <%= t("ui.last_updated") %> <%= l(statistic.updated_at.to_date, format: :short) %>
               <br>
-              Escrita por <%= statistic.user.full_name.truncate(28) %>
+              <%= t("ui.author") %> <%= statistic.user.full_name.truncate(28) %>
               <br>
               <div class="row ms-0 mt-1">
                 <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
@@ -43,7 +43,7 @@
                   </a>
                 </div>
                 <div class="border rounded-circle position-relative bg-white ms-1" style="width: 30px; height: 30px">
-                  <%= button_to(enable_change_statistic_path(statistic), method: :patch, class: "btn btn-link p-0 link-danger position-absolute top-50 start-50 translate-middle", title: (statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística"), aria: { label: (statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística") }, form: { data: { turbo: false } }) do %>
+                  <%= button_to(enable_change_statistic_path(statistic), method: :patch, class: "btn btn-link p-0 link-danger position-absolute top-50 start-50 translate-middle", title: (t(statistic.enabled? ? "ui.disable_statistic" : "ui.enable_statistic")), aria: { label: (t(statistic.enabled? ? "ui.disable_statistic" : "ui.enable_statistic")) }, form: { data: { turbo: false } }) do %>
                     <i class="fa-solid <%= statistic.enabled? ? 'fa-eye-slash' : 'fa-eye' %>"></i>
                   <% end %>
                 </div>
@@ -54,5 +54,5 @@
       </div>
     <% end %>
   </div>
-  <%= link_to "New statistic", new_statistic_path, class: 'btn btn-primary mt-3' %>
+  <%= link_to t("ui.new_resource", resource: t("ui.resources.statistic").capitalize), new_statistic_path, class: 'btn btn-primary mt-3' %>
 </div>

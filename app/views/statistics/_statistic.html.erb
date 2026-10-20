@@ -1,39 +1,39 @@
 <div id="<%= dom_id statistic %>">
   <p>
-    <strong>Title:</strong>
+    <strong><%= t("ui.title") %>:</strong>
     <%= statistic.title %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong><%= t("ui.description") %>:</strong>
     <%= statistic.description %>
   </p>
 
   <p>
-    <strong>Esta estadistica fue hecha por:</strong>
+    <strong><%= t("ui.author") %>:</strong>
     <%= statistic.user.email %>
   </p>
 
   <% if statistic.pdf_es_file.present? %>
     <p>
-      <strong>Vista del PDF en español de la estadistica:</strong>
+      <strong><%= t("ui.view_spanish_pdf") %>:</strong>
       <%= link_to statistic.pdf_es_file.filename, rails_blob_path(statistic.pdf_es_file, disposition: 'preview') %>
     </p>
 
     <p>
-      <strong>Descarga del PDF en español de la estadistica:</strong>
+      <strong><%= t("ui.download_spanish_pdf") %>:</strong>
       <%= link_to statistic.pdf_es_file.filename, rails_blob_path(statistic.pdf_es_file, disposition: 'attachment') %>
     </p>
   <% end %>
 
   <% if statistic.pdf_en_file.present? %>
     <p>
-      <strong>Vista del PDF en ingles de la estadistica:</strong>
+      <strong><%= t("ui.view_english_pdf") %>:</strong>
       <%= link_to statistic.pdf_en_file.filename, rails_blob_path(statistic.pdf_en_file, disposition: 'preview') %>
     </p>
 
     <p>
-      <strong>Descarga del PDF en ingles de la estadistica:</strong>
+      <strong><%= t("ui.download_english_pdf") %>:</strong>
       <%= link_to statistic.pdf_en_file.filename, rails_blob_path(statistic.pdf_en_file, disposition: 'attachment') %>
     </p>
   <% end %>

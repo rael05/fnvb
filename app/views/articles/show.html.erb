@@ -72,12 +72,12 @@
 <main class="article-show pt-3">
   <%= link_to articles_path, class: "article-show-back" do %>
     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    <span>Volver a noticias</span>
+    <span><%= t("ui.back_to_articles") %></span>
   <% end %>
 
   <article class="article-show-panel">
     <header class="article-show-header">
-      <span class="text-danger fw-bold text-uppercase small">Noticias FNVB</span>
+      <span class="text-danger fw-bold text-uppercase small"><%= t("ui.articles_heading") %></span>
       <h1 class="article-show-title display-6 mt-2 mb-3"><%= @article.title %></h1>
       <p class="article-show-meta mb-0">
         <i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>
@@ -94,7 +94,7 @@
 
       <% if @article.pdf_es_file.present? || @article.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="article-files-heading">
-          <h2 id="article-files-heading" class="article-show-subheading h4 mb-3">Archivos de la noticia</h2>
+          <h2 id="article-files-heading" class="article-show-subheading h4 mb-3"><%= t("ui.attached_documents") %></h2>
           <div class="row g-3">
             <% if @article.pdf_es_file.present? %>
               <div class="col-md-6">
@@ -102,11 +102,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en español</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.spanish_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @article.pdf_es_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@article.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer", class: "link-primary" %>
-                        <%= link_to "Descargar", rails_blob_path(@article.pdf_es_file, disposition: "attachment"), class: "link-primary" %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@article.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer", class: "link-primary" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@article.pdf_es_file, disposition: "attachment"), class: "link-primary" %>
                       </div>
                     </div>
                   </div>
@@ -120,11 +120,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en inglés</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.english_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @article.pdf_en_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@article.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer", class: "link-primary" %>
-                        <%= link_to "Descargar", rails_blob_path(@article.pdf_en_file, disposition: "attachment"), class: "link-primary" %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@article.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer", class: "link-primary" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@article.pdf_en_file, disposition: "attachment"), class: "link-primary" %>
                       </div>
                     </div>
                   </div>
@@ -136,17 +136,17 @@
       <% end %>
 
       <footer class="article-show-footer">
-        <span>Última actualización: <%= l(@article.updated_at.to_date, format: :long) %></span>
-        <span>Escrito por <%= @article.user.full_name %></span>
+        <span><%= t("ui.last_updated") %>: <%= l(@article.updated_at.to_date, format: :long) %></span>
+        <span><%= t("ui.author") %> <%= @article.user.full_name %></span>
       </footer>
     </div>
   </article>
 
   <div class="d-flex flex-wrap gap-2 mt-3">
-    <%= link_to "Volver a noticias", articles_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
-    <%= link_to "Editar noticia", edit_article_path(@article), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to(enable_change_article_path(@article), method: :patch, class: "btn #{'btn-outline-danger' if @article.enabled?} #{'btn-outline-success' unless @article.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: (@article.enabled? ? "¿Deshabilitar esta noticia?" : "¿Habilitar esta noticia?") } }) do %>
-      <i class="fa-solid <%= @article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @article.enabled? ? "Deshabilitar noticia" : "Habilitar noticia" %>
+    <%= link_to t("ui.back_to_articles"), articles_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
+    <%= link_to t("ui.edit_resource", resource: t("ui.resources.article").capitalize), edit_article_path(@article), class: "btn btn-outline-primary rounded-pill px-4" %>
+    <%= button_to(enable_change_article_path(@article), method: :patch, class: "btn #{'btn-outline-danger' if @article.enabled?} #{'btn-outline-success' unless @article.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @article.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.article"), name: @article.title) } }) do %>
+      <i class="fa-solid <%= @article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @article.enabled? ? t("ui.disable_article") : t("ui.enable_article") %>
     <% end %>
   </div>
 </main>

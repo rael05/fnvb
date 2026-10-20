@@ -1,14 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Games</h1>
+<h1><%= t("ui.matches") %></h1>
 
 <div id="games">
   <% @games.each do |game| %>
     <%= render game %>
     <p>
-      <%= link_to "Show this game", game %>
+      <%= link_to t("ui.show_game"), game %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New game", new_game_path %>
+<%= link_to t("ui.new_match"), new_game_path %>

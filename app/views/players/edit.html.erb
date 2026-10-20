@@ -1,10 +1,10 @@
-<h1>Editing player</h1>
+<h1><%= t("ui.edit_resource", resource: t("ui.resources.player").capitalize) %></h1>
 
 <%= render "form", player: @player %>
 
 <br>
 
 <div>
-  <%= link_to "Show this player", @player, class: 'btn btn-outline-success' %>
-  <%= link_to "Back to players", players_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to t("ui.show_resource", resource: t("ui.resources.player").capitalize), @player, class: 'btn btn-outline-success' %>
+  <%= link_to t("ui.back_to_players"), players_path, class: 'btn btn-outline-secondary' %>
 </div>

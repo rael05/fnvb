@@ -1,14 +1,13 @@
 function Calendar(e, t, n, i, a) {
     this.id = e, this.size = t, this.labelSettings = n, this.colors = i, this.initday = 0, a = a || {}, this.indicator = !0, null != a.indicator && (this.indicator = a.indicator), this.indicator_type = 1, null != a.indicator_type && (this.indicator_type = a.indicator_type), this.indicator_pos = 1 == this.indicator_type ? "bottom" : "top", null != a.indicator_pos && (this.indicator_pos = a.indicator_pos);
     i = document.createElement("LI");
-    i.className = "cjslib-list-placeholder", i.appendChild(document.createTextNode("No events on this day")), i.style = "text-align: center; padding: 20px 0px;", this.placeholder = i.outerHTML, null != a.placeholder && (this.placeholder = a.placeholder);
-    i = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    null != a.months && 12 == a.months.length && (i = a.months);
-    var d = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    null != a.days && 7 == a.days.length && (d = a.days), this.months = i, this.defaultLabels = d, this.label = [], this.labels = [];
+    i.className = "cjslib-list-placeholder", i.appendChild(document.createTextNode(a.placeholder || "")), i.style = "text-align: center; padding: 20px 0px;", this.placeholder = i.outerHTML;
+    i = a.months || [];
+    var d = a.days || [];
+    this.months = i, this.defaultLabels = d, this.label = [], this.labels = [];
     for (var o = 0; o < 7; o++) this.label.push(d[d.indexOf(n[0]) + this.label.length >= d.length ? Math.abs(d.length - (d.indexOf(n[0]) + this.label.length)) : d.indexOf(n[0]) + this.label.length]);
     for (o = 0; o < 7; o++) this.labels.push(this.label[o].substring(0, 3 < n[1] ? 3 : n[1]));
-    this.date = new Date, this.today = new Date, this.history = [], this.draw(), this.update(), this.setOnClickListener("days-blocks"), this.setOnClickListener("month-slider"), this.setOnClickListener("year-slider")
+    this.dateFormat = a.date_format || "mdy", this.dateSeparator = a.date_separator || " ", this.date = new Date, this.today = new Date, this.history = [], this.draw(), this.update(), this.setOnClickListener("days-blocks"), this.setOnClickListener("month-slider"), this.setOnClickListener("year-slider")
 }
 
 function Organizer(e, t, n) {
@@ -41,7 +40,8 @@ Calendar.prototype = {
         this.date.setDate(e)
     },
     getDateString: function() {
-        return this.months[this.date.getMonth()] + " " + this.date.getDate() + ", " + this.date.getFullYear()
+        var month = this.months[this.date.getMonth()], day = this.date.getDate(), year = this.date.getFullYear();
+        return this.dateFormat === "dmy" ? day + this.dateSeparator + month + this.dateSeparator + year : month + " " + day + ", " + year
     }
 }, Calendar.prototype.draw = function() {
     var e = '<svg style="width: 24px; height: 24px;" viewBox="0 0 24 24"><path fill="' + this.colors[3] + '" d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>',
@@ -156,7 +156,7 @@ Calendar.prototype = {
     a = document.createElement("OL");
     a.className = "cjslib-list", a.id = this.id + "-history", e.appendChild(t.cloneNode(!0)), e.appendChild(a.cloneNode(!0)), n.appendChild(i.cloneNode(!0)), n.appendChild(e.cloneNode(!0)), document.getElementById(this.id).appendChild(n.cloneNode(!0))
 }, Organizer.prototype.update = function() {
-    document.getElementById(this.id + "-date").innerHTML = this.calendar.months[this.calendar.date.getMonth()] + " " + this.calendar.date.getDate() + ", " + this.calendar.date.getFullYear(), document.getElementById(this.id + "-list").innerHTML = "", this.showEvents()
+    document.getElementById(this.id + "-date").innerHTML = this.calendar.getDateString(), document.getElementById(this.id + "-list").innerHTML = "", this.showEvents()
 }, Organizer.prototype.updateData = function(e) {
     this.data = e, this.indicateEvents(), this.update()
 }, Organizer.prototype.list = function(e) {
@@ -273,12 +273,15 @@ Calendar.prototype = {
         for (var i = 1; i <= 42; i++) this.setupLongClickBlock(i, this, t)
 };
 
+const calendarElement = document.getElementById("calendar_data_formatted");
+const calendarUi = JSON.parse(calendarElement.dataset.calendarUi);
+
 // initializing a new calendar object, that will use an html container to create itself
 var calendar = new Calendar(
   "calendarContainer", // id of html container for calendar
   "medium", // size of calendar, can be small | medium | large
   [
-    "Wednesday", // left most day of calendar labels
+    calendarUi.first_day, // left most day of calendar labels
     3 // maximum length of the calendar labels
   ],
   [
@@ -286,10 +289,11 @@ var calendar = new Calendar(
     "#C2185B", // primary dark color
     "#FFFFFF", // text color
     "#F8BBD0" // text dark color
-  ]
+  ],
+  calendarUi
 );
 
-var data_formatted = JSON.parse(document.getElementById("calendar_data_formatted").dataset.calendar );
+var data_formatted = JSON.parse(calendarElement.dataset.calendar);
 
 var organizer = new Organizer(
   "organizerContainer", // id of html container for calendar

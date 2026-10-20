@@ -27,14 +27,14 @@
 
 <main class="statistic-show">
   <%= link_to statistics_path, class: "content-back" do %>
-    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Volver a estadísticas</span>
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span><%= t("ui.back_to_statistics") %></span>
   <% end %>
 
   <article class="content-panel">
     <header class="content-header">
-      <span class="text-danger fw-bold text-uppercase small">Estadísticas FNVB</span>
+      <span class="text-danger fw-bold text-uppercase small"><%= t("ui.statistics_heading") %></span>
       <h1 class="content-title display-6 mt-2 mb-3"><%= @statistic.title %></h1>
-      <p class="content-meta mb-0"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>Publicada el <%= l(@statistic.created_at.to_date, format: :long) %></p>
+      <p class="content-meta mb-0"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i><%= t("ui.published_on") %> <%= l(@statistic.created_at.to_date, format: :long) %></p>
     </header>
 
     <% if @statistic.image.present? %>
@@ -46,7 +46,7 @@
 
       <% if @statistic.pdf_es_file.present? || @statistic.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="statistic-files-heading">
-          <h2 id="statistic-files-heading" class="content-heading h4 mb-3">Documentos adjuntos</h2>
+          <h2 id="statistic-files-heading" class="content-heading h4 mb-3"><%= t("ui.attached_documents") %></h2>
           <div class="row g-3">
             <% if @statistic.pdf_es_file.present? %>
               <div class="col-md-6">
@@ -54,11 +54,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en español</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.spanish_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @statistic.pdf_es_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@statistic.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
-                        <%= link_to "Descargar", rails_blob_path(@statistic.pdf_es_file, disposition: "attachment") %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@statistic.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@statistic.pdf_es_file, disposition: "attachment") %>
                       </div>
                     </div>
                   </div>
@@ -71,11 +71,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en inglés</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.english_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @statistic.pdf_en_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@statistic.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
-                        <%= link_to "Descargar", rails_blob_path(@statistic.pdf_en_file, disposition: "attachment") %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@statistic.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@statistic.pdf_en_file, disposition: "attachment") %>
                       </div>
                     </div>
                   </div>
@@ -87,17 +87,17 @@
       <% end %>
 
       <footer class="content-footer">
-        <span>Última actualización: <%= l(@statistic.updated_at.to_date, format: :long) %></span>
-        <span>Publicada por <%= @statistic.user.full_name %></span>
+        <span><%= t("ui.last_updated") %>: <%= l(@statistic.updated_at.to_date, format: :long) %></span>
+        <span><%= t("ui.author") %> <%= @statistic.user.full_name %></span>
       </footer>
     </div>
   </article>
 
   <div class="d-flex flex-wrap gap-2 mt-3">
-    <%= link_to "Volver a estadísticas", statistics_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
-    <%= link_to "Editar estadística", edit_statistic_path(@statistic), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to(enable_change_statistic_path(@statistic), method: :patch, class: "btn #{'btn-outline-danger' if @statistic.enabled?} #{'btn-outline-success' unless @statistic.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: (@statistic.enabled? ? "¿Deshabilitar esta estadística?" : "¿Habilitar esta estadística?") } }) do %>
-      <i class="fa-solid <%= @statistic.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @statistic.enabled? ? "Deshabilitar estadística" : "Habilitar estadística" %>
+    <%= link_to t("ui.back_to_statistics"), statistics_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
+    <%= link_to t("ui.edit_resource", resource: t("ui.resources.statistic").capitalize), edit_statistic_path(@statistic), class: "btn btn-outline-primary rounded-pill px-4" %>
+    <%= button_to(enable_change_statistic_path(@statistic), method: :patch, class: "btn #{'btn-outline-danger' if @statistic.enabled?} #{'btn-outline-success' unless @statistic.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @statistic.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.statistic"), name: @statistic.title) } }) do %>
+      <i class="fa-solid <%= @statistic.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @statistic.enabled? ? t("ui.disable_statistic") : t("ui.enable_statistic") %>
     <% end %>
   </div>
 </main>

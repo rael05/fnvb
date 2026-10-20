@@ -21,36 +21,36 @@
 </style>
 
 <div class="header">
-  <div class="brand">FNVB · Federación Nicaragüense de Voleibol</div>
+  <div class="brand"><%= t("ui.federation_brand") %></div>
   <div class="title">
-    <span>Agenda de partidos</span>
+    <span><%= t("ui.match_schedule") %></span>
     <h1><%= @tournament.completed_name %></h1>
   </div>
-  <div class="generated">Reporte generado el <%= l(Time.current, format: :long) %></div>
+  <div class="generated"><%= t("ui.report_generated_at") %> <%= l(Time.current, format: :long) %></div>
 </div>
 
-<div class="summary"><strong>Partidos agendados:</strong> <%= @calendars.size %></div>
+<div class="summary"><strong><%= t("ui.scheduled_fixture_count") %></strong> <%= @calendars.size %></div>
 
 <% if @calendars.any? %>
   <table class="schedule">
     <thead>
-      <tr><th class="number">N.º</th><th>Partido</th><th class="date">Fecha</th><th class="time">Hora</th><th>Etapa</th><th>Descripción</th></tr>
+      <tr><th class="number"><%= t("ui.number_abbr") %></th><th><%= t("ui.team_names") %></th><th class="date"><%= t("ui.date") %></th><th class="time"><%= t("ui.time") %></th><th><%= t("ui.stage") %></th><th><%= t("ui.match_description") %></th></tr>
     </thead>
     <tbody>
       <% @calendars.each_with_index do |calendar, index| %>
         <tr>
           <td class="number"><%= index + 1 %></td>
-          <td class="teams"><%= calendar.team_one&.team_name || "Equipo por definir" %> vs. <%= calendar.team_two&.team_name || "Equipo por definir" %></td>
-          <td class="date"><%= calendar.start_date_time.present? ? l(calendar.start_date_time.to_date, format: :short) : "Sin fecha" %></td>
+          <td class="teams"><%= calendar.team_one&.team_name || t("ui.team_to_be_decided") %> <%= t("ui.vs") %> <%= calendar.team_two&.team_name || t("ui.team_to_be_decided") %></td>
+          <td class="date"><%= calendar.start_date_time.present? ? l(calendar.start_date_time.to_date, format: :short) : t("ui.no_date") %></td>
           <td class="time"><%= calendar.start_date_time.present? ? calendar.start_date_time.strftime("%H:%M") : "—" %></td>
-          <td class="stage"><%= calendar.stage.present? ? (Calendar::TYPE_STAGE.key(calendar.stage)&.to_s&.humanize || calendar.stage) : "—" %></td>
+          <td class="stage"><%= calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(calendar.stage), default: calendar.stage) : "—" %></td>
           <td><%= calendar.description.presence || "—" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <div class="empty">Este torneo aún no tiene partidos agendados.</div>
+  <div class="empty"><%= t("ui.no_tournament_matches") %></div>
 <% end %>
 
-<div class="footer">Federación Nicaragüense de Voleibol · FNVB</div>
+<div class="footer"><%= t("ui.federation_brand") %></div>

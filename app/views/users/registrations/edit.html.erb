@@ -1,4 +1,4 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2><%= t("ui.edit_resource", resource: t("ui.resources.user").capitalize) %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "users/shared/error_messages", resource: resource %>
@@ -9,15 +9,15 @@
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div><%= t("ui.waiting_confirmation", email: resource.unconfirmed_email) %></div>
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+    <%= f.label :password %> <i><%= t("ui.password_leave_blank") %></i><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
       <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
+      <em><%= t("ui.password_minimum_length", count: @minimum_password_length) %></em>
     <% end %>
   </div>
 
@@ -27,22 +27,22 @@
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <%= f.label :current_password %> <i><%= t("ui.current_password_confirmation") %></i><br />
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <%= f.submit t("ui.update") %>
   </div>
 <% end %>
 
-<h3>Deshabilitar mi cuenta</h3>
+<h3><%= t("ui.manage_account") %></h3>
 
 <div class="d-flex align-items-center gap-3">
-  <span>Tu cuenta dejará de estar disponible y no podrás volver a iniciar sesión.</span>
-  <%= button_to enable_change_user_path(resource), method: :patch, class: "btn btn-outline-danger", form: { data: { turbo_confirm: "¿Deshabilitar tu cuenta?" } } do %>
-    <i class="fa-solid fa-eye-slash me-2" aria-hidden="true"></i>Deshabilitar cuenta
+  <span><%= t("ui.account_disabled_notice") %></span>
+  <%= button_to enable_change_user_path(resource), method: :patch, class: "btn btn-outline-danger", form: { data: { turbo_confirm: t("ui.confirm_disable_account") } } do %>
+    <i class="fa-solid fa-eye-slash me-2" aria-hidden="true"></i><%= t("ui.disable_account") %>
   <% end %>
 </div>
 
-<%= link_to "Back", :back %>
+<%= link_to t("ui.back"), :back %>

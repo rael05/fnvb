@@ -1,6 +1,6 @@
 <div class="shadow">
   <div class="border rounded-top border-bottom-0">
-    <h1 class="text-center m-0 py-1">New announcement</h1>
+    <h1 class="text-center m-0 py-1"><%= t("ui.new_resource", resource: t("ui.resources.announcement").capitalize) %></h1>
   </div>
 
   <%= render "form", announcement: @announcement %>
@@ -9,5 +9,5 @@
 <br>
 
 <div>
-  <%= link_to "Back to announcements", announcements_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to t("ui.back_to_announcements"), announcements_path, class: 'btn btn-outline-secondary' %>
 </div>

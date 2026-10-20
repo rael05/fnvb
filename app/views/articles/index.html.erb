@@ -31,11 +31,11 @@
           </div>
           <div class="card-footer">
             <small class="text-body-secondary">
-              Creada el <%= article.created_at.strftime('%b %d, %Y') %>
+              <%= t("ui.published_on") %> <%= l(article.created_at.to_date, format: :short) %>
               <br>
-              Ultima modificación <%= article.updated_at.strftime('%b %d, %Y') %>
+              <%= t("ui.last_updated") %> <%= l(article.updated_at.to_date, format: :short) %>
               <br>
-              Escrita por <%= article.user.full_name&.truncate(28) %>
+              <%= t("ui.author") %> <%= article.user.full_name&.truncate(28) %>
               <br>
               <div class="row ms-0 mt-1">
                 <div class="border rounded-circle position-relative bg-white" style="width: 30px; height: 30px">
@@ -61,17 +61,17 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modalLabel-<%= index %>">
-                <%= article.enabled ? "Deshabilitar artículo" : "Habilitar artículo" %>
+                <%= t(article.enabled? ? "ui.disable_article" : "ui.enable_article") %>
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
             </div>
             <div class="modal-body">
-              ¿Estás seguro que deseas <%= article.enabled ? "deshabilitar" : "habilitar" %> el artículo: "<%= article.title %>"?
+              <%= t("ui.confirm_toggle", action: article.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.article"), name: article.title) %>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
               <%= button_to(enable_change_article_path(article), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                <i class="fa-solid <%= article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= article.enabled? ? "Deshabilitar" : "Habilitar" %>
+                <i class="fa-solid <%= article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= article.enabled? ? t("ui.disable") : t("ui.enable") %>
               <% end %>
             </div>
           </div>
@@ -79,5 +79,5 @@
       </div>
     <% end %>
   </div>
-  <%= link_to "New article", new_article_path, class: 'btn btn-primary mt-3' %>
+  <%= link_to t("ui.new_resource", resource: t("ui.resources.article").capitalize), new_article_path, class: 'btn btn-primary mt-3' %>
 </div>

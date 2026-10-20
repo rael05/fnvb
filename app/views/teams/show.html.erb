@@ -23,65 +23,65 @@
         </p>
 
         <p>
-          <strong>Delegado:</strong>
+          <strong><%= t("delegate_name") %>:</strong>
           <%= @team.delegate_name + " " + @team.delegate_last_name %>
         </p>
 
         <p>
-          <strong>Entrenador :</strong>
+          <strong><%= t("ui.coach") %>:</strong>
           <%= @team.head_coach_name + " " + @team.head_coach_last_name%>
         </p>
 
         <p>
-          <strong>Asistente #1:</strong>
+          <strong><%= t("assistant_coach1_name") %>:</strong>
           <%= @team.assistant_coach1_name + " " + @team.assistant_coach1_last_name%>
         </p>
 
         <p>
-          <strong>Asistente #2:</strong>
+          <strong><%= t("assistant_coach2_name") %>:</strong>
           <%= @team.assistant_coach2_name + " " + @team.assistant_coach2_last_name%>
         </p>
 
         <p>
-          <strong>Medico :</strong>
+          <strong><%= t("doctor_name") %>:</strong>
           <%= @team.doctor_name + " " + @team.doctor_last_name %>
         </p>
 
         <p>
-          <strong>Fisioterapeuta:</strong>
+          <strong><%= t("physiotherapist_name") %>:</strong>
           <%= @team.physiotherapist_name + " " + @team.physiotherapist_last_name%>
         </p>
 
         <p>
-          <strong>Estadístico:</strong>
+          <strong><%= t("statistical_name") %>:</strong>
           <%= @team.statistical_name + " " + @team.statistical_last_name%>
         </p>
 
         <p>
-          <strong>Árbitro:</strong>
+          <strong><%= t("international_referee_name") %>:</strong>
           <%= @team.international_referee_name + " " + @team.international_referee_last_name%>
         </p>
 
         <p>
-          <strong>Uniforme #1:</strong>
+          <strong><%= t("ui.uniform") %> #1:</strong>
           <%= @team.color_shirt1 + " | " + @team.color_short1%>
         </p>
 
         <p>
-          <strong>Uniforme #2:</strong>
+          <strong><%= t("ui.uniform") %> #2:</strong>
           <%= @team.color_shirt2 + " | " + @team.color_short2%>
         </p>
 
         <p>
-          <strong>Uniforme #3:</strong>
+          <strong><%= t("ui.uniform") %> #3:</strong>
           <%= @team.color_shirt3 + " | " + @team.color_short3%>
         </p>
 
       </div>
       <div class="d-flex justify-content-center">
-        <%= link_to "Editar", edit_team_path(@team), class: "btn btn-outline-info me-2" %>
+        <%= link_to t("ui.edit"), edit_team_path(@team), class: "btn btn-outline-info me-2" %>
         <%= button_to(enable_change_team_path(@team), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
-          <i class="fa-solid <%= @team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @team.enabled? ? "Deshabilitar" : "Habilitar" %>
+          <i class="fa-solid <%= @team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @team.enabled? ? t("ui.disable") : t("ui.enable") %>
         <% end %>
       </div>
     </div>
@@ -91,16 +91,16 @@
           <i class="fa-regular fa-circle-left fa-sm"></i>
         </a>
 
-        Jugadores
+        <%= t("players") %>
       </h1>
       <table class="table table-primary table-bordered table-striped">
         <thead>
           <tr>
-            <th scope="col">Numero</th>
-            <th scope="col">Nombre Completo</th>
-            <th scope="col">Posicion</th>
-            <th scope="col">Altura</th>
-            <th scope="col">Peso</th>
+            <th scope="col"><%= t("ui.number") %></th>
+            <th scope="col"><%= t("ui.full_name") %></th>
+            <th scope="col"><%= t("ui.position") %></th>
+            <th scope="col"><%= t("ui.height") %></th>
+            <th scope="col"><%= t("ui.weight") %></th>
           </tr>
         </thead>
         <tbody>
@@ -108,7 +108,7 @@
             <tr>
               <td><%= player.number %></td>
               <td><%= link_to player.name + " " + player.last_name, player %></td>
-              <td><%= player.position_name %></td>
+              <td><%= t("ui.positions.#{player.position}") %></td>
               <td><%= player.height.to_s + " M" %></td>
               <td><%= player.weight.to_s + " KG" %></td>
             </tr>
@@ -119,11 +119,11 @@
       <section class="team-upcoming mt-5 text-start">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div>
-            <span class="team-upcoming__eyebrow">Calendario</span>
-            <h2 class="team-upcoming__title mb-0">Próximos partidos</h2>
+            <span class="team-upcoming__eyebrow"><%= t("ui.schedule") %></span>
+            <h2 class="team-upcoming__title mb-0"><%= t("ui.upcoming_matches") %></h2>
           </div>
           <%= link_to calendars_path, class: "team-upcoming__calendar-link" do %>
-            Ver calendario <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
+            <%= t("ui.view_calendar") %> <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i>
           <% end %>
         </div>
 
@@ -140,12 +140,12 @@
                   </div>
                   <div class="team-upcoming__versus">
                     <span class="team-upcoming__team"><%= @team.team_name %></span>
-                    <span class="team-upcoming__vs">VS</span>
-                    <span class="team-upcoming__team"><%= opponent&.team_name || "Rival por definir" %></span>
+                    <span class="team-upcoming__vs"><%= t("ui.vs") %></span>
+                    <span class="team-upcoming__team"><%= opponent&.team_name || t("ui.opponent_to_be_decided") %></span>
                   </div>
                   <div class="d-flex justify-content-between align-items-center mt-3">
                     <span class="team-upcoming__tournament"><%= match.tournament.name %> <%= match.tournament.year %></span>
-                    <%= link_to "Detalles", calendar_path(match), class: "team-upcoming__details" %>
+                    <%= link_to t("ui.details"), calendar_path(match), class: "team-upcoming__details" %>
                   </div>
                 </article>
               </div>
@@ -154,13 +154,13 @@
         <% else %>
           <div class="team-upcoming__empty">
             <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
-            <span>No hay partidos próximos programados para este equipo.</span>
+            <span><%= t("ui.no_matches_for_team") %></span>
           </div>
         <% end %>
       </section>
 
       <div class="d-flex justify-content-end">
-        <%= link_to "PDF", team_path(@team, format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
+        <%= link_to t("ui.pdf"), team_path(@team, format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
         <%#= link_to "EXCEL", team_path(@team, format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>
       </div>
     </div>

@@ -37,19 +37,19 @@
   <% if notice.present? %>
     <div class="alert alert-success alert-dismissible fade show" role="status">
       <%= notice %>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('ui.close') %>"></button>
     </div>
   <% end %>
 
   <%= link_to announcements_path, class: "content-back" do %>
-    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Volver a convocatorias</span>
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span><%= t("ui.back_to_announcements") %></span>
   <% end %>
 
   <article class="content-panel">
     <header class="content-header">
-      <span class="text-danger fw-bold text-uppercase small">Convocatorias FNVB</span>
+      <span class="text-danger fw-bold text-uppercase small"><%= t("ui.announcements_heading") %></span>
       <h1 class="content-title display-6 mt-2 mb-3"><%= @announcement.title %></h1>
-      <p class="content-meta mb-0"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i>Publicada el <%= l(@announcement.created_at.to_date, format: :long) %></p>
+      <p class="content-meta mb-0"><i class="fa-regular fa-calendar me-2" aria-hidden="true"></i><%= t("ui.published_on") %> <%= l(@announcement.created_at.to_date, format: :long) %></p>
     </header>
 
     <% if @announcement.image.present? %>
@@ -61,7 +61,7 @@
 
       <% if @announcement.pdf_es_file.present? || @announcement.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="announcement-files-heading">
-          <h2 id="announcement-files-heading" class="content-heading h4 mb-3">Documentos adjuntos</h2>
+          <h2 id="announcement-files-heading" class="content-heading h4 mb-3"><%= t("ui.attached_documents") %></h2>
           <div class="row g-3">
             <% if @announcement.pdf_es_file.present? %>
               <div class="col-md-6">
@@ -69,11 +69,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en español</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.spanish_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @announcement.pdf_es_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@announcement.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
-                        <%= link_to "Descargar", rails_blob_path(@announcement.pdf_es_file, disposition: "attachment") %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@announcement.pdf_es_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@announcement.pdf_es_file, disposition: "attachment") %>
                       </div>
                     </div>
                   </div>
@@ -86,11 +86,11 @@
                   <div class="d-flex gap-3">
                     <i class="fa-regular fa-file-pdf fs-3 text-danger" aria-hidden="true"></i>
                     <div class="min-w-0">
-                      <h3 class="h6 fw-bold mb-1">Documento en inglés</h3>
+                      <h3 class="h6 fw-bold mb-1"><%= t("ui.english_document") %></h3>
                       <p class="small text-secondary text-break mb-3"><%= @announcement.pdf_en_file.filename %></p>
                       <div class="d-flex flex-wrap gap-3">
-                        <%= link_to "Ver archivo", rails_blob_path(@announcement.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
-                        <%= link_to "Descargar", rails_blob_path(@announcement.pdf_en_file, disposition: "attachment") %>
+                        <%= link_to t("ui.view_file"), rails_blob_path(@announcement.pdf_en_file, disposition: "preview"), target: "_blank", rel: "noopener noreferrer" %>
+                        <%= link_to t("ui.download"), rails_blob_path(@announcement.pdf_en_file, disposition: "attachment") %>
                       </div>
                     </div>
                   </div>
@@ -102,17 +102,17 @@
       <% end %>
 
       <footer class="content-footer">
-        <span>Última actualización: <%= l(@announcement.updated_at.to_date, format: :long) %></span>
-        <span>Publicada por <%= @announcement.user.full_name %></span>
+        <span><%= t("ui.last_updated") %>: <%= l(@announcement.updated_at.to_date, format: :long) %></span>
+        <span><%= t("ui.author") %> <%= @announcement.user.full_name %></span>
       </footer>
     </div>
   </article>
 
   <div class="d-flex flex-wrap gap-2 mt-3">
-    <%= link_to "Volver a convocatorias", announcements_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
-    <%= link_to "Editar convocatoria", edit_announcement_path(@announcement), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to(enable_change_announcement_path(@announcement), method: :patch, class: "btn #{'btn-outline-danger' if @announcement.enabled?} #{'btn-outline-success' unless @announcement.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: (@announcement.enabled? ? "¿Deshabilitar esta convocatoria?" : "¿Habilitar esta convocatoria?") } }) do %>
-      <i class="fa-solid <%= @announcement.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @announcement.enabled? ? "Deshabilitar convocatoria" : "Habilitar convocatoria" %>
+    <%= link_to t("ui.back_to_announcements"), announcements_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
+    <%= link_to t("ui.edit_resource", resource: t("ui.resources.announcement").capitalize), edit_announcement_path(@announcement), class: "btn btn-outline-primary rounded-pill px-4" %>
+    <%= button_to(enable_change_announcement_path(@announcement), method: :patch, class: "btn #{'btn-outline-danger' if @announcement.enabled?} #{'btn-outline-success' unless @announcement.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @announcement.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.announcement"), name: @announcement.title) } }) do %>
+      <i class="fa-solid <%= @announcement.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @announcement.enabled? ? t("ui.disable_announcement") : t("ui.enable_announcement") %>
     <% end %>
   </div>
 </main>

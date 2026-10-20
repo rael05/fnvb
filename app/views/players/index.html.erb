@@ -30,9 +30,9 @@
               <%= image_tag player.image, class: 'card-img-top', style: player.enabled ? '' : 'opacity: 0.3;' %>
             <% else %>
               <% if player.gender == "F" %>
-                <%= image_tag("default_female.png", alt: 'Default player image', class: 'card-img-top', style: player.enabled ? '' : 'opacity: 0.3;') %>
+                <%= image_tag("default_female.png", alt: t("ui.default_image_alt"), class: 'card-img-top', style: player.enabled ? '' : 'opacity: 0.3;') %>
               <% else %>
-                <%= image_tag("default_male.png", alt: 'Default player image', class: 'card-img-top', style: player.enabled ? '' : 'opacity: 0.3;') %>
+                <%= image_tag("default_male.png", alt: t("ui.default_image_alt"), class: 'card-img-top', style: player.enabled ? '' : 'opacity: 0.3;') %>
               <% end %>
             <% end %>
           </a>
@@ -46,9 +46,9 @@
             <p class="card-text">
               <%= player.team.team_name %>
             </p>
-            <strong style="font-size: 15px;">Posicion:</strong>
+            <strong style="font-size: 15px;"><%= t("ui.position") %>:</strong>
             <p class="card-text">
-              <%= player.position_name %>
+              <%= t("ui.positions.#{player.position}") %>
             </p>
           </div>
           <div class="card-footer">
@@ -77,17 +77,17 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modalLabel-<%= index %>">
-                <%= player.enabled ? "Deshabilitar jugador" : "Habilitar jugador" %>
+                <%= t(player.enabled? ? "ui.confirm_disable_player" : "ui.confirm_enable_player") %>
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
             </div>
             <div class="modal-body">
-              ¿Estás seguro que deseas <%= player.enabled ? "deshabilitar" : "habilitar" %> este jugador?
+              <%= t(player.enabled? ? "ui.confirm_disable_player" : "ui.confirm_enable_player") %>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
               <%= button_to(enable_change_player_path(player), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                <i class="fa-solid <%= player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= player.enabled? ? "Deshabilitar" : "Habilitar" %>
+                <i class="fa-solid <%= player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= player.enabled? ? t("ui.disable") : t("ui.enable") %>
               <% end %>
             </div>
           </div>
@@ -97,10 +97,10 @@
   </div>
 
   <% if @total_pages > 1 %>
-    <nav class="mt-4" aria-label="Paginación de jugadores">
+    <nav class="mt-4" aria-label="<%= t('ui.pagination_players') %>">
       <ul class="pagination justify-content-center mb-0">
         <li class="page-item <%= 'disabled' if @current_page == 1 %>">
-          <%= link_to 'Anterior', players_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: 'Anterior' } %>
+          <%= link_to t("ui.previous"), players_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.previous") } %>
         </li>
         <% (1..@total_pages).each do |page| %>
           <li class="page-item <%= 'active' if page == @current_page %>">
@@ -108,7 +108,7 @@
           </li>
         <% end %>
         <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
-          <%= link_to 'Siguiente', players_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: 'Siguiente' } %>
+          <%= link_to t("ui.next"), players_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.next") } %>
         </li>
       </ul>
     </nav>

@@ -76,6 +76,10 @@ group :development, :test do
 end
 
 group :development do
+  # Ruby linting and Rails-specific conventions
+  gem "rubocop", require: false
+  gem "rubocop-rails", require: false
+
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 

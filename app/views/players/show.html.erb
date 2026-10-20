@@ -1,19 +1,19 @@
 <% if notice.present? %>
   <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
     <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('ui.close') %>"></button>
   </div>
 <% end %>
 
 <main class="player-profile my-4 my-lg-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <%= link_to players_path, class: "player-profile__back" do %>
-      <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i><%= t(:back_to_players) %>
+      <i class="fa-solid fa-arrow-left me-2" aria-hidden="true"></i><%= t("ui.back_to_players") %>
     <% end %>
     <% if @player.enabled? %>
-      <span class="player-profile__status"><span></span>Activo</span>
+      <span class="player-profile__status"><span></span><%= t("ui.active") %></span>
     <% else %>
-      <span class="player-profile__status player-profile__status--inactive"><span></span>Inactivo</span>
+      <span class="player-profile__status player-profile__status--inactive"><span></span><%= t("ui.inactive") %></span>
     <% end %>
   </div>
 
@@ -23,19 +23,19 @@
         <% if @player.image.present? %>
           <%= image_tag @player.image, alt: "Foto de #{@player.name} #{@player.last_name}", class: "player-profile__photo" %>
         <% elsif @player.gender == "F" %>
-          <%= image_tag "default_female.png", alt: "Imagen predeterminada", class: "player-profile__photo player-profile__photo--default" %>
+          <%= image_tag "default_female.png", alt: t("ui.default_image_alt"), class: "player-profile__photo player-profile__photo--default" %>
         <% else %>
-          <%= image_tag "default_male.png", alt: "Imagen predeterminada", class: "player-profile__photo player-profile__photo--default" %>
+          <%= image_tag "default_male.png", alt: t("ui.default_image_alt"), class: "player-profile__photo player-profile__photo--default" %>
         <% end %>
-        <div class="player-profile__number" aria-label="Número de camiseta">
+        <div class="player-profile__number" aria-label="<%= t('ui.jersey_number_aria') %>">
           <span>#</span><%= @player.number.presence || "—" %>
         </div>
       </div>
 
       <div class="col-lg-7 player-profile__intro ps-3 pe-3">
-        <p class="player-profile__eyebrow mb-2">Perfil del jugador</p>
+        <p class="player-profile__eyebrow mb-2"><%= t("ui.player_profile") %></p>
         <h1 class="player-profile__name"><%= @player.name %><br><strong><%= @player.last_name %></strong></h1>
-        <span class="player-profile__position"><i class="fa-solid fa-volleyball me-2" aria-hidden="true"></i><%= @player.position_name.presence || "Posición no especificada" %></span>
+        <span class="player-profile__position"><i class="fa-solid fa-volleyball me-2" aria-hidden="true"></i><%= @player.position.present? ? t("ui.positions.#{@player.position}") : t("ui.position_not_specified") %></span>
 
         <div class="player-profile__team mt-4">
           <span class="player-profile__team-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
@@ -49,32 +49,32 @@
     </div>
   </section>
 
-  <section class="row g-3 mt-2" aria-label="Características físicas">
+  <section class="row g-3 mt-2" aria-label="<%= t('ui.physical_characteristics_aria') %>">
     <div class="col-6 col-lg-3">
       <div class="player-profile__stat h-100">
         <span class="player-profile__stat-icon"><i class="fa-solid fa-ruler-vertical" aria-hidden="true"></i></span>
-        <span class="player-profile__meta-label"><%= t(:height) %></span>
+        <span class="player-profile__meta-label"><%= t("ui.height") %></span>
         <strong><%= @player.height.present? ? "#{@player.height} m" : "—" %></strong>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="player-profile__stat h-100">
         <span class="player-profile__stat-icon"><i class="fa-solid fa-weight-scale" aria-hidden="true"></i></span>
-        <span class="player-profile__meta-label"><%= t(:weight) %></span>
+        <span class="player-profile__meta-label"><%= t("ui.weight") %></span>
         <strong><%= @player.weight.present? ? "#{@player.weight} kg" : "—" %></strong>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="player-profile__stat h-100">
         <span class="player-profile__stat-icon"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i></span>
-        <span class="player-profile__meta-label"><%= t(:birthday) %></span>
+        <span class="player-profile__meta-label"><%= t("ui.birth_date") %></span>
         <strong class="player-profile__stat-small"><%= @player.birthday.present? ? l(@player.birthday) : "—" %></strong>
       </div>
     </div>
     <div class="col-6 col-lg-3">
       <div class="player-profile__stat h-100">
         <span class="player-profile__stat-icon"><i class="fa-solid fa-flag" aria-hidden="true"></i></span>
-        <span class="player-profile__meta-label"><%= t(:nationality) %></span>
+        <span class="player-profile__meta-label"><%= t("ui.nationality") %></span>
         <strong class="player-profile__stat-small"><%= @player.nationality.presence || "—" %></strong>
       </div>
     </div>
@@ -83,7 +83,7 @@
   <section class="player-team mt-4 p-4 p-lg-5">
     <div class="row g-4 align-items-center">
       <div class="col-lg-7">
-        <p class="player-profile__eyebrow mb-2">Su equipo</p>
+        <p class="player-profile__eyebrow mb-2"><%= t("ui.player_team") %></p>
         <div class="d-flex align-items-center gap-3">
           <% if @team.image.present? %>
             <%= image_tag @team.image, alt: "Escudo de #{@team.team_name}", class: "player-team__logo" %>
@@ -94,13 +94,13 @@
             <h2 class="player-team__name mb-1"><%= link_to @team.team_name, team_path(@team) %></h2>
             <p class="player-team__coach mb-0">
               <i class="fa-solid fa-clipboard-user me-2" aria-hidden="true"></i>
-              Entrenador: <%= [@team.head_coach_name, @team.head_coach_last_name].compact.join(" ").presence || "No registrado" %>
+              <%= t("ui.coach_label") %> <%= [@team.head_coach_name, @team.head_coach_last_name].compact.join(" ").presence || t("ui.no_registered") %>
             </p>
           </div>
         </div>
 
         <div class="player-team__tournaments mt-4">
-          <span class="player-profile__meta-label">Torneos recientes</span>
+          <span class="player-profile__meta-label"><%= t("ui.recent_tournaments") %></span>
           <% if @team_tournaments.any? %>
             <div class="d-flex flex-wrap gap-2 mt-2">
               <% @team_tournaments.each do |tournament| %>
@@ -108,7 +108,7 @@
               <% end %>
             </div>
           <% else %>
-            <span class="player-team__muted">Sin torneos registrados</span>
+            <span class="player-team__muted"><%= t("ui.no_tournaments") %></span>
           <% end %>
         </div>
       </div>
@@ -118,9 +118,9 @@
           <span class="player-team__roster-icon"><i class="fa-solid fa-people-group" aria-hidden="true"></i></span>
           <div>
             <strong><%= @team.players.count %></strong>
-            <span>jugadores en la plantilla</span>
+            <span><%= t("ui.roster_players") %></span>
           </div>
-          <%= link_to "Ver equipo", team_path(@team), class: "player-team__view ms-auto" %>
+          <%= link_to t("ui.view_team"), team_path(@team), class: "player-team__view ms-auto" %>
         </div>
       </div>
     </div>
@@ -129,10 +129,10 @@
   <section class="player-matches mt-5">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-end gap-2 mb-3">
       <div>
-        <p class="player-profile__eyebrow mb-1">Resultados recientes</p>
-        <h2 class="player-profile__section-title mb-0">Últimos partidos del equipo</h2>
+        <p class="player-profile__eyebrow mb-1"><%= t("ui.recent_results") %></p>
+        <h2 class="player-profile__section-title mb-0"><%= t("ui.latest_team_matches") %></h2>
       </div>
-      <span class="player-matches__count"><%= @recent_games.size %> partidos</span>
+      <span class="player-matches__count"><%= t("ui.match_count", count: @recent_games.size) %></span>
     </div>
 
     <% if @recent_games.any? %>
@@ -148,22 +148,22 @@
               <%= l(calendar.start_date_time, format: :short) %>
             </div>
             <div class="player-match__teams">
-              <span class="player-match__team"><%= winner&.team_name || "Equipo ganador" %></span>
+              <span class="player-match__team"><%= winner&.team_name || t("ui.winning_team") %></span>
               <strong class="player-match__score"><%= game.win_score.presence || "—" %><span>:</span><%= game.lose_score.presence || "—" %></strong>
-              <span class="player-match__team"><%= loser&.team_name || "Equipo rival" %></span>
+              <span class="player-match__team"><%= loser&.team_name || t("ui.opponent_team") %></span>
             </div>
             <div class="player-match__meta">
               <span><%= calendar.tournament.name %> <%= calendar.tournament.year %></span>
-              <span class="player-match__result <%= team_won ? 'player-match__result--win' : 'player-match__result--loss' %>"><%= team_won ? "Victoria" : "Derrota" %></span>
+              <span class="player-match__result <%= team_won ? 'player-match__result--win' : 'player-match__result--loss' %>"><%= team_won ? t("ui.victory") : t("ui.defeat") %></span>
             </div>
-            <%= link_to "Ver partido", calendar_path(calendar), class: "player-match__link" %>
+            <%= link_to t("ui.view_match"), calendar_path(calendar), class: "player-match__link" %>
           </article>
         <% end %>
       </div>
     <% else %>
       <div class="player-matches__empty">
         <i class="fa-regular fa-calendar-xmark" aria-hidden="true"></i>
-        <p class="mb-0">Aún no hay partidos finalizados registrados para este equipo.</p>
+        <p class="mb-0"><%= t("ui.no_finished_matches") %></p>
       </div>
     <% end %>
   </section>
@@ -171,25 +171,25 @@
   <section class="player-profile__details mt-4 p-4 p-lg-5">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
       <div>
-        <p class="player-profile__eyebrow mb-1">Información general</p>
-        <h2 class="player-profile__section-title mb-0">Datos del jugador</h2>
+        <p class="player-profile__eyebrow mb-1"><%= t("ui.general_information") %></p>
+        <h2 class="player-profile__section-title mb-0"><%= t("ui.player_data") %></h2>
       </div>
-      <span class="player-profile__gender"><i class="fa-solid fa-user me-2" aria-hidden="true"></i><%= @player.gender_name.presence || "—" %></span>
+      <span class="player-profile__gender"><i class="fa-solid fa-user me-2" aria-hidden="true"></i><%= @player.gender.present? ? t("ui.genders.#{@player.gender}") : "—" %></span>
     </div>
   </section>
 
   <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
     <%= link_to player_path(@player, format: :pdf), class: "btn btn-outline-danger" do %>
-      <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i>Descargar ficha PDF
+      <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i><%= t("ui.download_player_profile") %>
     <% end %>
     <%= link_to edit_player_path(@player), class: "btn player-profile__edit" do %>
-      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t(:edit) %>
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit") %>
     <% end %>
     <%= button_to(enable_change_player_path(@player),
           method: :patch,
           class: "btn player-profile__toggle #{'player-profile__toggle--disable' if @player.enabled?} #{'player-profile__toggle--enable' unless @player.enabled?}",
-          form: { data: { turbo_confirm: (@player.enabled? ? "¿Deseas deshabilitar este jugador?" : "¿Deseas habilitar este jugador?") } }) do %>
-      <i class="fa-solid <%= @player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @player.enabled? ? "Deshabilitar" : "Habilitar" %>
+          form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @player.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.player"), name: @player.full_name) } }) do %>
+      <i class="fa-solid <%= @player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @player.enabled? ? t("ui.disable") : t("ui.enable") %>
     <% end %>
   </div>
 </main>

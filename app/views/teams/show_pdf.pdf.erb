@@ -30,41 +30,41 @@
 </style>
 
 <div class="header">
-  <div class="brand">FNVB · Federación Nicaragüense de Voleibol</div>
+  <div class="brand"><%= t("ui.federation_brand") %></div>
   <div class="report-title">
-    <div class="label">Ficha de equipo</div>
+    <div class="label"><%= t("ui.team_profile") %></div>
     <div class="team-name"><%= @team.team_name %></div>
   </div>
-  <div class="generated">Reporte generado el <%= l(Time.current, format: :long) %></div>
+  <div class="generated"><%= t("ui.report_generated_at") %> <%= l(Time.current, format: :long) %></div>
 </div>
 
-<h2 class="section-title">Información general</h2>
+<h2 class="section-title"><%= t("ui.general_information") %></h2>
 <table class="meta">
   <tr>
-    <td><span class="label">Estado</span><span class="status <%= 'status--disabled' unless @team.enabled? %>"><%= @team.enabled? ? "Habilitado" : "Deshabilitado" %></span></td>
-    <td><span class="label"><%= t(:tournaments) %></span><span class="value"><%= @team.tournaments.map(&:name).presence&.join(", ") || "Sin torneo asignado" %></span></td>
+    <td><span class="label"><%= t("ui.status") %></span><span class="status <%= 'status--disabled' unless @team.enabled? %>"><%= @team.enabled? ? t("ui.enabled") : t("ui.disabled") %></span></td>
+    <td><span class="label"><%= t(:tournaments) %></span><span class="value"><%= @team.tournaments.map(&:name).presence&.join(", ") || t("ui.no_tournament_assigned") %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Delegado</span><span class="value"><%= [@team.delegate_name, @team.delegate_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
-    <td><span class="label">Entrenador principal</span><span class="value"><%= [@team.head_coach_name, @team.head_coach_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
+    <td><span class="label"><%= t("ui.delegate") %></span><span class="value"><%= [@team.delegate_name, @team.delegate_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
+    <td><span class="label"><%= t("ui.head_coach") %></span><span class="value"><%= [@team.head_coach_name, @team.head_coach_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Asistente técnico 1</span><span class="value"><%= [@team.assistant_coach1_name, @team.assistant_coach1_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
-    <td><span class="label">Asistente técnico 2</span><span class="value"><%= [@team.assistant_coach2_name, @team.assistant_coach2_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
+    <td><span class="label"><%= t("ui.assistant_coach") %> 1</span><span class="value"><%= [@team.assistant_coach1_name, @team.assistant_coach1_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
+    <td><span class="label"><%= t("ui.assistant_coach") %> 2</span><span class="value"><%= [@team.assistant_coach2_name, @team.assistant_coach2_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Médico</span><span class="value"><%= [@team.doctor_name, @team.doctor_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
-    <td><span class="label">Fisioterapeuta</span><span class="value"><%= [@team.physiotherapist_name, @team.physiotherapist_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
+    <td><span class="label"><%= t("ui.doctor") %></span><span class="value"><%= [@team.doctor_name, @team.doctor_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
+    <td><span class="label"><%= t("ui.physiotherapist") %></span><span class="value"><%= [@team.physiotherapist_name, @team.physiotherapist_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Estadístico</span><span class="value"><%= [@team.statistical_name, @team.statistical_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
-    <td><span class="label">Árbitro internacional</span><span class="value"><%= [@team.international_referee_name, @team.international_referee_last_name].compact_blank.join(" ").presence || "Sin asignar" %></span></td>
+    <td><span class="label"><%= t("statistical_name") %></span><span class="value"><%= [@team.statistical_name, @team.statistical_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
+    <td><span class="label"><%= t("ui.international_referee") %></span><span class="value"><%= [@team.international_referee_name, @team.international_referee_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></span></td>
   </tr>
 </table>
 
-<h2 class="section-title">Uniformes</h2>
+<h2 class="section-title"><%= t("ui.uniforms") %></h2>
 <table class="uniforms">
-  <thead><tr><th>Uniforme</th><th>Camiseta</th><th>Pantalón corto</th></tr></thead>
+  <thead><tr><th><%= t("ui.uniform") %></th><th><%= t("ui.jersey") %></th><th><%= t("ui.shorts") %></th></tr></thead>
   <tbody>
     <% [1, 2, 3].each do |number| %>
       <% shirt_color = @team.public_send("color_shirt#{number}") %>
@@ -79,18 +79,18 @@
   </tbody>
 </table>
 
-<h2 class="section-title">Jugadores inscritos (<%= @team.players.size %>)</h2>
+<h2 class="section-title"><%= t("ui.registered_players", count: @team.players.size) %></h2>
 <% if @team.players.any? %>
   <table class="players">
     <thead>
-      <tr><th class="number">N.º</th><th>Nombre completo</th><th>Posición</th><th>Altura</th><th>Peso</th><th>Nacionalidad</th><th>Fecha de nacimiento</th></tr>
+      <tr><th class="number"><%= t("ui.number_abbr") %></th><th><%= t("ui.full_name") %></th><th><%= t("ui.position") %></th><th><%= t("ui.height") %></th><th><%= t("ui.weight") %></th><th><%= t("ui.nationality") %></th><th><%= t("ui.birth_date") %></th></tr>
     </thead>
     <tbody>
       <% @team.players.sort_by { |player| [player.number || 999, player.last_name.to_s] }.each do |player| %>
         <tr>
           <td class="number"><%= player.number || "—" %></td>
           <td><%= [player.name, player.last_name].compact_blank.join(" ") %></td>
-          <td><%= Player::POSITION_HASH[player.position.to_s.to_sym] || player.position || "—" %></td>
+          <td><%= player.position.present? ? t("ui.positions.#{player.position}", default: player.position) : "—" %></td>
           <td><%= player.height.present? ? "#{player.height} m" : "—" %></td>
           <td><%= player.weight.present? ? "#{player.weight} kg" : "—" %></td>
           <td><%= player.nationality.presence || "—" %></td>
@@ -100,7 +100,7 @@
     </tbody>
   </table>
 <% else %>
-  <div class="empty">Este equipo aún no tiene jugadores inscritos.</div>
+  <div class="empty"><%= t("ui.no_players_registered") %></div>
 <% end %>
 
-<div class="footer">Federación Nicaragüense de Voleibol · FNVB</div>
+<div class="footer"><%= t("ui.federation_brand") %></div>

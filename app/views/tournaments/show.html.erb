@@ -8,7 +8,7 @@
           <% if @tournament.image.present? %>
             <%= image_tag @tournament.image, class: "card-img-top border" %>
           <% else %>
-            <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: "card-img-top border") %>
+            <%= image_tag("tournament_ball.jpg", alt: t("ui.generic_tournament_image"), class: "card-img-top border") %>
           <% end %>
         </p>
 
@@ -21,9 +21,9 @@
         </p>
       </div>
       <div class="d-flex justify-content-center">
-        <%= link_to "Editar", edit_tournament_path(@tournament), class: "btn btn-outline-success ms-2" %>
+        <%= link_to t("ui.edit"), edit_tournament_path(@tournament), class: "btn btn-outline-success ms-2" %>
         <%= button_to(enable_change_tournament_path(@tournament), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
-          <i class="fa-solid <%= @tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @tournament.enabled? ? "Deshabilitar" : "Habilitar" %>
+          <i class="fa-solid <%= @tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
         <% end %>
       </div>
     </div>
@@ -35,32 +35,32 @@
           </a><%= @tournament.completed_name %>
         </h1>
         <%= link_to tournament_path(@tournament, format: :pdf), class: "btn btn-outline-danger" do %>
-          <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i>Descargar equipos en PDF
+          <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i><%= t("ui.download_teams_pdf") %>
         <% end %>
         <%= link_to tournament_path(@tournament, format: :pdf, report: :calendar), class: "btn btn-outline-primary" do %>
-          <i class="fa-solid fa-calendar-days me-2" aria-hidden="true"></i>Descargar agenda de partidos
+          <i class="fa-solid fa-calendar-days me-2" aria-hidden="true"></i><%= t("ui.download_match_schedule") %>
         <% end %>
       </div>
       <table class="table table-success table-bordered table-striped">
         <thead>
           <tr>
-            <th scope="col">Nº</th>
-            <th scope="col">Equipo</th>
-            <th scope="col">PJ</th>
-            <th scope="col">PG</th>
-            <th scope="col">PP</th>
-            <th scope="col">Puntos</th>
+            <th scope="col"><%= t("ui.number_abbr") %></th>
+            <th scope="col"><%= t("team") %></th>
+            <th scope="col"><%= t("ui.matches_played_abbr") %></th>
+            <th scope="col"><%= t("ui.matches_won_abbr") %></th>
+            <th scope="col"><%= t("ui.matches_lost_abbr") %></th>
+            <th scope="col"><%= t("ui.points") %></th>
           </tr>
         </thead>
         <tbody>
-          <% @tournament.teams.each_with_index do |team, index| %>
+          <% @standings.each_with_index do |(team, stats), index| %>
             <tr>
               <td><%= index + 1 %></td>
               <td><%= link_to team.team_name, team_path(team) %></td>
-              <td>3</td>
-              <td>2</td>
-              <td>3</td>
-              <td>10</td>
+              <td><%= stats[:played] %></td>
+              <td><%= stats[:won] %></td>
+              <td><%= stats[:lost] %></td>
+              <td><%= stats[:points] %></td>
             </tr>
           <% end %>
         </tbody>
@@ -72,11 +72,11 @@
   <section class="tournament-gallery mt-2 mt-lg-3">
     <div class="tournament-gallery__heading">
       <div>
-        <p class="tournament-gallery__eyebrow mb-1">Momentos del torneo</p>
-        <h2 class="mb-0">Galería de fotos</h2>
+        <p class="tournament-gallery__eyebrow mb-1"><%= t("ui.tournament_moments") %></p>
+        <h2 class="mb-0"><%= t("ui.photo_gallery") %></h2>
       </div>
       <%= link_to new_album_path(tournament_id: @tournament.id), class: "btn tournament-gallery__add" do %>
-        <i class="fa-solid fa-circle-plus me-2" aria-hidden="true"></i>Agregar galería
+        <i class="fa-solid fa-circle-plus me-2" aria-hidden="true"></i><%= t("ui.add_gallery") %>
       <% end %>
     </div>
 
@@ -89,13 +89,13 @@
                 <% if album.main_image.attached? %>
                   <%= image_tag album.main_image, class: "tournament-gallery__image", alt: album.name %>
                 <% else %>
-                  <%= image_tag "tournament_ball.jpg", class: "tournament-gallery__image", alt: "Galería sin portada" %>
+                  <%= image_tag "tournament_ball.jpg", class: "tournament-gallery__image", alt: t("ui.gallery_without_cover") %>
                 <% end %>
                 <span class="tournament-gallery__count"><i class="fa-regular fa-images me-1" aria-hidden="true"></i><%= album.images.count %></span>
               </div>
               <div class="tournament-gallery__caption">
                 <h3><%= album.name %></h3>
-                <span>Ver galería <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i></span>
+                <span><%= t("ui.view_gallery") %> <i class="fa-solid fa-arrow-right ms-1" aria-hidden="true"></i></span>
               </div>
             <% end %>
           </div>
@@ -104,7 +104,7 @@
     <% else %>
       <div class="tournament-gallery__empty">
         <i class="fa-regular fa-images" aria-hidden="true"></i>
-        <div><strong>Aún no hay galerías</strong><p class="mb-0">Agrega fotos para guardar los mejores momentos de este torneo.</p></div>
+        <div><strong><%= t("ui.no_galleries_yet") %></strong><p class="mb-0"><%= t("ui.add_photos_prompt") %></p></div>
       </div>
     <% end %>
   </section>

@@ -26,63 +26,63 @@
 </style>
 
 <div class="header">
-  <div class="brand">FNVB · Federación Nicaragüense de Voleibol</div>
+  <div class="brand"><%= t("ui.federation_brand") %></div>
   <div class="title">
-    <span class="label">Reporte del partido</span>
-    <h1><%= @team_one&.team_name || "Equipo por definir" %> vs. <%= @team_two&.team_name || "Equipo por definir" %></h1>
+    <span class="label"><%= t("ui.match_report") %></span>
+    <h1><%= @team_one&.team_name || t("ui.team_to_be_decided") %> <%= t("ui.vs") %> <%= @team_two&.team_name || t("ui.team_to_be_decided") %></h1>
   </div>
-  <div class="generated">Reporte generado el <%= l(Time.current, format: :long) %></div>
+  <div class="generated"><%= t("ui.report_generated_at") %> <%= l(Time.current, format: :long) %></div>
 </div>
 
-<h2 class="section-title">Resultado</h2>
+<h2 class="section-title"><%= t("ui.result") %></h2>
 <table class="score">
   <tr>
-    <td><%= @team_one&.team_name || "Equipo por definir" %></td>
+    <td><%= @team_one&.team_name || t("ui.team_to_be_decided") %></td>
     <td class="points"><%= @team_one&.id == @winner&.id ? @game.win_score : (@team_one&.id == @game.lose_team ? @game.lose_score : "—") %></td>
     <td class="points"><%= @team_two&.id == @winner&.id ? @game.win_score : (@team_two&.id == @game.lose_team ? @game.lose_score : "—") %></td>
-    <td><%= @team_two&.team_name || "Equipo por definir" %></td>
+    <td><%= @team_two&.team_name || t("ui.team_to_be_decided") %></td>
   </tr>
 </table>
-<p><strong>Ganador:</strong> <%= @winner&.team_name || "Sin resultado registrado" %></p>
+<p><strong><%= t("ui.winner") %>:</strong> <%= @winner&.team_name || t("ui.no_result_recorded") %></p>
 
-<h2 class="section-title">Información del partido</h2>
+<h2 class="section-title"><%= t("ui.match_details") %></h2>
 <table class="meta">
   <tr>
-    <td><span class="label">Torneo</span><span class="value"><%= @calendar&.tournament&.name || "—" %></span></td>
-    <td><span class="label">Fecha y hora</span><span class="value"><%= @calendar&.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : "Sin fecha asignada" %></span></td>
+    <td><span class="label"><%= t("tournament") %></span><span class="value"><%= @calendar&.tournament&.name || "—" %></span></td>
+    <td><span class="label"><%= t("ui.date_time") %></span><span class="value"><%= @calendar&.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : t("ui.no_date_assigned") %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Etapa</span><span class="value"><%= @calendar&.stage.present? ? (Calendar::TYPE_STAGE.key(@calendar.stage)&.to_s&.humanize || @calendar.stage) : "—" %></span></td>
-    <td><span class="label">Estado del calendario</span><span class="value"><%= @calendar&.status.present? ? (Calendar::TYPE_STATUS.key(@calendar.status)&.to_s&.humanize || @calendar.status) : "—" %></span></td>
+    <td><span class="label"><%= t("ui.stage") %></span><span class="value"><%= @calendar&.stage.present? ? t(Calendar::TYPE_STAGE.key(@calendar.stage), default: @calendar.stage) : "—" %></span></td>
+    <td><span class="label"><%= t("ui.calendar_status") %></span><span class="value"><%= @calendar&.status.present? ? t(Calendar::TYPE_STATUS.key(@calendar.status), default: @calendar.status) : "—" %></span></td>
   </tr>
   <tr>
-    <td><span class="label">Registrado por</span><span class="value"><%= @game.user&.full_name || @game.user&.user_name || "—" %></span></td>
-    <td><span class="label">Estado del partido</span><span class="value"><%= @game.enabled? ? "Habilitado" : "Deshabilitado" %></span></td>
+    <td><span class="label"><%= t("ui.recorded_by") %></span><span class="value"><%= @game.user&.full_name || @game.user&.user_name || "—" %></span></td>
+    <td><span class="label"><%= t("ui.match_status") %></span><span class="value"><%= @game.enabled? ? t("ui.enabled") : t("ui.disabled") %></span></td>
   </tr>
   <% if @game.description.present? %>
-    <tr><td colspan="2"><span class="label">Descripción</span><span class="value"><%= @game.description %></span></td></tr>
+    <tr><td colspan="2"><span class="label"><%= t("ui.description") %></span><span class="value"><%= @game.description %></span></td></tr>
   <% end %>
 </table>
 
-<h2 class="section-title">Jugadas registradas (<%= @game_details.size %>)</h2>
+<h2 class="section-title"><%= t("ui.registered_play_count", count: @game_details.size) %></h2>
 <% if @game_details.any? %>
   <table class="details">
-    <thead><tr><th class="number">Set</th><th class="number">Minuto</th><th>Equipo</th><th>Jugador</th><th>Acción</th><th>Descripción</th></tr></thead>
+    <thead><tr><th class="number"><%= t("ui.set") %></th><th class="number"><%= t("ui.minute") %></th><th><%= t("team") %></th><th><%= t("ui.player_label") %></th><th><%= t("ui.action") %></th><th><%= t("ui.description") %></th></tr></thead>
     <tbody>
       <% @game_details.each do |detail| %>
         <tr>
           <td class="number"><%= detail.number_set || "—" %></td>
           <td class="number"><%= detail.played_minute.present? ? "#{detail.played_minute}′" : "—" %></td>
           <td><%= @detail_teams[detail.team_id]&.team_name || "—" %></td>
-          <td><%= @detail_players[detail.player_id]&.full_name || "Sin jugador" %></td>
-          <td><%= GameDetail::DETAIL_TYPE_HASH.fetch(detail.detail_type.to_s.to_sym, detail.detail_type.presence || "—") %></td>
+          <td><%= @detail_players[detail.player_id]&.full_name || t("ui.no_player") %></td>
+          <td><%= detail.detail_type.present? ? t("ui.actions.#{detail.detail_type}", default: detail.detail_type) : "—" %></td>
           <td><%= detail.description.presence || "—" %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
-  <div class="empty">Este partido aún no tiene jugadas registradas.</div>
+  <div class="empty"><%= t("ui.no_play_details") %></div>
 <% end %>
 
-<div class="footer">Federación Nicaragüense de Voleibol · FNVB</div>
+<div class="footer"><%= t("ui.federation_brand") %></div>

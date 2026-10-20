@@ -2,7 +2,7 @@
   <%= form_with(model: team) do |form| %>
     <% if team.errors.any? %>
       <div style="color: red">
-        <h2><%= pluralize(team.errors.count, "error") %> prohibited this team from being saved:</h2>
+        <h2><%= t("ui.form_errors", count: team.errors.count, resource: t("ui.resources.team")) %></h2>
 
         <ul>
           <% team.errors.each do |error| %>
@@ -139,7 +139,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label 'Imagen del equipo', class: "form-label" %>
+      <%= form.label :image, t("ui.upload_team_image"), class: "form-label" %>
       <% if team.image.present? %>
         <%= image_tag team.image, style: "display: block" %>
       <% end %>

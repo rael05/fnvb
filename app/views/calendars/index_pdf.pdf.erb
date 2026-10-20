@@ -1,27 +1,27 @@
 <meta charset="utf-8" />
 
-<h1 style="text-align: center;">FNVB - Federación Nicaragüense de Voleibol</h1>
+<h1 style="text-align: center;"><%= t("ui.federation_brand") %></h1>
 <br>
 <br>
 <table style="border: 1px black solid; width: 100%; text-align: center;">
   <thead>
     <tr>
-      <th scope="col" style="border: 1px black solid">Torneo</th>
-      <th scope="col" style="border: 1px black solid">Participante</th>
-      <th scope="col" style="border: 1px black solid">Fecha - Hora</th>
-      <th scope="col" style="border: 1px black solid">Etapa</th>
-      <th scope="col" style="border: 1px black solid">Estado</th>
-      <th scope="col" style="border: 1px black solid">Descripcion</th>
+      <th scope="col" style="border: 1px black solid"><%= t("tournament") %></th>
+      <th scope="col" style="border: 1px black solid"><%= t("ui.team_names") %></th>
+      <th scope="col" style="border: 1px black solid"><%= t("ui.date_time") %></th>
+      <th scope="col" style="border: 1px black solid"><%= t("ui.stage") %></th>
+      <th scope="col" style="border: 1px black solid"><%= t("ui.status") %></th>
+      <th scope="col" style="border: 1px black solid"><%= t("ui.description") %></th>
     </tr>
   </thead>
   <tbody>
     <% @calendars.each do |calendar| %>
         <tr>
-            <td style="border: 1px black solid"><%= calendar.tournament_id %></td>
-            <th style="border: 1px black solid"><%= calendar.team1 %> Contra <%= calendar.team2 %></th>
-            <td style="border: 1px black solid"><%= calendar.start_date_time %></td>
-            <td style="border: 1px black solid"><%= calendar.stage %></td>
-            <td style="border: 1px black solid"><%= calendar.status %></td>
+            <td style="border: 1px black solid"><%= calendar.tournament&.name %></td>
+            <th style="border: 1px black solid"><%= calendar.team_one&.team_name || t("ui.team_to_be_decided") %> <%= t("ui.vs") %> <%= calendar.team_two&.team_name || t("ui.team_to_be_decided") %></th>
+            <td style="border: 1px black solid"><%= calendar.start_date_time.present? ? l(calendar.start_date_time, format: :long) : t("ui.no_date_assigned") %></td>
+            <td style="border: 1px black solid"><%= calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(calendar.stage), default: calendar.stage) : t("ui.no_specification") %></td>
+            <td style="border: 1px black solid"><%= calendar.status.present? ? t(Calendar::TYPE_STATUS.key(calendar.status), default: calendar.status) : t("ui.no_specification") %></td>
             <td style="border: 1px black solid"><%= calendar.description %></td>
         </tr>
     <% end %>

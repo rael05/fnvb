@@ -29,7 +29,7 @@
             <% if tournament.image.present? %>
               <%= image_tag tournament.image, class: 'card-img-top', style: opacity %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top', style: opacity) %>
+              <%= image_tag("tournament_ball.jpg", alt: t("ui.generic_tournament_image"), class: 'card-img-top', style: opacity) %>
             <% end %>
           </a>
           <div class="card-body">
@@ -40,7 +40,7 @@
             </h5>
             <p class="card-text">
               <%= tournament.description&.truncate(90) %>
-              <a href="<%= tournament_path(tournament) %>"> Leer más. </a>
+              <a href="<%= tournament_path(tournament) %>"> <%= t("ui.read_more") %>. </a>
             </p>
           </div>
           <div class="card-footer">
@@ -61,17 +61,17 @@
                       <div class="modal-content">
                         <div class="modal-header">
                           <h5 class="modal-title" id="modalLabel-<%= index %>">
-                            <%= tournament.enabled ? "Deshabilitar torneo" : "Habilitar torneo" %>
+                            <%= t(tournament.enabled? ? "ui.confirm_disable_tournament" : "ui.confirm_enable_tournament") %>
                           </h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
                         </div>
                         <div class="modal-body">
-                          ¿Estás seguro que deseas <%= tournament.enabled ? "deshabilitar" : "habilitar" %> el torneo: "<%= tournament.name %>"?
+                          <%= t("ui.confirm_toggle", action: tournament.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.tournament"), name: tournament.name) %>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
                               <%= button_to(enable_change_tournament_path(tournament), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                                <i class="fa-solid <%= tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= tournament.enabled? ? "Deshabilitar" : "Habilitar" %>
+                                <i class="fa-solid <%= tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
                               <% end %>
                         </div>
                       </div>

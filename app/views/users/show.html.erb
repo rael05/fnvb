@@ -24,7 +24,7 @@
     </p>
 
     <p>
-      <strong>Rol:</strong>
+      <strong><%= t("ui.role") %>:</strong>
       <%= @user.permission_name %>
     </p>
 
@@ -39,9 +39,9 @@
       </p>
 
       <p>
-        <strong>Equipo que administra:</strong>
+        <strong><%= t("ui.managed_team") %>:</strong>
         <% if @user.team_id.nil? %>
-          Sin Equipo registrado
+          <%= t("ui.no_team_registered") %>
         <% else %>
           <%= @user.team.team_name %>
         <% end %>
@@ -50,25 +50,24 @@
   </div>
 
   <button class="btn btn-success mb-3" type="button" data-bs-toggle="modal" data-bs-target="#changeModal">
-    Cambiar contrseña
+    <%= t("ui.change_password") %>
   </button>
 
   <div class="modal fade" id="changeModal" tabindex="-1" aria-labelledby="changeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="changeModalLabel">Change Password</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h5 class="modal-title" id="changeModalLabel"><%= t("ui.change_password") %></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
         </div>
         <div class="modal-body">
-          Are you sure you want to change the password?
+          <%= t("ui.confirm_password_change") %>
           <br>
-          If you click the send button, an email will be sent to <%= @user.email %>
-          with the corresponding instructions to change the password
+          <%= t("ui.password_change_email_notice", email: @user.email) %>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <%= link_to 'send', :change_password, :method => :post, class: 'btn btn-success' %>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
+          <%= link_to t("ui.send"), :change_password, :method => :post, class: 'btn btn-success' %>
         </div>
       </div>
     </div>
@@ -76,11 +75,11 @@
 
   <div>
     <%= link_to t(:back_to_users), users_path, class: 'btn btn-outline-secondary' %>
-    <%= link_to t(:edit_this_user), edit_user_path(@user), class: 'btn btn-outline-info' %>
+  <%= link_to t(:edit_this_user), edit_user_path(@user), class: 'btn btn-outline-info' %>
   </div>
 </div>
 <% unless @user == current_user %>
-  <%= button_to(enable_change_user_path(@user), method: :patch, class: "btn btn-outline-danger mt-3", form: { data: { turbo_confirm: (@user.enabled? ? "¿Deshabilitar esta cuenta?" : "¿Habilitar esta cuenta?") } }) do %>
-    <i class="fa-solid <%= @user.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta" %>
+  <%= button_to(enable_change_user_path(@user), method: :patch, class: "btn btn-outline-danger mt-3", form: { data: { turbo_confirm: (@user.enabled? ? t("ui.confirm_disable_account") : t("ui.confirm_enable_account")) } }) do %>
+    <i class="fa-solid <%= @user.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @user.enabled? ? t("ui.disable_account") : t("ui.enable_account") %>
   <% end %>
 <% end %>

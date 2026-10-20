@@ -5,7 +5,7 @@
         <i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>
         fnvb@fnvb.gob.ni
       </span>
-      <div class="site-header__socials" aria-label="Redes sociales">
+      <div class="site-header__socials" aria-label="<%= t('ui.social_media') %>">
         <span aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></span>
         <span aria-label="Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></span>
         <span aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></span>
@@ -20,7 +20,7 @@
         <span>FNVB</span>
       <% end %>
 
-      <button class="navbar-toggler site-header__toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Abrir menú">
+      <button class="navbar-toggler site-header__toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="<%= t('ui.open_menu') %>">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -54,21 +54,21 @@
         </ul>
 
         <div class="site-header__actions">
-          <div class="site-header__languages" aria-label="Idioma">
+          <div class="site-header__languages" aria-label="<%= t('ui.language') %>">
             <%= link_to 'ES', { locale: :es }, class: ('active' if I18n.locale == :es) %>
             <span aria-hidden="true">/</span>
             <%= link_to 'EN', { locale: :en }, class: ('active' if I18n.locale == :en) %>
           </div>
 
           <div class="dropdown">
-            <button class="site-header__account dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Cuenta de usuario">
+            <button class="site-header__account dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="<%= t('ui.user_account') %>">
               <i class="fa-solid fa-user" aria-hidden="true"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end site-header__account-menu">
               <% if user_signed_in? %>
                 <li><%= link_to current_user.email, current_user, class: 'dropdown-item' %></li>
                 <% if current_user.isPresident? %>
-                  <li><%= link_to 'Gestionar Usuarios', users_path, class: 'dropdown-item' %></li>
+                  <li><%= link_to t('ui.manage_users'), users_path, class: 'dropdown-item' %></li>
                 <% end %>
                 <li><hr class="dropdown-divider"></li>
                 <li><%= button_to t(:log_out), destroy_user_session_path, method: :delete, class: 'dropdown-item' %></li>

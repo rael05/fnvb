@@ -115,22 +115,22 @@
 
 <main class="home-page">
   <section class="home-hero" aria-label="Federación Nicaragüense de Voleibol">
-    <%= image_tag("banner.jpeg", alt: "Jugadores y actividades de voleibol") %>
+    <%= image_tag("banner.jpeg", alt: t("ui.volleyball_players_alt")) %>
     <div class="home-hero-content">
-      <span class="home-eyebrow">Federación Nicaragüense de Voleibol</span>
-      <h1 class="display-4 fw-bold mt-3">Pasión que se juega en equipo</h1>
-      <p class="lead mb-4">Actualidad, competencias y desarrollo del voleibol nicaragüense.</p>
-      <%= link_to "Explorar torneos", tournaments_path, class: "btn btn-danger btn-lg rounded-pill px-4" %>
+      <span class="home-eyebrow"><%= t("ui.full_federation_name") %></span>
+      <h1 class="display-4 fw-bold mt-3"><%= t("ui.home_tagline") %></h1>
+      <p class="lead mb-4"><%= t("ui.home_description") %></p>
+      <%= link_to t("ui.explore_tournaments"), tournaments_path, class: "btn btn-danger btn-lg rounded-pill px-4" %>
     </div>
   </section>
 
   <section class="home-section" aria-labelledby="home-news-heading">
     <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
       <div>
-        <span class="home-eyebrow text-danger">En la cancha</span>
+        <span class="home-eyebrow text-danger"><%= t("ui.on_the_court") %></span>
         <h2 id="home-news-heading" class="home-section-heading mb-0"><%= t(:last_new) %></h2>
       </div>
-      <%= link_to "Ver más noticias", articles_path, class: "btn btn-outline-primary rounded-pill px-4" %>
+      <%= link_to t("ui.view_more_news"), articles_path, class: "btn btn-outline-primary rounded-pill px-4" %>
     </div>
 
     <div class="row g-4">
@@ -149,8 +149,8 @@
 
   <section class="home-section home-partners" aria-labelledby="home-events-heading">
     <div class="container-fluid px-0">
-      <span class="home-eyebrow text-danger">Competencia internacional</span>
-      <h2 id="home-events-heading" class="home-section-heading">Eventos de ciclo olímpico</h2>
+        <span class="home-eyebrow text-danger"><%= t("ui.international_competition") %></span>
+        <h2 id="home-events-heading" class="home-section-heading"><%= t("ui.olympic_cycle_events") %></h2>
       <div class="row g-3">
         <% [["eco1.png", "Evento de ciclo olímpico"], ["eco2.png", "Evento de ciclo olímpico"], ["eco3.jpg", "Evento de ciclo olímpico"], ["eco4.png", "Evento de ciclo olímpico"]].each do |image, description| %>
           <div class="col-6 col-lg-3">
@@ -162,8 +162,8 @@
   </section>
 
   <section class="home-section" aria-labelledby="home-sponsors-heading">
-    <span class="home-eyebrow text-danger">Con el apoyo de</span>
-    <h2 id="home-sponsors-heading" class="home-section-heading">Patrocinadores Programa TOP COI</h2>
+    <span class="home-eyebrow text-danger"><%= t("ui.supported_by") %></span>
+    <h2 id="home-sponsors-heading" class="home-section-heading"><%= t("ui.sponsors_top_coi") %></h2>
     <div class="row g-3">
       <% [["ppt1.png", "Patrocinador"], ["ppt2.png", "Patrocinador"], ["ppt3.png", "Patrocinador"], ["ppt4.png", "Patrocinador"], ["ppt5.jpg", "Patrocinador"], ["ppt6.jpg", "Patrocinador"], ["ppt7.png", "Patrocinador"], ["ppt8.png", "Patrocinador"]].each do |image, description| %>
         <div class="col-6 col-lg-3">

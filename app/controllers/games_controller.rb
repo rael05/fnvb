@@ -45,7 +45,7 @@ class GamesController < ApplicationController
     
     respond_to do |format|
       if @gameDetail.save
-        format.html { redirect_to edit_game_path(@game), notice: "El detalle del juego fue guardado exitosamente." }
+        format.html { redirect_to edit_game_path(@game), notice: t("ui.updated_notice", resource: t("ui.resources.game_detail").capitalize) }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { redirect_to edit_game_path(@game), alert: @gameDetail.errors.full_messages.to_sentence }
@@ -61,7 +61,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to edit_game_path(@game), notice: "Game was successfully created." }
+        format.html { redirect_to edit_game_path(@game), notice: t("ui.created_notice", resource: t("ui.resources.game").capitalize) }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -74,7 +74,7 @@ class GamesController < ApplicationController
   def update
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to edit_game_path(@game), notice: "Game was successfully updated." }
+        format.html { redirect_to edit_game_path(@game), notice: t("ui.updated_notice", resource: t("ui.resources.game").capitalize) }
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -88,7 +88,7 @@ class GamesController < ApplicationController
     @game.destroy
 
     respond_to do |format|
-      format.html { redirect_to games_url, notice: "Game was successfully destroyed." }
+      format.html { redirect_to games_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.game").capitalize) }
       format.json { head :no_content }
     end
   end
@@ -106,7 +106,7 @@ class GamesController < ApplicationController
     @team_options = [[@calendar.teamDetail1.team_name, @calendar.teamDetail1.id], [@calendar.teamDetail2.team_name, @calendar.teamDetail2.id]]
     team_ids = [@calendar.teamDetail1&.id, @calendar.teamDetail2&.id].compact
     @payer_options = Player.where(team_id: team_ids).map { |p| [p.full_name, p.id] }.unshift(["Sin Jugador", nil])
-    @detail_types = GameDetail::DETAIL_TYPE_HASH.to_a.map { |type| [type[1], type[0]] }
+    @detail_types = GameDetail::DETAIL_TYPE_HASH.keys.map { |key| [t("ui.actions.#{key}"), key] }
 
     if @game.winning_team && @game.lose_team
       @winning_team = @game.winning_team

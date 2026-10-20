@@ -2,7 +2,7 @@
   <%= form_with(model: player) do |form| %>
     <% if player.errors.any? %>
       <div style="color: red">
-        <h2><%= pluralize(player.errors.count, "error") %> prohibited this player from being saved:</h2>
+        <h2><%= t("ui.form_errors", count: player.errors.count, resource: t("ui.resources.player")) %></h2>
 
         <ul>
           <% player.errors.each do |error| %>
@@ -26,7 +26,7 @@
     <div class="mb-3 row">
       <div class="col">
         <%= form.label :position, class: "form-label" %>
-        <%= form.select :position, @positions, { prompt: "Seleccione una posición" }, class: "form-select" %>
+        <%= form.select :position, @positions, { prompt: t("ui.select_position") }, class: "form-select" %>
       </div>
       <div class="col">
         <%= form.label :number, class: "form-label" %>
@@ -41,7 +41,7 @@
       </div>
       <div class="col">
         <%= form.label :gender, class: "form-label" %>
-        <%= form.select :gender, @genders, { prompt: "Seleccione un género" }, class: "form-select" %>
+        <%= form.select :gender, @genders, { prompt: t("ui.select_gender") }, class: "form-select" %>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label 'Equipo al que pertenece', class: "form-label" %>
+      <%= form.label :team_id, t("ui.player_team_field"), class: "form-label" %>
       <fieldset disabled>
         <%= form.text_field :team_id, value: current_user.team.team_name, class: "form-control" %>
       </fieldset>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label :image, "Foto del jugador", class: "form-label" %>
+      <%= form.label :image, t("ui.upload_player_photo"), class: "form-label" %>
       <%= form.file_field :image, class: "form-control" %>
     </div>
 

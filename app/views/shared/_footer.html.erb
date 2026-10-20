@@ -3,19 +3,19 @@
     <div class="row gy-4">
       <div class="col-lg-5 col-md-6">
         <div class="d-flex align-items-center gap-3 mb-3">
-          <%= image_tag "circularLogo.png", alt: "Logo de la FNVB", class: "site-footer__logo" %>
+          <%= image_tag "circularLogo.png", alt: t("ui.fnvb_logo"), class: "site-footer__logo" %>
           <div>
-            <p class="site-footer__eyebrow mb-1">Federación Nicaragüense</p>
-            <h2 class="site-footer__title mb-0">de Voleibol</h2>
+            <p class="site-footer__eyebrow mb-1"><%= t("ui.nicaraguan_volleyball_federation") %></p>
+            <h2 class="site-footer__title mb-0"><%= t("ui.volleyball") %></h2>
           </div>
         </div>
         <p class="site-footer__description mb-0">
-          Somos una federación sin fines de lucro dedicada a promover y desarrollar el voleibol nicaragüense.
+          <%= t("ui.federation_description") %>
         </p>
       </div>
 
       <div class="col-6 col-md-3 col-lg-2 offset-lg-1">
-        <h3 class="site-footer__heading">Explorar</h3>
+        <h3 class="site-footer__heading"><%= t("ui.explore") %></h3>
         <ul class="site-footer__links list-unstyled mb-0">
           <li><%= link_to t(:home), :root %></li>
           <li><%= link_to t(:news), :articles %></li>
@@ -24,7 +24,7 @@
       </div>
 
       <div class="col-6 col-md-3 col-lg-2">
-        <h3 class="site-footer__heading">Voleibol</h3>
+        <h3 class="site-footer__heading"><%= t("ui.volleyball") %></h3>
         <ul class="site-footer__links list-unstyled mb-0">
           <li><%= link_to t(:tournaments), :tournaments %></li>
           <li><%= link_to t(:teams), :teams %></li>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="col-lg-2 col-md-6">
-        <h3 class="site-footer__heading">Contacto</h3>
+        <h3 class="site-footer__heading"><%= t("ui.contact") %></h3>
         <p class="site-footer__contact mb-0">
           <i class="fa-solid fa-envelope me-2" aria-hidden="true"></i>
           <span>fnvb@fnvb.gob.ni</span>
@@ -43,7 +43,7 @@
     </div>
 
     <div class="site-footer__bottom mt-5 pt-3 d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2">
-      <span>© <%= Date.current.year %> Federación Nicaragüense de Voleibol</span>
+      <span>© <%= Date.current.year %> <%= t("ui.full_federation_name") %></span>
       <span class="site-footer__country"><i class="fa-solid fa-location-dot me-2" aria-hidden="true"></i>Nicaragua</span>
     </div>
   </div>

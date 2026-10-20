@@ -3,10 +3,10 @@
 <%= render @game_detail %>
 
 <div>
-  <%= link_to "Edit this game detail", edit_game_detail_path(@game_detail) %> |
-  <%= link_to "Back to game details", game_details_path %>
+  <%= link_to t("ui.edit_game_detail"), edit_game_detail_path(@game_detail) %> |
+  <%= link_to t("ui.back_to_game_details"), game_details_path %>
 
   <%= button_to(enable_change_game_detail_path(@game_detail), method: :patch, class: "btn btn-outline-danger", form: { data: { turbo: false } }) do %>
-    <i class="fa-solid <%= @game_detail.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game_detail.enabled? ? "Deshabilitar jugada" : "Habilitar jugada" %>
+    <i class="fa-solid <%= @game_detail.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game_detail.enabled? ? t("ui.disable_game_detail") : t("ui.enable_game_detail") %>
   <% end %>
 </div>

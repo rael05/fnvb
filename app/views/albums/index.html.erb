@@ -1,14 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Albums</h1>
+<h1><%= t("ui.photo_galleries") %></h1>
 
 <div id="albums">
   <% @albums.each do |album| %>
     <%= render album %>
     <p>
-      <%= link_to "Show this album", album %>
+      <%= link_to t("ui.show_resource", resource: t("ui.resources.album").capitalize), album %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New album", new_album_path %>
+<%= link_to t("ui.new_resource", resource: t("ui.resources.album").capitalize), new_album_path %>

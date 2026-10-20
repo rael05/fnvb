@@ -5,11 +5,11 @@ class PlayersController < ApplicationController
   before_action :set_gender, only: %i[ edit new create update ]
 
   def set_position
-    @positions = Player::POSITION_HASH.map { |key, value| [value, key] }
+    @positions = Player::POSITION_HASH.keys.map { |key| [t("ui.positions.#{key}"), key] }
   end
 
   def set_gender
-    @genders = Player::GENDER_HASH.map { |key, value| [value, key] }
+    @genders = Player::GENDER_HASH.keys.map { |key| [t("ui.genders.#{key}"), key] }
   end
 
   # GET /players or /players.json
@@ -73,7 +73,7 @@ class PlayersController < ApplicationController
 
     respond_to do |format|
       if @player.save
-        format.html { redirect_to player_url(@player), notice: "Player was successfully created." }
+        format.html { redirect_to player_url(@player), notice: t("ui.created_notice", resource: t("ui.resources.player").capitalize) }
         format.json { render :show, status: :created, location: @player }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -86,7 +86,7 @@ class PlayersController < ApplicationController
   def update
     respond_to do |format|
       if @player.update(player_params)
-        format.html { redirect_to player_url(@player), notice: "Player was successfully updated." }
+        format.html { redirect_to player_url(@player), notice: t("ui.updated_notice", resource: t("ui.resources.player").capitalize) }
         format.json { render :show, status: :ok, location: @player }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -100,7 +100,7 @@ class PlayersController < ApplicationController
     @player.destroy
 
     respond_to do |format|
-      format.html { redirect_to players_url, notice: "Player was successfully destroyed." }
+      format.html { redirect_to players_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.player").capitalize) }
       format.json { head :no_content }
     end
   end

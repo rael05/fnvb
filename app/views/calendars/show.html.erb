@@ -1,7 +1,7 @@
 <% if notice.present? %>
   <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
     <%= notice %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t('ui.close') %>"></button>
   </div>
 <% end %>
 
@@ -34,30 +34,30 @@
     <div class="calendar-show__matchup">
       <div class="calendar-show__team">
         <% if @team_one&.image&.present? %>
-          <%= image_tag @team_one.image, alt: "Escudo de #{@team_one.team_name}", class: "calendar-show__team-logo" %>
+          <%= image_tag @team_one.image, alt: t("ui.team_crest", team: @team_one.team_name), class: "calendar-show__team-logo" %>
         <% else %>
           <span class="calendar-show__team-logo calendar-show__team-logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
         <% end %>
-        <h2><%= @team_one&.team_name || "Equipo por definir" %></h2>
+        <h2><%= @team_one&.team_name || t("ui.team_to_be_decided") %></h2>
         <% if @team_one %>
-          <%= link_to "Ver equipo", team_path(@team_one), class: "calendar-show__team-link" %>
+          <%= link_to t("ui.view_team"), team_path(@team_one), class: "calendar-show__team-link" %>
         <% end %>
         <% if @game.present? %>
           <strong class="calendar-show__score"><%= team_one_score.presence || "—" %></strong>
         <% end %>
       </div>
 
-      <div class="calendar-show__versus"><%= @game.present? ? ":" : "VS" %></div>
+      <div class="calendar-show__versus"><%= @game.present? ? ":" : t("ui.vs") %></div>
 
       <div class="calendar-show__team">
         <% if @team_two&.image&.present? %>
-          <%= image_tag @team_two.image, alt: "Escudo de #{@team_two.team_name}", class: "calendar-show__team-logo" %>
+          <%= image_tag @team_two.image, alt: t("ui.team_crest", team: @team_two.team_name), class: "calendar-show__team-logo" %>
         <% else %>
           <span class="calendar-show__team-logo calendar-show__team-logo--placeholder"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span>
         <% end %>
-        <h2><%= @team_two&.team_name || "Equipo por definir" %></h2>
+        <h2><%= @team_two&.team_name || t("ui.team_to_be_decided") %></h2>
         <% if @team_two %>
-          <%= link_to "Ver equipo", team_path(@team_two), class: "calendar-show__team-link" %>
+          <%= link_to t("ui.view_team"), team_path(@team_two), class: "calendar-show__team-link" %>
         <% end %>
         <% if @game.present? %>
           <strong class="calendar-show__score"><%= team_two_score.presence || "—" %></strong>
@@ -75,8 +75,8 @@
       <div class="calendar-show__detail h-100">
         <span class="calendar-show__detail-icon"><i class="fa-regular fa-calendar" aria-hidden="true"></i></span>
         <div>
-          <span class="calendar-show__label">Fecha y hora</span>
-          <strong><%= @calendar.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : "Por confirmar" %></strong>
+          <span class="calendar-show__label"><%= t("ui.date_time") %></span>
+          <strong><%= @calendar.start_date_time.present? ? l(@calendar.start_date_time, format: :long) : t("ui.to_be_confirmed") %></strong>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
       <div class="calendar-show__detail h-100">
         <span class="calendar-show__detail-icon"><i class="fa-solid fa-trophy" aria-hidden="true"></i></span>
         <div>
-          <span class="calendar-show__label">Etapa</span>
+          <span class="calendar-show__label"><%= t("ui.stage") %></span>
           <strong><%= stage_key ? t(stage_key) : "—" %></strong>
         </div>
       </div>
@@ -93,7 +93,7 @@
       <div class="calendar-show__detail h-100">
         <span class="calendar-show__detail-icon"><i class="fa-solid fa-volleyball" aria-hidden="true"></i></span>
         <div>
-          <span class="calendar-show__label">Estado del encuentro</span>
+          <span class="calendar-show__label"><%= t("ui.fixture_status") %></span>
           <strong><%= status_key ? t(status_key) : @calendar.status %></strong>
         </div>
       </div>
@@ -103,14 +103,14 @@
   <div class="calendar-show__actions mt-4">
     <% if @game.present? %>
       <%= link_to game_path(@game), class: "btn calendar-show__game-detail" do %>
-        <i class="fa-solid fa-clipboard-list me-2" aria-hidden="true"></i>Ver detalle del partido
+        <i class="fa-solid fa-clipboard-list me-2" aria-hidden="true"></i><%= t("ui.view_match_details") %>
       <% end %>
     <% end %>
     <%= link_to edit_calendar_path(@calendar), class: "btn calendar-show__edit" do %>
-      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i>Editar encuentro
+      <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit_fixture") %>
     <% end %>
-    <%= button_to(enable_change_calendar_path(@calendar), method: :patch, class: "btn calendar-show__toggle #{'calendar-show__toggle--disable' if @calendar.enabled?} #{'calendar-show__toggle--enable' unless @calendar.enabled?}", form: { data: { turbo_confirm: (@calendar.enabled? ? "¿Deseas deshabilitar este encuentro?" : "¿Deseas habilitar este encuentro?") } }) do %>
-      <i class="fa-solid <%= @calendar.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @calendar.enabled? ? "Deshabilitar encuentro" : "Habilitar encuentro" %>
+    <%= button_to(enable_change_calendar_path(@calendar), method: :patch, class: "btn calendar-show__toggle #{'calendar-show__toggle--disable' if @calendar.enabled?} #{'calendar-show__toggle--enable' unless @calendar.enabled?}", form: { data: { turbo_confirm: (@calendar.enabled? ? t("ui.confirm_disable_fixture") : t("ui.confirm_enable_fixture")) } }) do %>
+      <i class="fa-solid <%= @calendar.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @calendar.enabled? ? t("ui.disable_calendar") : t("ui.enable_calendar") %>
     <% end %>
   </div>
 </main>

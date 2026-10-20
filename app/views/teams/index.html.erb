@@ -28,7 +28,7 @@
             <% if team.image.present? %>
               <%= image_tag team.image, class: 'card-img-top', style: team.enabled ? 'height: 180px' : 'height: 180px; opacity: 0.3;' %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: 'Generic tournament img', class: 'card-img-top', style: team.enabled ? '' : 'opacity: 0.3;') %>
+              <%= image_tag("tournament_ball.jpg", alt: t("ui.default_image_alt"), class: 'card-img-top', style: team.enabled ? '' : 'opacity: 0.3;') %>
             <% end %>
           </a>
           <div class="card-body">
@@ -37,11 +37,11 @@
                 <%= team.team_name %>
               </a>
             </h4>
-            <strong style="font-size: 15px;">Delegado:</strong>
+            <strong style="font-size: 15px;"><%= t("delegate_name") %>:</strong>
             <p class="card-text">
               <%= team.delegate_name + " " + team.delegate_last_name %>
             </p>
-            <strong style="font-size: 15px;">Entrenador:</strong>
+            <strong style="font-size: 15px;"><%= t("ui.coach") %>:</strong>
             <p class="card-text">
               <%= team.head_coach_name + " " + team.head_coach_last_name %>
             </p>
@@ -72,17 +72,17 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="modalLabel-<%= index %>">
-                <%= team.enabled ? "Deshabilitar equipo" : "Habilitar equipo" %>
+                <%= t(team.enabled? ? "ui.confirm_disable_team" : "ui.confirm_enable_team") %>
               </h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t('ui.close') %>"></button>
             </div>
             <div class="modal-body">
-              ¿Estás seguro que deseas <%= team.enabled ? "deshabilitar" : "habilitar" %> este equipo?
+              <%= t(team.enabled? ? "ui.confirm_disable_team" : "ui.confirm_enable_team") %>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
               <%= button_to(enable_change_team_path(team), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                <i class="fa-solid <%= team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= team.enabled? ? "Deshabilitar" : "Habilitar" %>
+                <i class="fa-solid <%= team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= team.enabled? ? t("ui.disable") : t("ui.enable") %>
               <% end %>
             </div>
           </div>
@@ -92,10 +92,10 @@
   </div>
 
   <% if @total_pages > 1 %>
-    <nav class="mt-4" aria-label="Paginación de equipos">
+    <nav class="mt-4" aria-label="<%= t('ui.pagination_teams') %>">
       <ul class="pagination justify-content-center mb-0">
         <li class="page-item <%= 'disabled' if @current_page == 1 %>">
-          <%= link_to 'Anterior', teams_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: 'Anterior' } %>
+          <%= link_to t("ui.previous"), teams_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.previous") } %>
         </li>
         <% (1..@total_pages).each do |page| %>
           <li class="page-item <%= 'active' if page == @current_page %>">
@@ -103,7 +103,7 @@
           </li>
         <% end %>
         <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
-          <%= link_to 'Siguiente', teams_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: 'Siguiente' } %>
+          <%= link_to t("ui.next"), teams_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.next") } %>
         </li>
       </ul>
     </nav>

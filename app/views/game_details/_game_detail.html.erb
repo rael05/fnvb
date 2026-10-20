@@ -1,16 +1,16 @@
 <div id="<%= dom_id game_detail %>">
   <p>
-    <strong>Game:</strong>
+    <strong><%= t("ui.match") %>:</strong>
     <%= game_detail.game_id %>
   </p>
 
   <p>
-    <strong>Minuto de juego:</strong>
-    <%= game_detail.played_minute.present? ? "#{game_detail.played_minute}′" : "No registrado" %>
+    <strong><%= t("ui.minute") %>:</strong>
+    <%= game_detail.played_minute.present? ? "#{game_detail.played_minute}′" : t("ui.no_registered") %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong><%= t("ui.description") %>:</strong>
     <%= game_detail.description %>
   </p>
 

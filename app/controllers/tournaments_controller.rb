@@ -9,6 +9,8 @@ class TournamentsController < ApplicationController
 
   # GET /tournaments/1 or /tournaments/1.json
   def show
+    @standings = tournament_standings
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -96,6 +98,40 @@ class TournamentsController < ApplicationController
   end
 
   private
+    def tournament_standings
+      teams_by_id = @tournament.teams.index_by(&:id)
+      stats = teams_by_id.keys.index_with do
+        { played: 0, won: 0, lost: 0, points: 0 }
+      end
+
+      games = Game.joins(:calendar)
+                  .where(calendars: { tournament_id: @tournament.id })
+                  .where.not(winning_team: nil)
+                  .where.not(lose_team: nil)
+
+      games.each do |game|
+        winner_stats = stats[game.winning_team]
+        loser_stats = stats[game.lose_team]
+        next unless winner_stats && loser_stats
+
+        winner_stats[:played] += 1
+        winner_stats[:won] += 1
+        loser_stats[:played] += 1
+        loser_stats[:lost] += 1
+
+        if game.win_score == 3 && game.lose_score == 2
+          winner_stats[:points] += 2
+          loser_stats[:points] += 1
+        elsif game.win_score == 3 && [0, 1].include?(game.lose_score)
+          winner_stats[:points] += 3
+        end
+      end
+
+      stats.sort_by do |team_id, values|
+        [-values[:points], -values[:won], teams_by_id.fetch(team_id).team_name]
+      end.map { |team_id, values| [teams_by_id.fetch(team_id), values] }
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_tournament
       @tournament = Tournament.find(params[:id])

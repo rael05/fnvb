@@ -12,12 +12,12 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th scope="col">User name</th>
-          <th scope="col">Email</th>
+          <th scope="col"><%= t("ui.username") %></th>
+          <th scope="col"><%= t("ui.email") %></th>
           <th scope="col"><%= t(:full_name) %></th>
-          <th scope="col">Rol</th>
-          <th scope="col">Edit</th>
-          <th scope="col">Estado</th>
+          <th scope="col"><%= t("ui.role") %></th>
+          <th scope="col"><%= t("ui.edit") %></th>
+          <th scope="col"><%= t("ui.status") %></th>
         </tr>
       </thead>
       <tbody>
@@ -33,9 +33,9 @@
             </a>
           </td>
           <td class="text-center">
-            <span class="badge <%= user.enabled? ? 'text-bg-success' : 'text-bg-secondary' %> me-2"><%= user.enabled? ? "Habilitado" : "Deshabilitado" %></span>
+            <span class="badge <%= user.enabled? ? 'text-bg-success' : 'text-bg-secondary' %> me-2"><%= user.enabled? ? t("ui.enabled") : t("ui.disabled") %></span>
             <% unless user == current_user %>
-              <%= button_to enable_change_user_path(user), method: :patch, class: "btn btn-link p-0 #{user.enabled? ? 'link-danger' : 'link-success'}", title: (user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta"), aria: { label: (user.enabled? ? "Deshabilitar cuenta" : "Habilitar cuenta") }, form: { data: { turbo: false } } do %>
+              <%= button_to enable_change_user_path(user), method: :patch, class: "btn btn-link p-0 #{user.enabled? ? 'link-danger' : 'link-success'}", title: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")), aria: { label: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")) }, form: { data: { turbo: false } } do %>
               <% end %>
             <% end %>
           </td>
@@ -46,10 +46,10 @@
   </div>
 
   <% if @total_pages > 1 %>
-    <nav class="mt-4" aria-label="Paginación de usuarios">
+    <nav class="mt-4" aria-label="<%= t('ui.pagination_users') %>">
       <ul class="pagination justify-content-center mb-0">
         <li class="page-item <%= 'disabled' if @current_page == 1 %>">
-          <%= link_to 'Anterior', users_path(page: @current_page - 1), class: 'page-link', aria: { label: 'Anterior' } %>
+          <%= link_to t("ui.previous"), users_path(page: @current_page - 1), class: 'page-link', aria: { label: t("ui.previous") } %>
         </li>
         <% (1..@total_pages).each do |page| %>
           <li class="page-item <%= 'active' if page == @current_page %>">
@@ -57,7 +57,7 @@
           </li>
         <% end %>
         <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
-          <%= link_to 'Siguiente', users_path(page: @current_page + 1), class: 'page-link', aria: { label: 'Siguiente' } %>
+          <%= link_to t("ui.next"), users_path(page: @current_page + 1), class: 'page-link', aria: { label: t("ui.next") } %>
         </li>
       </ul>
     </nav>

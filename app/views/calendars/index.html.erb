@@ -12,7 +12,7 @@
     </a>
   </h1>
 
-  <%= content_tag :div, id: "calendar_data_formatted", data: {calendar: @formatted_data} do %>
+  <%= content_tag :div, id: "calendar_data_formatted", data: {calendar: @formatted_data, calendar_ui: {months: I18n.t("date.month_names").drop(1), days: I18n.t("date.day_names"), first_day: I18n.t("date.day_names")[3], placeholder: t("ui.no_calendar_events"), date_format: t("ui.calendar_date_format"), date_separator: t("ui.calendar_date_separator")}} do %>
   <% end %>
   
   <div class="text-center mt-3">
@@ -38,7 +38,7 @@
   </div>
 
   <%= link_to t(:new_calendar), new_calendar_path, class: 'btn btn-primary mt-3 ms-2' %>
-  <%= link_to "PDF", calendars_path(format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
-  <%= link_to "EXCEL", calendars_path(format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>
+  <%#= link_to t("ui.pdf"), calendars_path(format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
+  <%#= link_to t("ui.excel"), calendars_path(format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>
 </div>
 

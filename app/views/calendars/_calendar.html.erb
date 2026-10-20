@@ -1,32 +1,32 @@
 <div id="<%= dom_id calendar %>">
   <p>
-    <strong>Team1:</strong>
+    <strong><%= t("ui.team_one") %>:</strong>
     <%= calendar.team1 %>
   </p>
 
   <p>
-    <strong>Team2:</strong>
+    <strong><%= t("ui.team_two") %>:</strong>
     <%= calendar.team2 %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong><%= t("ui.description") %>:</strong>
     <%= calendar.description %>
   </p>
 
   <p>
-    <strong>Stage:</strong>
-    <%= calendar.stage %>
+    <strong><%= t("ui.stage") %>:</strong>
+    <%= calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(calendar.stage), default: calendar.stage) : t("ui.no_specification") %>
   </p>
 
   <p>
-    <strong>Start date time:</strong>
+    <strong><%= t("ui.date_time") %>:</strong>
     <%= calendar.start_date_time %>
   </p>
 
   <p>
-    <strong>Status:</strong>
-    <%= calendar.status %>
+    <strong><%= t("ui.status") %>:</strong>
+    <%= calendar.status.present? ? t(Calendar::TYPE_STATUS.key(calendar.status), default: calendar.status) : t("ui.no_specification") %>
   </p>
 
 </div>

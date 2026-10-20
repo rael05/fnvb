@@ -89,9 +89,9 @@ class UsersController < ApplicationController
     if @user&.email.present?
       User.send_reset_password_instructions(email: @user.email)
       sign_out @user
-      redirect_to :root, notice: 'Se cerro la sesión, Recibirás un email con instrucciones para reiniciar tu contraseña en unos minutos.'
+      redirect_to :root, notice: t("ui.reset_password_sent_notice")
     else
-      redirect_to :root, alert: 'No logramos encontrar tu correo.'
+      redirect_to :root, alert: t("ui.not_found_notice")
     end
   end
 

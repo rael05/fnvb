@@ -2,7 +2,7 @@
   <%= form_with(model: announcement) do |form| %>
     <% if announcement.errors.any? %>
       <div style="color: red">
-        <h2><%= pluralize(announcement.errors.count, "error") %> prohibited this announcement from being saved:</h2>
+        <h2><%= t("ui.form_errors", count: announcement.errors.count, resource: t("ui.resources.announcement")) %></h2>
 
         <ul>
           <% announcement.errors.each do |error| %>
@@ -13,17 +13,17 @@
     <% end %>
 
     <div class="mb-3">
-      <%= form.label :title, class: "form-label" %>
+      <%= form.label :title, t("ui.title"), class: "form-label" %>
       <%= form.text_field :title, class: "form-control" %>
     </div>
 
     <div class="mb-3">
-      <%= form.label :description, class: "form-label" %>
+      <%= form.label :description, t("ui.description"), class: "form-label" %>
       <%= form.text_area :description, class: "form-control" %>
     </div>
 
     <div class="mb-3">
-      <%= form.label 'PDF de la convocatoria en español', class: "form-label" %>
+      <%= form.label :pdf_es_file, t("ui.pdf_announcement_es"), class: "form-label" %>
       <% if announcement.pdf_es_file.present? %>
         arcivo actual: <strong> <%= announcement.pdf_es_file.filename %> </strong> <br>
       <% end %>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label 'PDF de la convocatoria en ingles', class: "form-label" %>
+      <%= form.label :pdf_en_file, t("ui.pdf_announcement_en"), class: "form-label" %>
       <% if announcement.pdf_en_file.present? %>
         arcivo actual: <strong> <%= announcement.pdf_en_file.filename %> </strong> <br>
       <% end %>
@@ -39,7 +39,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label 'Imagen de la convocatoria', class: "form-label" %>
+      <%= form.label :image, t("ui.announcement_image"), class: "form-label" %>
       <% if announcement.image.present? %>
         <%= image_tag announcement.image, style: "display: block" %>
       <% end %>
@@ -47,7 +47,7 @@
     </div>
 
     <div>
-      <%= form.submit class: "btn btn-primary mb-2" %>
+      <%= form.submit t("ui.save_changes"), class: "btn btn-primary mb-2" %>
     </div>
   <% end %>
 </div>

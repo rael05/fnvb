@@ -1,7 +1,7 @@
 <%= form_with(model: game_detail) do |form| %>
   <% if game_detail.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(game_detail.errors.count, "error") %> prohibited this game_detail from being saved:</h2>
+      <h2><%= t("ui.form_errors", count: game_detail.errors.count, resource: t("ui.resources.game_detail")) %></h2>
 
       <ul>
         <% game_detail.errors.each do |error| %>
@@ -17,7 +17,7 @@
   </div>
 
   <div>
-    <%= form.label :played_minute, "Minuto de juego", style: "display: block" %>
+    <%= form.label :played_minute, t("ui.minute"), style: "display: block" %>
     <%= form.number_field :played_minute, min: 0 %>
   </div>
 
@@ -27,6 +27,6 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit t("ui.save_changes") %>
   </div>
 <% end %>

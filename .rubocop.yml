@@ -1,0 +1,19 @@
+require: rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 3.2
+  TargetRailsVersion: 7.0
+  NewCops: disable
+  DisabledByDefault: true
+  Exclude:
+    - "db/schema.rb"
+
+Rails/Output:
+  Enabled: true
+
+Lint/Syntax:
+  Enabled: true
+
+Lint/UselessAssignment:
+  Enabled: true
+

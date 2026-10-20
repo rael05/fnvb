@@ -1,6 +1,6 @@
 <div class="shadow">
   <div class="border rounded-top border-bottom-0">
-    <h1 class="text-center m-0 py-1">New statistic</h1>
+    <h1 class="text-center m-0 py-1"><%= t("ui.new_resource", resource: t("ui.resources.statistic").capitalize) %></h1>
   </div>
   <%= render "form", statistic: @statistic %>
 </div>
@@ -8,5 +8,5 @@
 <br>
 
 <div>
-  <%= link_to "Back to statistics", statistics_path, class: 'btn btn-outline-secondary' %>
+  <%= link_to t("ui.back_to_statistics"), statistics_path, class: 'btn btn-outline-secondary' %>
 </div>

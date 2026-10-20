@@ -27,7 +27,7 @@ class GameDetailsController < ApplicationController
 
     respond_to do |format|
       if @game_detail.save
-        format.html { redirect_to game_detail_url(@game_detail), notice: "Game detail was successfully created." }
+        format.html { redirect_to game_detail_url(@game_detail), notice: t("ui.created_notice", resource: t("ui.resources.game_detail").capitalize) }
         format.json { render :show, status: :created, location: @game_detail }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -42,7 +42,7 @@ class GameDetailsController < ApplicationController
 
     respond_to do |format|
       if @game_detail.update(game_detail_params)
-        format.html { redirect_to edit_game_path(@game_detail.game), notice: "El detalle del partido fue actualizado." }
+        format.html { redirect_to edit_game_path(@game_detail.game), notice: t("ui.updated_notice", resource: t("ui.resources.game_detail").capitalize) }
         format.json { render :show, status: :ok, location: @game_detail }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class GameDetailsController < ApplicationController
     @game_detail.destroy
 
     respond_to do |format|
-      format.html { redirect_to game_details_url, notice: "Game detail was successfully destroyed." }
+      format.html { redirect_to game_details_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.game_detail").capitalize) }
       format.json { head :no_content }
     end
   end
@@ -77,7 +77,7 @@ class GameDetailsController < ApplicationController
       teams = [calendar.teamDetail1, calendar.teamDetail2].compact
       @team_options = teams.map { |team| [team.team_name, team.id] }
       @player_options = Player.where(team_id: teams.map(&:id)).map { |player| [player.full_name, player.id] }
-      @player_options.unshift(["Sin jugador", nil])
-      @detail_types = GameDetail::DETAIL_TYPE_HASH.map { |key, value| [value, key] }
+      @player_options.unshift([t("ui.no_player"), nil])
+      @detail_types = GameDetail::DETAIL_TYPE_HASH.keys.map { |key| [t("ui.actions.#{key}"), key] }
     end
 end

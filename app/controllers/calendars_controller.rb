@@ -6,7 +6,7 @@ class CalendarsController < ApplicationController
   # GET /calendars or /calendars.json
   def index
     @selected_year = params[:year].present? ? params[:year].to_i : Date.current.year
-    @tournaments = Tournament.where(year: @selected_year).pluck(:name, :id).unshift(["Todos los torneos", 0])
+    @tournaments = Tournament.where(year: @selected_year).pluck(:name, :id).unshift([t("ui.all_tournaments"), 0])
     if params[:tournament_id].present? && params[:tournament_id].to_i > 0
       @selected_tournament = params[:tournament_id].to_i
       @calendars = Calendar.where(tournament_id: @selected_tournament)
@@ -58,7 +58,7 @@ class CalendarsController < ApplicationController
 
     respond_to do |format|
       if @calendar.save
-        format.html { redirect_to calendar_url(@calendar), notice: "Calendar was successfully created." }
+        format.html { redirect_to calendar_url(@calendar), notice: t("ui.created_notice", resource: t("ui.resources.calendar").capitalize) }
         format.json { render :show, status: :created, location: @calendar }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -71,7 +71,7 @@ class CalendarsController < ApplicationController
   def update
     respond_to do |format|
       if @calendar.update(calendar_params)
-        format.html { redirect_to calendar_url(@calendar), notice: "Calendar was successfully updated." }
+        format.html { redirect_to calendar_url(@calendar), notice: t("ui.updated_notice", resource: t("ui.resources.calendar").capitalize) }
         format.json { render :show, status: :ok, location: @calendar }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -85,7 +85,7 @@ class CalendarsController < ApplicationController
     @calendar.destroy
 
     respond_to do |format|
-      format.html { redirect_to calendars_url, notice: "Calendar was successfully destroyed." }
+      format.html { redirect_to calendars_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.calendar").capitalize) }
       format.json { head :no_content }
     end
   end

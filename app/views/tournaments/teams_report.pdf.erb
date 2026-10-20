@@ -14,13 +14,13 @@
   .staff strong { color: #52647e; }
 </style>
 
-<h1>FNVB · Federación Nicaragüense de Voleibol</h1>
-<p class="subtitle">Equipos registrados en <strong><%= @tournament.completed_name %></strong></p>
+<h1><%= t("ui.federation_brand") %></h1>
+<p class="subtitle"><%= t("ui.teams_in_tournament", tournament: @tournament.completed_name) %></p>
 
 <div class="summary">
-  <strong>Total de equipos:</strong> <%= @teams.size %>
+  <strong><%= t("ui.total_teams") %>:</strong> <%= @teams.size %>
   &nbsp; | &nbsp;
-  <strong>Fecha de generación:</strong> <%= l(Time.current, format: :long) %>
+  <strong><%= t("ui.generation_date") %>:</strong> <%= l(Time.current, format: :long) %>
 </div>
 
 <% if @teams.any? %>
@@ -28,26 +28,26 @@
     <section class="team">
       <div class="team-heading">
         <h2><%= index + 1 %>. <%= team.team_name %></h2>
-        <span><%= team.enabled? ? "Habilitado" : "Deshabilitado" %></span>
+        <span><%= team.enabled? ? t("ui.enabled") : t("ui.disabled") %></span>
       </div>
 
       <table class="staff">
         <tr>
-          <td><strong>Delegado:</strong> <%= [team.delegate_name, team.delegate_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
-          <td><strong>Entrenador principal:</strong> <%= [team.head_coach_name, team.head_coach_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+          <td><strong><%= t("delegate_name") %>:</strong> <%= [team.delegate_name, team.delegate_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></td>
+          <td><strong><%= t("ui.head_coach") %>:</strong> <%= [team.head_coach_name, team.head_coach_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></td>
         </tr>
         <tr>
-          <td><strong>Entrenador asistente:</strong> <%= [team.assistant_coach1_name, team.assistant_coach1_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
-          <td><strong>Segundo asistente:</strong> <%= [team.assistant_coach2_name, team.assistant_coach2_last_name].compact_blank.join(" ").presence || "Sin asignar" %></td>
+          <td><strong><%= t("ui.assistant_coach") %>:</strong> <%= [team.assistant_coach1_name, team.assistant_coach1_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></td>
+          <td><strong><%= t("ui.second_assistant") %>:</strong> <%= [team.assistant_coach2_name, team.assistant_coach2_last_name].compact_blank.join(" ").presence || t("ui.no_assignment") %></td>
         </tr>
         <tr>
-          <td><strong>Uniforme 1:</strong> <%= [team.color_shirt1, team.color_short1].compact_blank.join(" · ").presence || "Sin especificar" %></td>
-          <td><strong>Uniforme 2:</strong> <%= [team.color_shirt2, team.color_short2].compact_blank.join(" · ").presence || "Sin especificar" %></td>
+          <td><strong><%= t("ui.uniform") %> 1:</strong> <%= [team.color_shirt1, team.color_short1].compact_blank.join(" · ").presence || t("ui.no_specification") %></td>
+          <td><strong><%= t("ui.uniform") %> 2:</strong> <%= [team.color_shirt2, team.color_short2].compact_blank.join(" · ").presence || t("ui.no_specification") %></td>
         </tr>
       </table>
 
     </section>
   <% end %>
 <% else %>
-  <p>No hay equipos registrados en este torneo.</p>
+  <p><%= t("ui.no_teams_in_tournament") %></p>
 <% end %>

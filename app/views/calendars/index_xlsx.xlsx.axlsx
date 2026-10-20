@@ -5,16 +5,17 @@ styles = wb.styles
 title_cell = styles.add_style sz: 20, alignment: { horizontal: :center }
 header_cell = styles.add_style sz: 14, alignment: { horizontal: :center }
 
-wb.add_worksheet(name: "Calendars") do |sheet|
-    sheet.add_row ["FNVB - Federación Nicaragüense de Voleibol"], style: [title_cell]
+wb.add_worksheet(name: t("calendars")) do |sheet|
+    sheet.add_row [t("ui.federation_brand")], style: [title_cell]
     sheet.add_row []
-    sheet.add_row ["Torneo", "Participante", "Fecha", "Etapa", "Estado", "Descripcion"], style: header_cell
+    sheet.add_row [t("tournament"), t("ui.team_names"), t("ui.date"), t("ui.stage"), t("ui.status"), t("ui.description")], style: header_cell
     sheet.add_border "A3:F3", :all
 
     @calendars.each_with_index do |calendar, index|
         sheet.add_row [
-            calendar.tournament_id, calendar.team1.to_s + " Contra " + calendar.team2.to_s, calendar.start_date_time,
-            calendar.stage, calendar.status, calendar.description
+            calendar.tournament&.name, "#{calendar.teamDetail1&.team_name} #{t('ui.vs')} #{calendar.teamDetail2&.team_name}", calendar.start_date_time,
+            calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(calendar.stage), default: calendar.stage) : nil,
+            calendar.status.present? ? t(Calendar::TYPE_STATUS.key(calendar.status), default: calendar.status) : nil, calendar.description
         ]
         sheet.add_border "A" + (4 + index).to_s + ":F" + (4 + index).to_s, :all
     end

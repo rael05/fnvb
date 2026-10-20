@@ -27,7 +27,7 @@ class StatisticsController < ApplicationController
 
     respond_to do |format|
       if @statistic.save
-        format.html { redirect_to statistic_url(@statistic), notice: "Statistic was successfully created." }
+        format.html { redirect_to statistic_url(@statistic), notice: t("ui.created_notice", resource: t("ui.resources.statistic").capitalize) }
         format.json { render :show, status: :created, location: @statistic }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +40,7 @@ class StatisticsController < ApplicationController
   def update
     respond_to do |format|
       if @statistic.update(statistic_params)
-        format.html { redirect_to statistic_url(@statistic), notice: "Statistic was successfully updated." }
+        format.html { redirect_to statistic_url(@statistic), notice: t("ui.updated_notice", resource: t("ui.resources.statistic").capitalize) }
         format.json { render :show, status: :ok, location: @statistic }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class StatisticsController < ApplicationController
     @statistic.destroy
 
     respond_to do |format|
-      format.html { redirect_to statistics_url, notice: "Statistic was successfully destroyed." }
+      format.html { redirect_to statistics_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.statistic").capitalize) }
       format.json { head :no_content }
     end
   end

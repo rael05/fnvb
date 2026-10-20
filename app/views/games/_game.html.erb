@@ -1,31 +1,31 @@
 <div id="<%= dom_id game %>">
   <p>
-    <strong>Winning team:</strong>
+    <strong><%= t("ui.winner_team") %>:</strong>
     <%= game.winning_team %>
   </p>
 
   <p>
-    <strong>Lose team:</strong>
+    <strong><%= t("ui.loser_team") %>:</strong>
     <%= game.lose_team %>
   </p>
 
   <p>
-    <strong>Win Score:</strong>
+    <strong><%= t("ui.winning_score") %>:</strong>
     <%= game.win_score %>
   </p>
 
   <p>
-    <strong>Lose Score:</strong>
+    <strong><%= t("ui.losing_score") %>:</strong>
     <%= game.lose_score %>
   </p>
 
   <p>
-    <strong>User:</strong>
+    <strong><%= t("ui.user") %>:</strong>
     <%= game.user_id %>
   </p>
 
   <p>
-    <strong>Description:</strong>
+    <strong><%= t("ui.description") %>:</strong>
     <%= game.description %>
   </p>
 

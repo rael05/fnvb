@@ -2,7 +2,7 @@
   <%= form_with url: @form_path, method: @form_method, model: user do |form| %>
     <% if user.errors.any? %>
       <div style="color: red">
-        <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+        <h2><%= t("ui.form_errors", count: user.errors.count, resource: t("ui.resources.user")) %></h2>
 
         <ul>
           <% user.errors.each do |error| %>
@@ -42,18 +42,18 @@
           </button>
           <% if @form_method == :patch %>
             <button class="btn btn-outline-secondary" type="button" id="change_password" onclick="changePassword()">
-              Cambiar contrseña
+              <%= t("ui.change_password_button") %>
             </button>
           <% end %>
         </div>
         <div id="passwordHelp" class="form-text <%= "d-none" if @form_method == :patch %>">
-          Se enviara un correo al usuario con la nueva contraseña
+          <%= t("ui.password_email_notice") %>
         </div>
       </div>
     <% end %>
 
     <div class="mb-3">
-      <%= form.label 'Rol', class: "form-label" %>
+      <%= form.label :permission, t("ui.role"), class: "form-label" %>
       <%= form.select(:permission, options_for_select(@permissions_array, user.permission), {}, class: "form-select") %>
     </div>
 
@@ -88,14 +88,14 @@
       eyeButton.remove("d-none");
       passwordField.removeAttribute("disabled");
       passwordField.value = Math.random().toString(36).slice(-11);
-      changeButton.innerHTML = "No cambiar";
+      changeButton.innerHTML = "<%= j t('ui.dont_change_password') %>";
     } else {
       passwordHelp.add("d-none");
       eyeButton.add("d-none");
       passwordField.setAttribute("disabled", "true");
       passwordField.value = "***********";
       passwordField.type = "password";
-      changeButton.innerHTML = "Cambiar contraseña";
+      changeButton.innerHTML = "<%= j t('ui.change_password_button') %>";
     }
 
     const eye_icon = document.getElementById('eye_icon').classList;
