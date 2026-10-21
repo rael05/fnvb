@@ -109,6 +109,8 @@ en:
   search_users: 'Search users'
   read_more: 'Read more'
   ui:
+    tournament_teams: "Tournament teams"
+    tournament_teams_help: "Select one or more teams. Use Ctrl (or Cmd on Mac) to select multiple teams."
     disable: "Disable"
     enable: "Enable"
     download_teams_pdf: "Download team list as PDF"
@@ -588,3 +590,6 @@ en:
       default: "%B %d, %Y %H:%M"
       short: "%m/%d/%Y"
       long: "%A, %B %d, %Y at %H:%M"
+  tournament_scheduled: "Scheduled"
+  tournament_in_progress: "In progress"
+  tournament_concluded: "Concluded"

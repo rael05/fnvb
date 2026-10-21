@@ -122,6 +122,8 @@ es:
   search_tournaments: 'Buscar torneos'
   read_more: 'Leer más'
   ui:
+    tournament_teams: "Equipos del torneo"
+    tournament_teams_help: "Selecciona uno o varios equipos. Usa Ctrl (o Cmd en Mac) para seleccionar varios."
     disable: "Deshabilitar"
     enable: "Habilitar"
     download_teams_pdf: "Descargar equipos en PDF"
@@ -587,3 +589,6 @@ es:
         email: "Correo electrónico"
         password: "Contraseña"
         password_confirmation: "Confirmar contraseña"
+  tournament_scheduled: "Programado"
+  tournament_in_progress: "En curso"
+  tournament_concluded: "Concluido"

@@ -1,6 +1,7 @@
 class TournamentsController < ApplicationController
   load_and_authorize_resource
   before_action :set_tournament, only: %i[ show edit update destroy generate_calendar]
+  before_action :set_teams, only: %i[new edit create update]
 
   # GET /tournaments or /tournaments.json
   def index
@@ -137,8 +138,12 @@ class TournamentsController < ApplicationController
       @tournament = Tournament.find(params[:id])
     end
 
+    def set_teams
+      @teams = Team.order(:team_name)
+    end
+
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :description, :international, :image, :search, :year)
+      params.require(:tournament).permit(:name, :description, :international, :image, :search, :year, team_ids: [])
     end
 end

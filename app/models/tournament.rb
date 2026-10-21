@@ -20,4 +20,12 @@ class Tournament < ApplicationRecord
   def completed_name
     "#{name} (#{year})"
   end
+
+  def status_key
+    calendarios = calendars.where(enabled: true)
+    pending = Calendar::TYPE_STATUS[:pending]
+    return :scheduled if calendarios.empty? || calendarios.where.not(status: pending).empty?
+    return :concluded if calendarios.where(status: pending).empty?
+    :in_progress
+  end
 end

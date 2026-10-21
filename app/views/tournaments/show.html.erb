@@ -28,12 +28,16 @@
       </div>
     </div>
     <div class="col-12 col-lg-9 shadow p-3 mb-4 mb-lg-5 bg-body-tertiary rounded">
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+      <div class="d-flex align-items-center flex-wrap gap-3 mb-3">
         <h1 class="mb-0">
           <a href="<%= tournaments_path %>" style="text-decoration: none" class="me-3">
             <i class="fa-regular fa-circle-left fa-sm"></i>
           </a><%= @tournament.completed_name %>
         </h1>
+        <% colors = { scheduled: "secondary", in_progress: "primary", concluded: "success" } %>
+        <span class="badge bg-<%= colors[@tournament.status_key] %>">
+          <%= t("tournament_#{@tournament.status_key}") %>
+        </span>
         <%= link_to tournament_path(@tournament, format: :pdf), class: "btn btn-outline-danger" do %>
           <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i><%= t("ui.download_teams_pdf") %>
         <% end %>

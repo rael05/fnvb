@@ -28,6 +28,15 @@
     </div>
 
     <div class="mb-3">
+      <%= form.label :team_ids, t("ui.tournament_teams"), class: "form-label" %>
+      <%= form.collection_select :team_ids, @teams, :id, :team_name,
+                                 { selected: tournament.team_ids },
+                                 { multiple: true, class: "form-select", size: 8,
+                                   aria: { describedby: "tournament-teams-help" } } %>
+      <div id="tournament-teams-help" class="form-text"><%= t("ui.tournament_teams_help") %></div>
+    </div>
+
+    <div class="mb-3">
       <%= form.label t(:tournament_image), class: "form-label" %>
       <%= form.file_field :image, class: "form-control" %>
       <% if tournament.image.present? %>
