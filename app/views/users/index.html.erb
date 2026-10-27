@@ -35,7 +35,8 @@
           <td class="text-center">
             <span class="badge <%= user.enabled? ? 'text-bg-success' : 'text-bg-secondary' %> me-2"><%= user.enabled? ? t("ui.enabled") : t("ui.disabled") %></span>
             <% unless user == current_user %>
-              <%= button_to enable_change_user_path(user), method: :patch, class: "btn btn-link p-0 #{user.enabled? ? 'link-danger' : 'link-success'}", title: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")), aria: { label: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")) }, form: { data: { turbo: false } } do %>
+              <%= button_to enable_change_user_path(user), method: :patch, class: "btn btn-link p-0 #{user.enabled? ? 'link-danger' : 'link-success'}", title: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")), aria: { label: (t(user.enabled? ? "ui.confirm_disable_user" : "ui.confirm_enable_user")) }, form: { data: { turbo_confirm: (user.enabled? ? t("ui.confirm_disable_user") : t("ui.confirm_enable_user")) } } do %>
+                <i class="fa-solid <%= user.enabled? ? 'fa-eye-slash' : 'fa-eye' %>" aria-hidden="true"></i>
               <% end %>
             <% end %>
           </td>

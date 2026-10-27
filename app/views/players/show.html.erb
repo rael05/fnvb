@@ -188,11 +188,13 @@
     <%= link_to edit_player_path(@player), class: "btn player-profile__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit") %>
     <% end %>
-    <%= button_to(enable_change_player_path(@player),
+    <% if can?(:enable_change, @player) %>
+      <%= button_to(enable_change_player_path(@player),
           method: :patch,
           class: "btn player-profile__toggle #{'player-profile__toggle--disable' if @player.enabled?} #{'player-profile__toggle--enable' unless @player.enabled?}",
           form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @player.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.player"), name: @player.full_name) } }) do %>
-      <i class="fa-solid <%= @player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @player.enabled? ? t("ui.disable") : t("ui.enable") %>
+        <i class="fa-solid <%= @player.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @player.enabled? ? t("ui.disable") : t("ui.enable") %>
+      <% end %>
     <% end %>
   </div>
 </main>

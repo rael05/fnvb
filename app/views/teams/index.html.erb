@@ -81,8 +81,10 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
-              <%= button_to(enable_change_team_path(team), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                <i class="fa-solid <%= team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= team.enabled? ? t("ui.disable") : t("ui.enable") %>
+              <% if can?(:enable_change, team) %>
+                <%= button_to(enable_change_team_path(team), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
+                  <i class="fa-solid <%= team.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= team.enabled? ? t("ui.disable") : t("ui.enable") %>
+                <% end %>
               <% end %>
             </div>
           </div>

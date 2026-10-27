@@ -111,8 +111,10 @@
   <div class="d-flex flex-wrap gap-2 mt-3">
     <%= link_to t("ui.back_to_announcements"), announcements_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
     <%= link_to t("ui.edit_resource", resource: t("ui.resources.announcement").capitalize), edit_announcement_path(@announcement), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to(enable_change_announcement_path(@announcement), method: :patch, class: "btn #{'btn-outline-danger' if @announcement.enabled?} #{'btn-outline-success' unless @announcement.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @announcement.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.announcement"), name: @announcement.title) } }) do %>
-      <i class="fa-solid <%= @announcement.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @announcement.enabled? ? t("ui.disable_announcement") : t("ui.enable_announcement") %>
+    <% if can?(:enable_change, @announcement) %>
+      <%= button_to(enable_change_announcement_path(@announcement), method: :patch, class: "btn #{'btn-outline-danger' if @announcement.enabled?} #{'btn-outline-success' unless @announcement.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @announcement.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.announcement"), name: @announcement.title) } }) do %>
+        <i class="fa-solid <%= @announcement.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @announcement.enabled? ? t("ui.disable_announcement") : t("ui.enable_announcement") %>
+      <% end %>
     <% end %>
   </div>
 </main>

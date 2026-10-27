@@ -4,7 +4,7 @@ class AlbumsController < ApplicationController
 
   # GET /albums or /albums.json
   def index
-    @albums = Album.all
+    @albums = can?(:enable_change, Album) ? Album.all : Album.where(enabled: true)
   end
 
   # GET /albums/1 or /albums/1.json

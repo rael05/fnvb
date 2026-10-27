@@ -70,8 +70,10 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
-              <%= button_to(enable_change_article_path(article), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                <i class="fa-solid <%= article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= article.enabled? ? t("ui.disable") : t("ui.enable") %>
+              <% if can?(:enable_change, article) %>
+                <%= button_to(enable_change_article_path(article), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
+                  <i class="fa-solid <%= article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= article.enabled? ? t("ui.disable") : t("ui.enable") %>
+                <% end %>
               <% end %>
             </div>
           </div>

@@ -5,7 +5,7 @@ class GamesController < ApplicationController
 
   # GET /games or /games.json
   def index
-    @games = Game.all
+    @games = can?(:enable_change, Game) ? Game.all : Game.where(enabled: true)
   end
 
   # GET /games/1 or /games/1.json

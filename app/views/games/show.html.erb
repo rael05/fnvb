@@ -128,8 +128,10 @@
     <%= link_to edit_game_path(@game), class: "btn game-show__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit_match") %>
     <% end %>
-    <%= button_to enable_change_game_path(@game), method: :patch, class: "btn game-show__toggle #{'game-show__toggle--disable' if @game.enabled?} #{'game-show__toggle--enable' unless @game.enabled?}", form: { data: { turbo: false, turbo_confirm: (@game.enabled? ? t("ui.confirm_disable_match") : t("ui.confirm_enable_match")) } } do %>
-      <i class="fa-solid <%= @game.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game.enabled? ? t("ui.disable_game") : t("ui.enable_game") %>
+    <% if can?(:enable_change, @game) %>
+      <%= button_to enable_change_game_path(@game), method: :patch, class: "btn game-show__toggle #{'game-show__toggle--disable' if @game.enabled?} #{'game-show__toggle--enable' unless @game.enabled?}", form: { data: { turbo_confirm: (@game.enabled? ? t("ui.confirm_disable_match") : t("ui.confirm_enable_match")) } } do %>
+        <i class="fa-solid <%= @game.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @game.enabled? ? t("ui.disable_game") : t("ui.enable_game") %>
+      <% end %>
     <% end %>
   </div>
 </main>

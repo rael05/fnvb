@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   def enable_change
     model = controller_name.classify.constantize
     record = model.find(params[:id])
+    authorize! :enable_change, record
     record.update!(enabled: !record.enabled)
     disabling_current_account = record.is_a?(User) && record == current_user && !record.enabled?
     sign_out(record) if disabling_current_account

@@ -7,15 +7,15 @@ class CalendarsController < ApplicationController
   def index
     @selected_year = params[:year].present? ? params[:year].to_i : Date.current.year
     @tournaments = Tournament.where(year: @selected_year).pluck(:name, :id).unshift([t("ui.all_tournaments"), 0])
+    @calendars = can?(:enable_change, Calendar) ? Calendar.all : Calendar.where(enabled: true)
     if params[:tournament_id].present? && params[:tournament_id].to_i > 0
       @selected_tournament = params[:tournament_id].to_i
-      @calendars = Calendar.where(tournament_id: @selected_tournament)
+      @calendars = @calendars.where(tournament_id: @selected_tournament)
     else
       @selected_tournament = 0
-      @calendars = Calendar.all
     end
     @tournament = Tournament.find_by(id: @selected_tournament)
-    @formatted_data = Calendar.formattedData
+    @formatted_data = Calendar.formattedData(@calendars)
 
     respond_to do |format|
       format.html

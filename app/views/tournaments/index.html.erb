@@ -70,8 +70,10 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
-                              <%= button_to(enable_change_tournament_path(tournament), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
-                                <i class="fa-solid <%= tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
+                              <% if can?(:enable_change, tournament) %>
+                                <%= button_to(enable_change_tournament_path(tournament), method: :patch, class: "btn btn-danger", form: { data: { turbo: false } }) do %>
+                                  <i class="fa-solid <%= tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
+                                <% end %>
                               <% end %>
                         </div>
                       </div>

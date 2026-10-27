@@ -22,8 +22,10 @@
       </div>
       <div class="d-flex justify-content-center">
         <%= link_to t("ui.edit"), edit_tournament_path(@tournament), class: "btn btn-outline-success ms-2" %>
-        <%= button_to(enable_change_tournament_path(@tournament), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
-          <i class="fa-solid <%= @tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
+        <% if can?(:enable_change, @tournament) %>
+          <%= button_to(enable_change_tournament_path(@tournament), method: :patch, class: "btn btn-outline-danger ms-2", form: { data: { turbo: false } }) do %>
+            <i class="fa-solid <%= @tournament.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @tournament.enabled? ? t("ui.disable") : t("ui.enable") %>
+          <% end %>
         <% end %>
       </div>
     </div>
@@ -80,6 +82,7 @@
   </div>
 
   <section class="tournament-gallery mt-2 mt-lg-3">
+    <% gallery_albums = can?(:enable_change, Album) ? @tournament.albums : @tournament.albums.where(enabled: true) %>
     <div class="tournament-gallery__heading">
       <div>
         <p class="tournament-gallery__eyebrow mb-1"><%= t("ui.tournament_moments") %></p>
@@ -90,9 +93,9 @@
       <% end %>
     </div>
 
-    <% if @tournament.albums.any? %>
+    <% if gallery_albums.any? %>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4 mt-1">
-        <% @tournament.albums.each do |album| %>
+        <% gallery_albums.each do |album| %>
           <div class="col">
             <%= link_to album_path(album), class: "tournament-gallery__card" do %>
               <div class="tournament-gallery__image-wrap">

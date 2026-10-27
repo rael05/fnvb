@@ -19,17 +19,17 @@ class Calendar < ApplicationRecord
     finished: 'T',
   }
 
-  def self.formattedData
+  def self.formattedData(calendars = all)
     formatted_data = Hash.new
     month_formatted = Hash.new
     day_formatted = Hash.new {|h,k| h[k] = Array.new }
-    pluck(:start_date_time, :description, :team1, :team2, :id).each do |calendar|
+    calendars.where.not(start_date_time: nil).pluck(:start_date_time, :description, :team1, :team2, :id).each do |calendar|
       year, month, day = calendar[0].to_date.to_s.gsub(/-([0-9]*)/){|data| data.to_i.to_s}.split("-")
 
       day_formatted[day] << {
         "startTime": calendar[0].strftime("%H:%M"),
         "endTime": (calendar[0] + 2.hour).strftime("%H:%M"),
-        "text": "#{calendar[1]} (#{Team.find(calendar[2]).team_name} VS #{Team.find(calendar[3]).team_name})",
+        "text": "#{calendar[1]} (#{Team.find_by(id: calendar[2])&.team_name || I18n.t('ui.team_to_be_decided')} VS #{Team.find_by(id: calendar[3])&.team_name || I18n.t('ui.team_to_be_decided')})",
         "link": "calendars/#{calendar[4]}",
       }
 

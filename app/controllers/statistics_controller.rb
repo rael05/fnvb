@@ -4,7 +4,7 @@ class StatisticsController < ApplicationController
 
   # GET /statistics or /statistics.json
   def index
-    @statistics = Statistic.all
+    @statistics = can?(:enable_change, Statistic) ? Statistic.all : Statistic.where(enabled: true)
   end
 
   # GET /statistics/1 or /statistics/1.json

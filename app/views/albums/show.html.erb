@@ -100,8 +100,10 @@
         <div class="modal-body"><%= t("ui.confirm_gallery_toggle", action: @album.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase) %></div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><%= t("ui.cancel") %></button>
-          <%= button_to enable_change_album_path(@album), method: :patch, class: "btn #{@album.enabled? ? 'btn-danger' : 'btn-success'}" do %>
-            <i class="fa-solid <%= @album.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @album.enabled? ? t("ui.disable") : t("ui.enable") %>
+          <% if can?(:enable_change, @album) %>
+            <%= button_to enable_change_album_path(@album), method: :patch, class: "btn #{@album.enabled? ? 'btn-danger' : 'btn-success'}" do %>
+              <i class="fa-solid <%= @album.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @album.enabled? ? t("ui.disable") : t("ui.enable") %>
+            <% end %>
           <% end %>
         </div>
       </div>

@@ -109,8 +109,10 @@
     <%= link_to edit_calendar_path(@calendar), class: "btn calendar-show__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit_fixture") %>
     <% end %>
-    <%= button_to(enable_change_calendar_path(@calendar), method: :patch, class: "btn calendar-show__toggle #{'calendar-show__toggle--disable' if @calendar.enabled?} #{'calendar-show__toggle--enable' unless @calendar.enabled?}", form: { data: { turbo_confirm: (@calendar.enabled? ? t("ui.confirm_disable_fixture") : t("ui.confirm_enable_fixture")) } }) do %>
-      <i class="fa-solid <%= @calendar.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @calendar.enabled? ? t("ui.disable_calendar") : t("ui.enable_calendar") %>
+    <% if can?(:enable_change, @calendar) %>
+      <%= button_to(enable_change_calendar_path(@calendar), method: :patch, class: "btn calendar-show__toggle #{'calendar-show__toggle--disable' if @calendar.enabled?} #{'calendar-show__toggle--enable' unless @calendar.enabled?}", form: { data: { turbo_confirm: (@calendar.enabled? ? t("ui.confirm_disable_fixture") : t("ui.confirm_enable_fixture")) } }) do %>
+        <i class="fa-solid <%= @calendar.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @calendar.enabled? ? t("ui.disable_calendar") : t("ui.enable_calendar") %>
+      <% end %>
     <% end %>
   </div>
 </main>

@@ -145,8 +145,10 @@
   <div class="d-flex flex-wrap gap-2 mt-3">
     <%= link_to t("ui.back_to_articles"), articles_path, class: "btn btn-outline-secondary rounded-pill px-4" %>
     <%= link_to t("ui.edit_resource", resource: t("ui.resources.article").capitalize), edit_article_path(@article), class: "btn btn-outline-primary rounded-pill px-4" %>
-    <%= button_to(enable_change_article_path(@article), method: :patch, class: "btn #{'btn-outline-danger' if @article.enabled?} #{'btn-outline-success' unless @article.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @article.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.article"), name: @article.title) } }) do %>
-      <i class="fa-solid <%= @article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @article.enabled? ? t("ui.disable_article") : t("ui.enable_article") %>
+    <% if can?(:enable_change, @article) %>
+      <%= button_to(enable_change_article_path(@article), method: :patch, class: "btn #{'btn-outline-danger' if @article.enabled?} #{'btn-outline-success' unless @article.enabled?} rounded-pill px-4", form: { data: { turbo_confirm: t("ui.confirm_toggle", action: @article.enabled? ? t("ui.disable").downcase : t("ui.enable").downcase, resource: t("ui.resources.article"), name: @article.title) } }) do %>
+        <i class="fa-solid <%= @article.enabled? ? 'fa-eye-slash' : 'fa-eye' %> me-2" aria-hidden="true"></i><%= @article.enabled? ? t("ui.disable_article") : t("ui.enable_article") %>
+      <% end %>
     <% end %>
   </div>
 </main>
