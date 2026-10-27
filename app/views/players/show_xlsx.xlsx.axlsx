@@ -1,0 +1,21 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t("ui.player_sheet").truncate(31)) do |sheet|
+  sheet.add_row [t("ui.federation_brand"), t("ui.player_sheet")]
+  sheet.add_row [t("ui.full_name"), @player.full_name]
+  sheet.add_row [t("ui.jersey_number"), @player.number]
+  sheet.add_row [t("ui.position"), @player.position.present? ? t("ui.positions.#{@player.position}") : nil]
+  sheet.add_row [t("team"), @team.team_name]
+  sheet.add_row [t("ui.birth_date"), @player.birthday]
+  sheet.add_row [t("ui.gender"), @player.gender.present? ? t("ui.genders.#{@player.gender}") : nil]
+  sheet.add_row [t("ui.height"), @player.height]
+  sheet.add_row [t("ui.weight"), @player.weight]
+  sheet.add_row [t("ui.nationality"), @player.nationality]
+  sheet.add_row [t("ui.registered_actions"), @registered_action_count]
+  sheet.add_row [t("ui.completed_matches"), @matches_with_recorded_actions]
+  sheet.add_row []
+  sheet.add_row [t("ui.action_type"), t("ui.registered_actions")]
+  GameDetail::DETAIL_TYPE_HASH.each_key do |code|
+    sheet.add_row [t("ui.actions.#{code}"), @game_detail_counts.fetch(code.to_s, 0)]
+  end
+  sheet.column_widths 28, 36
+end

@@ -38,7 +38,7 @@
   </div>
 
   <%= link_to t(:new_calendar), new_calendar_path, class: 'btn btn-primary mt-3 ms-2' %>
-  <%#= link_to t("ui.pdf"), calendars_path(format: :pdf), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
-  <%#= link_to t("ui.excel"), calendars_path(format: :xlsx), class: 'btn btn-success mt-3 ms-2' %>
+  <%= link_to t("ui.pdf"), calendars_path(format: :pdf, year: @selected_year, tournament_id: @selected_tournament), {class: 'btn btn-danger mt-3 ms-2', target: :_blank} %>
+  <%= link_to t("ui.excel"), calendars_path(format: :xlsx, year: @selected_year, tournament_id: @selected_tournament), class: 'btn btn-success mt-3 ms-2' %>
 </div>
 

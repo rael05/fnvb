@@ -1,0 +1,5 @@
+class AddStatusToTournaments < ActiveRecord::Migration[7.0]
+  def change
+    add_column :tournaments, :status, :string
+  end
+end

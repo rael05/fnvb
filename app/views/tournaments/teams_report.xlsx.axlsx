@@ -1,0 +1,18 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t("ui.teams_in_tournament", tournament: "").truncate(31)) do |sheet|
+  sheet.add_row [t("ui.federation_brand"), @tournament.completed_name]
+  sheet.add_row [t("ui.total_teams"), @teams.size]
+  sheet.add_row []
+  sheet.add_row [t("team"), t("ui.status"), t("delegate_name"), t("ui.head_coach"), t("ui.assistant_coach"), t("ui.second_assistant"), "#{t('ui.uniform')} 1", "#{t('ui.uniform')} 2"]
+  @teams.each do |team|
+    sheet.add_row [team.team_name, team.enabled? ? t("ui.enabled") : t("ui.disabled"),
+                   [team.delegate_name, team.delegate_last_name].compact_blank.join(" "),
+                   [team.head_coach_name, team.head_coach_last_name].compact_blank.join(" "),
+                   [team.assistant_coach1_name, team.assistant_coach1_last_name].compact_blank.join(" "),
+                   [team.assistant_coach2_name, team.assistant_coach2_last_name].compact_blank.join(" "),
+                   [team.color_shirt1, team.color_short1].compact_blank.join(" · "),
+                   [team.color_shirt2, team.color_short2].compact_blank.join(" · ")]
+  end
+  sheet.column_widths 28, 18, 28, 28, 28, 28, 22, 22
+  sheet.auto_filter = "A4:H#{[sheet.rows.size, 4].max}"
+end

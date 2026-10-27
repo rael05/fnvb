@@ -16,8 +16,8 @@ User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 
 User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8', first_name: 'Tamara', last_name: 'Cortez', enabled: true})
 
 I18n.locale = :en
-first_tournament = Tournament.create({international: false, name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
-second_tournament = Tournament.create({international: true, name: "Latin America Women's Tournament", description: "Latin American Women's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
+first_tournament = Tournament.create({international: false, status: "in_progress", name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
+second_tournament = Tournament.create({international: true, status: "scheduled", name: "Latin America Women's Tournament", description: "Latin American Women's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
 I18n.locale = :es
 first_tournament.update({international: false, name: 'Torneo Latinoamerica Masculino', description: 'Torneo Latinoamericano Masculino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
 second_tournament.update({international: true, name: 'Torneo Latinoamerica Femenino', description: 'Torneo Latinoamericano Femenino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})

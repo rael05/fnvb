@@ -115,6 +115,8 @@ en:
     enable: "Enable"
     download_teams_pdf: "Download team list as PDF"
     download_match_schedule: "Download match schedule"
+    download_teams_excel: "Download team list as Excel"
+    download_match_schedule_excel: "Download match schedule as Excel"
     number_abbr: "No."
     points: "Points"
     tournament_moments: "Tournament highlights"

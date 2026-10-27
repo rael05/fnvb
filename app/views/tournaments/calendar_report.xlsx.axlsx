@@ -1,0 +1,16 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t("ui.match_schedule").truncate(31)) do |sheet|
+  sheet.add_row [t("ui.federation_brand"), @tournament.completed_name]
+  sheet.add_row [t("ui.scheduled_fixture_count"), @calendars.size]
+  sheet.add_row []
+  sheet.add_row [t("ui.number_abbr"), t("ui.team_names"), t("ui.date"), t("ui.time"), t("ui.stage"), t("ui.match_description")]
+  @calendars.each_with_index do |calendar, index|
+    sheet.add_row [index + 1,
+                   "#{calendar.team_one&.team_name || t('ui.team_to_be_decided')} #{t('ui.vs')} #{calendar.team_two&.team_name || t('ui.team_to_be_decided')}",
+                   calendar.start_date_time&.to_date, calendar.start_date_time&.strftime("%H:%M"),
+                   calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(calendar.stage), default: calendar.stage) : nil,
+                   calendar.description]
+  end
+  sheet.column_widths 12, 38, 18, 12, 18, 45
+  sheet.auto_filter = "A4:F#{[sheet.rows.size, 4].max}"
+end

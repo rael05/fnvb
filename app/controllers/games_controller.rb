@@ -13,18 +13,15 @@ class GamesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        @calendar = @game.calendar
-        @team_one = @calendar.teamDetail1
-        @team_two = @calendar.teamDetail2
-        @winner = Team.find_by(id: @game.winning_team)
-        @game_details = @game.game_details.order(:number_set, :played_minute, :order).to_a
-        @detail_teams = Team.where(id: @game_details.map(&:team_id).compact.uniq).index_by(&:id)
-        @detail_players = Player.where(id: @game_details.map(&:player_id).compact.uniq).index_by(&:id)
-
+        prepare_game_report
         render pdf: "reporte-partido-#{@game.id}",
                template: "games/show_pdf",
                formats: [:pdf],
                disposition: "attachment"
+      end
+      format.xlsx do
+        prepare_game_report
+        render xlsx: "reporte-partido-#{@game.id}", template: "games/show_xlsx", formats: [:xlsx]
       end
     end
   end
@@ -94,6 +91,16 @@ class GamesController < ApplicationController
   end
 
   private
+  def prepare_game_report
+    @calendar = @game.calendar
+    @team_one = @calendar.teamDetail1
+    @team_two = @calendar.teamDetail2
+    @winner = Team.find_by(id: @game.winning_team)
+    @game_details = @game.game_details.order(:number_set, :played_minute, :order).to_a
+    @detail_teams = Team.where(id: @game_details.map(&:team_id).compact.uniq).index_by(&:id)
+    @detail_players = Player.where(id: @game_details.map(&:player_id).compact.uniq).index_by(&:id)
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_game
     @game = Game.find(params[:id])

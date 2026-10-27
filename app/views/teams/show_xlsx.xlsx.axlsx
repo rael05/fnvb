@@ -1,0 +1,32 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t("ui.team_profile").truncate(31)) do |sheet|
+  sheet.add_row [t("ui.federation_brand"), t("ui.team_profile")]
+  sheet.add_row [t("team"), @team.team_name]
+  sheet.add_row [t("ui.status"), @team.enabled? ? t("ui.enabled") : t("ui.disabled")]
+  sheet.add_row [t("tournaments"), @team.tournaments.map(&:name).join(", ")]
+  sheet.add_row [t("ui.delegate"), [@team.delegate_name, @team.delegate_last_name].compact_blank.join(" ")]
+  sheet.add_row [t("ui.head_coach"), [@team.head_coach_name, @team.head_coach_last_name].compact_blank.join(" ")]
+  sheet.add_row ["#{t('ui.assistant_coach')} 1", [@team.assistant_coach1_name, @team.assistant_coach1_last_name].compact_blank.join(" ")]
+  sheet.add_row ["#{t('ui.assistant_coach')} 2", [@team.assistant_coach2_name, @team.assistant_coach2_last_name].compact_blank.join(" ")]
+  sheet.add_row [t("ui.doctor"), [@team.doctor_name, @team.doctor_last_name].compact_blank.join(" ")]
+  sheet.add_row [t("ui.physiotherapist"), [@team.physiotherapist_name, @team.physiotherapist_last_name].compact_blank.join(" ")]
+  sheet.add_row [t("statistical_name"), [@team.statistical_name, @team.statistical_last_name].compact_blank.join(" ")]
+  sheet.add_row [t("ui.international_referee"), [@team.international_referee_name, @team.international_referee_last_name].compact_blank.join(" ")]
+  sheet.add_row []
+  sheet.add_row [t("ui.uniform"), t("ui.jersey"), t("ui.shorts")]
+  [1, 2, 3].each do |number|
+    shirt = @team.public_send("color_shirt#{number}")
+    shorts = @team.public_send("color_short#{number}")
+    sheet.add_row [number, shirt, shorts] if shirt.present? || shorts.present?
+  end
+  sheet.add_row []
+  players_header_row = sheet.rows.size + 1
+  sheet.add_row [t("ui.number_abbr"), t("ui.full_name"), t("ui.position"), t("ui.height"), t("ui.weight"), t("ui.nationality"), t("ui.birth_date")]
+  @team.players.sort_by { |player| [player.number || 999, player.last_name.to_s] }.each do |player|
+    sheet.add_row [player.number, [player.name, player.last_name].compact_blank.join(" "),
+                   player.position.present? ? t("ui.positions.#{player.position}") : nil,
+                   player.height, player.weight, player.nationality, player.birthday]
+  end
+  sheet.column_widths 28, 32, 20, 16, 16, 24, 18
+  sheet.auto_filter = "A#{players_header_row}:G#{[sheet.rows.size, players_header_row].max}"
+end

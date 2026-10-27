@@ -43,16 +43,16 @@ class PlayersController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        @player_game_details = GameDetail.joins(game: :calendar)
-                                         .where(player_id: @player.id, enabled: true, games: { enabled: true }, calendars: { enabled: true, status: Calendar::TYPE_STATUS[:finished] })
-        @game_detail_counts = @player_game_details.group(:detail_type).count
-        @registered_action_count = @player_game_details.count
-        @matches_with_recorded_actions = @player_game_details.distinct.count(:game_id)
+        prepare_player_report
 
         render pdf: "ficha-#{@player.full_name.parameterize}",
                template: "players/show_pdf",
                formats: [:pdf],
                disposition: "attachment"
+      end
+      format.xlsx do
+        prepare_player_report
+        render xlsx: "ficha-#{@player.full_name.parameterize}", template: "players/show_xlsx", formats: [:xlsx]
       end
     end
   end
@@ -112,6 +112,14 @@ class PlayersController < ApplicationController
   end
 
   private
+    def prepare_player_report
+      @player_game_details = GameDetail.joins(game: :calendar)
+                                       .where(player_id: @player.id, enabled: true, games: { enabled: true }, calendars: { enabled: true, status: Calendar::TYPE_STATUS[:finished] })
+      @game_detail_counts = @player_game_details.group(:detail_type).count
+      @registered_action_count = @player_game_details.count
+      @matches_with_recorded_actions = @player_game_details.distinct.count(:game_id)
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_player
       @player = Player.find(params[:id])

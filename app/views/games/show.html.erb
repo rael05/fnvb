@@ -122,6 +122,9 @@
     <%= link_to game_path(@game, format: :pdf), class: "btn btn-outline-danger" do %>
       <i class="fa-solid fa-file-pdf me-2" aria-hidden="true"></i><%= t("ui.download_match_report") %>
     <% end %>
+    <%= link_to game_path(@game, format: :xlsx), class: "btn btn-outline-success" do %>
+      <i class="fa-solid fa-file-excel me-2" aria-hidden="true"></i><%= t("ui.excel") %>
+    <% end %>
     <%= link_to edit_game_path(@game), class: "btn game-show__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit_match") %>
     <% end %>

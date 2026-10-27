@@ -1,0 +1,20 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: t("ui.match_report").truncate(31)) do |sheet|
+  sheet.add_row [t("ui.federation_brand"), t("ui.match_report")]
+  sheet.add_row [t("team"), @team_one&.team_name, @team_two&.team_name]
+  sheet.add_row [t("ui.result"), @game.win_score, @game.lose_score]
+  sheet.add_row [t("ui.winner"), @winner&.team_name]
+  sheet.add_row [t("tournament"), @calendar.tournament&.name]
+  sheet.add_row [t("ui.date_time"), @calendar.start_date_time]
+  sheet.add_row [t("ui.stage"), @calendar.stage.present? ? t(Calendar::TYPE_STAGE.key(@calendar.stage), default: @calendar.stage) : nil]
+  sheet.add_row [t("ui.description"), @game.description]
+  sheet.add_row []
+  sheet.add_row [t("ui.set"), t("ui.minute"), t("team"), t("ui.player_label"), t("ui.action"), t("ui.description")]
+  @game_details.each do |detail|
+    sheet.add_row [detail.number_set, detail.played_minute, @detail_teams[detail.team_id]&.team_name,
+                   @detail_players[detail.player_id]&.full_name, detail.detail_type.present? ? t("ui.actions.#{detail.detail_type}", default: detail.detail_type) : nil,
+                   detail.description]
+  end
+  sheet.column_widths 12, 12, 25, 28, 22, 45
+  sheet.auto_filter = "A10:F#{[sheet.rows.size, 10].max}"
+end

@@ -28,6 +28,14 @@
     </div>
 
     <div class="mb-3">
+      <%= form.label :status, t("ui.status"), class: "form-label" %>
+      <%= form.select :status,
+                      Tournament::STATUS_KEYS.map { |key| [t("tournament_#{key}"), key] },
+                      { selected: tournament.status.presence || tournament.status_key },
+                      class: "form-select" %>
+    </div>
+
+    <div class="mb-3">
       <%= form.label :team_ids, t("ui.tournament_teams"), class: "form-label" %>
       <%= form.collection_select :team_ids, @teams, :id, :team_name,
                                  { selected: tournament.team_ids },

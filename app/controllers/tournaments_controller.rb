@@ -29,6 +29,15 @@ class TournamentsController < ApplicationController
                  disposition: "attachment"
         end
       end
+      format.xlsx do
+        if params[:report] == "calendar"
+          @calendars = @tournament.calendars.includes(:team_one, :team_two).order(:start_date_time)
+          render xlsx: "agenda-#{@tournament.name.parameterize}", template: "tournaments/calendar_report", formats: [:xlsx]
+        else
+          @teams = @tournament.teams.order(:team_name)
+          render xlsx: "equipos-#{@tournament.name.parameterize}", template: "tournaments/teams_report", formats: [:xlsx]
+        end
+      end
     end
   end
 
@@ -144,6 +153,6 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :description, :international, :image, :search, :year, team_ids: [])
+      params.require(:tournament).permit(:name, :description, :international, :image, :search, :year, :status, team_ids: [])
     end
 end
