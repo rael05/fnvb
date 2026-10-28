@@ -431,6 +431,7 @@ en:
     didnt_receive_confirmation: "Didn't receive confirmation instructions?"
     didnt_receive_unlock: "Didn't receive unlock instructions?"
     sign_in_with_provider: "Sign in with %{provider}"
+    login_intro: "Sign in to your account to continue."
     home_tagline: "Passion played as a team"
     home_description: "News, competitions, and the development of Nicaraguan volleyball."
     on_the_court: "On the court"
