@@ -5,24 +5,33 @@ es:
       not_found: "no encontrado"
       already_confirmed: "ya fue confirmada. Intenta ingresar."
       not_locked: "no ha sido bloqueada"
+      blank: "no puede quedar en blanco"
+      invalid: "no es válido"
+      taken: "ya está en uso"
+      too_short: "es demasiado corto (mínimo: %{count} caracteres)"
+      too_long: "es demasiado largo (máximo: %{count} caracteres)"
       not_saved:
-        one: "Ha habido 1 error:"
-        other: "Han habido %{count} errores:"
+        one: "No se pudo guardar por 1 error:"
+        other: "No se pudo guardar por %{count} errores:"
 
   devise:
     failure:
       already_authenticated: 'Ya iniciaste sesión.'
-      unauthenticated: 'Tienes que registrarte o iniciar sesión antes de continuar.'
+      unauthenticated: 'Debes iniciar sesión antes de continuar.'
       unconfirmed: 'Tienes que confirmar tu cuenta antes de continuar.'
-      locked: 'Tu cuente está bloqueada.'
-      invalid: 'Email o contraseña inválidos.'
+      locked: 'Tu cuenta está bloqueada.'
+      invalid: 'El correo o la contraseña son incorrectos.'
       invalid_token: 'Token de autentificación inválido.'
+      not_found_in_database: 'Correo o contraseña incorrectos.'
+      last_attempt: 'Te queda un intento antes de que se bloquee tu cuenta.'
       timeout: 'Tu sesión ha expirado. Inicia sesión nuevamente.'
-      inactive: 'Tu cuenta aun no ha sido activada.'
+      inactive: 'Tu cuenta aún no está activa.'
     sessions:
       signed_in: 'Iniciaste sesión correctamente.'
       signed_out: 'Cerraste sesión correctamente.'
+      already_signed_out: 'La sesión ya estaba cerrada.'
     passwords:
+      no_token: 'No puedes acceder a esta página sin usar el enlace del correo para restablecer la contraseña.'
       send_instructions: 'Recibirás un email con instrucciones para reiniciar tu contraseña en unos minutos.'
       updated: 'Tu contraseña fue cambiada correctamente. Has iniciado sesión.'
       updated_not_active: 'Tu contraseña fue cambiada correctamente.'
@@ -37,6 +46,7 @@ es:
       signed_up_but_inactive: 'Te has registrado correctamente, pero tu cuenta aun no ha sido activada.'
       signed_up_but_locked: 'Te has registrado correctamente, pero tu cuenta está bloqueada.'
       updated: 'Actualizaste tu cuenta correctamente.'
+      updated_but_not_signed_in: 'Tu cuenta se actualizó. Inicia sesión de nuevo para continuar.'
       update_needs_confirmation: "Actualizaste tu cuenta correctamente, pero tenemos que revalidar tu email. Revisa tu correo para confirmar la dirección."
       destroyed: 'Adiós, tu cuenta ha sido eliminada. Esperamos verte de vuelta pronto!'
     unlocks:

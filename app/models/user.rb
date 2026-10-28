@@ -9,6 +9,7 @@ class User < ApplicationRecord
   validates :user_name, length: { maximum: 25 }, uniqueness: true
   validates :first_name, :last_name, :user_name, presence: true
   validate :keeping_tournament_id
+  validate :guest_registration_not_allowed, on: :create
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -27,6 +28,12 @@ class User < ApplicationRecord
     if team_id.present? && tournament_id_was.present? && tournament_id_changed?
       errors.add(:tournament_id, I18n.t("ui.tournament_cannot_change_with_team"))
     end
+  end
+
+  def guest_registration_not_allowed
+    return unless permission == TYPE_PERMISSION[:guest]
+
+    errors.add(:permission, I18n.t("ui.guest_registration_not_allowed"))
   end
 
   class << self

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   scope "(:locale)", locale: /#{I18n.available_locales.join("|")}/ do
-    devise_for :users
+    devise_for :users, skip: [:registrations]
     resources :tournaments do
       member do
         patch :enable_change
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     #patch 'tournaments/:id/enable_change' => 'application#enable_change', as: 'enable_change_tournament'
 
     root :to => "home#index"
+    get 'users/new_user' => 'users#new', as: :new_user_form
     resources :users do
       member do
         patch :enable_change

@@ -105,6 +105,10 @@
       <%= link_to game_path(@game), class: "btn calendar-show__game-detail" do %>
         <i class="fa-solid fa-clipboard-list me-2" aria-hidden="true"></i><%= t("ui.view_match_details") %>
       <% end %>
+    <% else %>
+      <%= link_to new_game_path(calendar_id: @calendar.id), class: "btn btn-success" do %>
+        <i class="fa-solid fa-plus me-2" aria-hidden="true"></i><%= t("ui.add_game") %>
+      <% end %>
     <% end %>
     <%= link_to edit_calendar_path(@calendar), class: "btn calendar-show__edit" do %>
       <i class="fa-solid fa-pen me-2" aria-hidden="true"></i><%= t("ui.edit_fixture") %>

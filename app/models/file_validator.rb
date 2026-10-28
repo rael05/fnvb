@@ -6,7 +6,7 @@ class FileValidator < ActiveModel::Validator
         return true
       end
       unless %w[image/jpg image/png image/jpeg].include?(image.content_type)
-        record.errors.add :base, I18n.t(:error_format_file) + ' jpg, png, jpeg'
+        record.errors.add :base, I18n.t("errors.messages.invalid_image_format")
       end
     end
   end
@@ -18,7 +18,7 @@ class FileValidator < ActiveModel::Validator
         return true
       end
       unless %w[application/pdf].include?(pdf_file.content_type)
-        record.errors.add :base, I18n.t(:error_format_file) + ' pdf'
+        record.errors.add :base, I18n.t("errors.messages.invalid_pdf_format")
       end
     end
   end

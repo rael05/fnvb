@@ -8,12 +8,10 @@
 User.create({email: 'presidente@hotmail.com', password: '123456', permission: 'A', user_name: 'tester1', first_name: 'Ernesto', last_name: 'Espinoza', enabled: true})
 User.create({email: 'vice@hotmail.com', password: '123456', permission: 'V', user_name: 'tester2', first_name: 'Carlos', last_name: 'Salgado', enabled: true})
 di_user = User.create({email: 'divulgacion@hotmail.com', password: '123456', permission: 'D', user_name: 'tester3', first_name: 'Fernando', last_name: 'Torrez', enabled: true})
-User.create({email: 'invitado@hotmail.com', password: '123456', permission: 'G', user_name: 'tester4', first_name: 'Hippo', last_name: 'Maltez', enabled: true})
 
 User.create({email: 'presidente2@hotmail.com', password: '123456', permission: 'A', user_name: 'tester5', first_name: 'Roberto Carlos', last_name: 'White', enabled: true})
 User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', user_name: 'tester6', first_name: 'Angel', last_name: 'Juarez', enabled: true})
 User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7', first_name: 'Jackson', last_name: 'Hernandez', enabled: true})
-User.create({email: 'invitado2@hotmail.com', password: '123456', permission: 'G', user_name: 'tester8', first_name: 'Tamara', last_name: 'Cortez', enabled: true})
 
 I18n.locale = :en
 first_tournament = Tournament.create({international: false, status: "in_progress", name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})

@@ -103,7 +103,7 @@ class TournamentsController < ApplicationController
       end
     end
     respond_to do |format|
-      format.html { render :show, status: :ok, location: @tournament }
+      format.html { redirect_to tournament_url(@tournament), notice: t("ui.calendar_games_generated") }
     end
   end
 

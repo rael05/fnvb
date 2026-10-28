@@ -19,10 +19,7 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @team_user = []
-    @form_path = users_new_user_path
-    @form_method = :post
-    @action_buttom_label = t(:create_user)
+    prepare_new_user_form
     @user = User.new
   end
 
@@ -49,7 +46,10 @@ class UsersController < ApplicationController
         format.html { redirect_to user_url(@user), notice: t(:user_was_successfully_created) }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html do
+          prepare_new_user_form
+          render :new, status: :unprocessable_entity
+        end
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
@@ -106,6 +106,13 @@ class UsersController < ApplicationController
       params.require(:user).permit(:email, :tournament_id, :permission, :password, :user_name, :first_name, :last_name)
     end
 
+    def prepare_new_user_form
+      @team_user = []
+      @form_path = users_new_user_path
+      @form_method = :post
+      @action_buttom_label = t(:create_user)
+    end
+
     def tournament_for_user
       tournaments_options = Tournament.pluck(:name, :id)
       default_tournaments_option = [[t(:select_tournament), nil]]
@@ -113,6 +120,6 @@ class UsersController < ApplicationController
     end
 
     def permissions_for_user
-      @permissions_array = User::TYPE_PERMISSION.map { |key, value| [t(key), value] }
+      @permissions_array = User::TYPE_PERMISSION.except(:guest).map { |key, value| [t(key), value] }
     end
 end

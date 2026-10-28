@@ -92,7 +92,7 @@ es:
   destroy_this_team: 'Eliminar este equipo'
   editing_team: 'Editando Equipo'
   tournament_image: 'Imagen del torneo'
-  error_format_file: 'debe de tener uno de estos formatos'
+  error_format_file: 'El formato del archivo no es compatible.'
   qualification: 'Clasificación'
   eighth: 'Octavos de Final'
   quarter: 'Cuartos de Final'
@@ -122,6 +122,11 @@ es:
   search_tournaments: 'Buscar torneos'
   read_more: 'Leer más'
   ui:
+    guest_registration_not_allowed: "Ya no se permite registrar usuarios invitados."
+    page_not_found_title: "No encontramos esta página"
+    page_not_found_message: "La dirección puede estar escrita incorrectamente o la página ya no existe."
+    server_error_title: "Ocurrió un error en el servidor"
+    server_error_message: "No pudimos completar la solicitud. Inténtalo de nuevo más tarde."
     tournament_teams: "Equipos del torneo"
     tournament_teams_help: "Selecciona uno o varios equipos. Usa Ctrl (o Cmd en Mac) para seleccionar varios."
     disable: "Deshabilitar"
@@ -141,6 +146,7 @@ es:
     tournament_schedule: "Agenda del torneo %{tournament}"
     register_match: "Registrar partido"
     edit_match_record: "Editar registro"
+    enter_match_details: "Ingresar detalles del partido"
     no_matches_scheduled: "El torneo %{tournament} no tiene partidos agendados."
     matches_played_abbr: "PJ"
     matches_won_abbr: "PG"
@@ -387,6 +393,7 @@ es:
     confirm_enable_account: "¿Deseas habilitar esta cuenta?"
     to_be_confirmed: "Por confirmar"
     view_match_details: "Ver detalle del partido"
+    add_game: "Agregar partido"
     edit_fixture: "Editar encuentro"
     confirm_disable_fixture: "¿Deseas deshabilitar este encuentro?"
     confirm_enable_fixture: "¿Deseas habilitar este encuentro?"
@@ -542,11 +549,65 @@ es:
     volleyball_ball_alt: "Balón de voleibol"
     all_tournaments: "Todos los torneos"
     back_to_players: "Volver a jugadores"
-    generate_calendar: "Generar calendario"
+    generate_calendar: "Generar juegos"
+    calendar_games_generated: "Se generaron los juegos pendientes del torneo."
     no_calendar_events: "No hay eventos en este día"
     calendar_date_format: "dmy"
     calendar_date_separator: " de "
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "debe aceptarse"
+      blank: "no puede quedar en blanco"
+      confirmation: "no coincide con la confirmación"
+      empty: "no puede estar vacío"
+      equal_to: "debe ser igual a %{count}"
+      even: "debe ser un número par"
+      exclusion: "está reservado"
+      greater_than: "debe ser mayor que %{count}"
+      greater_than_or_equal_to: "debe ser mayor o igual que %{count}"
+      inclusion: "no está incluido entre las opciones permitidas"
+      invalid: "no es válido"
+      less_than: "debe ser menor que %{count}"
+      less_than_or_equal_to: "debe ser menor o igual que %{count}"
+      model_invalid: "No se pudo guardar: %{errors}"
+      not_a_number: "no es un número"
+      not_an_integer: "debe ser un número entero"
+      odd: "debe ser un número impar"
+      other_than: "debe ser distinto de %{count}"
+      present: "debe estar vacío"
+      required: "es obligatorio"
+      taken: "ya está en uso"
+      too_long:
+        one: "es demasiado largo (máximo: %{count} carácter)"
+        other: "es demasiado largo (máximo: %{count} caracteres)"
+      too_short:
+        one: "es demasiado corto (mínimo: %{count} carácter)"
+        other: "es demasiado corto (mínimo: %{count} caracteres)"
+      wrong_length:
+        one: "tiene una longitud incorrecta (debe tener %{count} carácter)"
+        other: "tiene una longitud incorrecta (debe tener %{count} caracteres)"
+      invalid_image_format: "El formato de la imagen no es compatible. Usa JPG, PNG o JPEG."
+      invalid_pdf_format: "El formato del documento no es compatible. Usa un archivo PDF."
+      restrict_dependent_destroy:
+        has_many: "No se puede eliminar porque todavía existen %{record} asociados."
+        has_one: "No se puede eliminar porque todavía existe un registro asociado."
   activerecord:
+    models:
+      album: "álbum"
+      announcement: "anuncio"
+      article: "artículo"
+      calendar: "calendario"
+      game: "partido"
+      game_detail: "detalle del partido"
+      player: "jugador"
+      statistic: "estadística"
+      team: "equipo"
+      tournament: "torneo"
+      user: "usuario"
+    errors:
+      messages:
+        record_invalid: "No se pudo guardar: %{errors}"
     attributes:
       album:
         name: "Nombre"
@@ -558,6 +619,8 @@ es:
         title: "Título"
         description: "Descripción"
       calendar:
+        tournament_id: "Torneo"
+        status: "Estado"
         team1: "Equipo local"
         team2: "Equipo visitante"
         description: "Descripción"
@@ -572,6 +635,10 @@ es:
         description: "Descripción"
       game_detail:
         game_id: "Partido"
+        player_id: "Jugador"
+        team_id: "Equipo"
+        number_set: "Número de set"
+        order: "Orden"
         played_minute: "Minuto de juego"
         description: "Descripción"
       player:
@@ -584,13 +651,33 @@ es:
         weight: "Peso"
         height: "Altura"
         nationality: "Nacionalidad"
+        team_id: "Equipo"
+      team:
+        team_name: "Nombre del equipo"
+        color_shirt1: "Color de la camisa #1"
+        color_short1: "Color del short #1"
+        color_shirt2: "Color de la camisa #2"
+        color_short2: "Color del short #2"
+        head_coach_name: "Nombre del entrenador"
+        head_coach_last_name: "Apellido del entrenador"
+        assistant_coach1_name: "Nombre del asistente #1"
+        assistant_coach1_last_name: "Apellido del asistente #1"
+      tournament:
+        name: "Nombre"
+        description: "Descripción"
+        status: "Estado"
+        year: "Año"
       statistic:
         title: "Título"
         description: "Descripción"
       user:
+        user_name: "Nombre de usuario"
         email: "Correo electrónico"
         password: "Contraseña"
         password_confirmation: "Confirmar contraseña"
+        permission: "Rol"
+        tournament_id: "Torneo"
+        team_id: "Equipo"
   tournament_scheduled: "Programado"
   tournament_in_progress: "En curso"
   tournament_concluded: "Concluido"

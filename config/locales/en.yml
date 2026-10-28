@@ -78,7 +78,7 @@ en:
   destroy_this_team: 'Destroy this team'
   editing_team: 'Editing team'
   tournament_image: 'Tournament image'
-  error_format_file: 'must be one of this format'
+  error_format_file: 'The file format is not supported.'
   qualification: 'Qualification'
   eighth: 'Round of 16'
   quarter: 'Quarter finals'
@@ -109,6 +109,11 @@ en:
   search_users: 'Search users'
   read_more: 'Read more'
   ui:
+    guest_registration_not_allowed: "Guest users can no longer be registered."
+    page_not_found_title: "We couldn't find this page"
+    page_not_found_message: "The address may be incorrect, or the page may no longer exist."
+    server_error_title: "A server error occurred"
+    server_error_message: "We couldn't complete your request. Please try again later."
     tournament_teams: "Tournament teams"
     tournament_teams_help: "Select one or more teams. Use Ctrl (or Cmd on Mac) to select multiple teams."
     disable: "Disable"
@@ -128,6 +133,7 @@ en:
     tournament_schedule: "%{tournament} schedule"
     register_match: "Record match"
     edit_match_record: "Edit match record"
+    enter_match_details: "Enter match details"
     no_matches_scheduled: "No matches are scheduled for %{tournament}."
     edit: "Edit"
     matches_played_abbr: "MP"
@@ -417,6 +423,7 @@ en:
     confirm_enable_account: "Do you want to enable this account?"
     to_be_confirmed: "To be confirmed"
     view_match_details: "View match details"
+    add_game: "Add match"
     edit_fixture: "Edit fixture"
     confirm_disable_fixture: "Do you want to disable this fixture?"
     confirm_enable_fixture: "Do you want to enable this fixture?"
@@ -529,11 +536,65 @@ en:
     volleyball_ball_alt: "Volleyball"
     all_tournaments: "All tournaments"
     back_to_players: "Back to players"
-    generate_calendar: "Generate schedule"
+    generate_calendar: "Generate games"
+    calendar_games_generated: "The pending tournament games were generated."
     no_calendar_events: "There are no events on this day"
     calendar_date_format: "mdy"
     calendar_date_separator: " "
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "must be accepted"
+      blank: "can't be blank"
+      confirmation: "doesn't match the confirmation"
+      empty: "can't be empty"
+      equal_to: "must be equal to %{count}"
+      even: "must be even"
+      exclusion: "is reserved"
+      greater_than: "must be greater than %{count}"
+      greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      inclusion: "is not included in the list"
+      invalid: "is invalid"
+      less_than: "must be less than %{count}"
+      less_than_or_equal_to: "must be less than or equal to %{count}"
+      model_invalid: "Validation failed: %{errors}"
+      not_a_number: "is not a number"
+      not_an_integer: "must be an integer"
+      odd: "must be odd"
+      other_than: "must be other than %{count}"
+      present: "must be blank"
+      required: "must exist"
+      taken: "has already been taken"
+      too_long:
+        one: "is too long (maximum is %{count} character)"
+        other: "is too long (maximum is %{count} characters)"
+      too_short:
+        one: "is too short (minimum is %{count} character)"
+        other: "is too short (minimum is %{count} characters)"
+      wrong_length:
+        one: "has the wrong length (should be %{count} character)"
+        other: "has the wrong length (should be %{count} characters)"
+      invalid_image_format: "The image format is not supported. Use JPG, PNG, or JPEG."
+      invalid_pdf_format: "The document format is not supported. Use a PDF file."
+      restrict_dependent_destroy:
+        has_many: "Cannot delete this record because %{record} are still associated with it."
+        has_one: "Cannot delete this record because an associated record still exists."
   activerecord:
+    models:
+      album: "album"
+      announcement: "announcement"
+      article: "article"
+      calendar: "calendar"
+      game: "game"
+      game_detail: "game detail"
+      player: "player"
+      statistic: "statistic"
+      team: "team"
+      tournament: "tournament"
+      user: "user"
+    errors:
+      messages:
+        record_invalid: "Validation failed: %{errors}"
     attributes:
       album:
         name: "Name"
@@ -545,6 +606,8 @@ en:
         title: "Title"
         description: "Description"
       calendar:
+        tournament_id: "Tournament"
+        status: "Status"
         team1: "Home team"
         team2: "Away team"
         description: "Description"
@@ -559,6 +622,10 @@ en:
         description: "Description"
       game_detail:
         game_id: "Match"
+        player_id: "Player"
+        team_id: "Team"
+        number_set: "Set number"
+        order: "Order"
         played_minute: "Minute played"
         description: "Description"
       player:
@@ -571,13 +638,33 @@ en:
         weight: "Weight"
         height: "Height"
         nationality: "Nationality"
+        team_id: "Team"
+      team:
+        team_name: "Team name"
+        color_shirt1: "Shirt color #1"
+        color_short1: "Short color #1"
+        color_shirt2: "Shirt color #2"
+        color_short2: "Short color #2"
+        head_coach_name: "Head coach first name"
+        head_coach_last_name: "Head coach last name"
+        assistant_coach1_name: "Assistant coach #1 first name"
+        assistant_coach1_last_name: "Assistant coach #1 last name"
+      tournament:
+        name: "Name"
+        description: "Description"
+        status: "Status"
+        year: "Year"
       statistic:
         title: "Title"
         description: "Description"
       user:
+        user_name: "Username"
         email: "Email"
         password: "Password"
         password_confirmation: "Confirm password"
+        permission: "Role"
+        tournament_id: "Tournament"
+        team_id: "Team"
   date:
     formats:
       default: "%B %d, %Y"
