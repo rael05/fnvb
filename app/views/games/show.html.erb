@@ -49,7 +49,7 @@
       <div class="game-show__result">
         <span><%= t("ui.score").upcase %></span>
         <strong><%= team_one_score || "—" %><i>:</i><%= team_two_score || "—" %></strong>
-        <% if winner %><small><%= t("ui.winner") %>: <%= winner.team_name %></small><% end %>
+        <% if winner %><small><%= t(calendar&.status == Calendar::TYPE_STATUS[:in_progress] ? "ui.leading" : "ui.winner") %>: <%= winner.team_name %></small><% end %>
       </div>
 
       <div class="game-show__team <%= 'game-show__team--winner' if winner && team_two&.id == winner.id %>">

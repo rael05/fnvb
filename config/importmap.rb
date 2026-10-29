@@ -10,4 +10,6 @@ pin "bootstrap", to: 'bootstrap.min.js', preload: true
 pin "calendar"
 pin "calendar_form"
 pin "game_form"
+pin "game_edit"
 pin "user_form"
+pin "tournament_form"

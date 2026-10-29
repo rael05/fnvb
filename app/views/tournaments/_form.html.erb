@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "tournament_form" %>
+<% end %>
+
 <div class="px-3 py-2 border rounded-3">
   <%= form_with(model: tournament) do |form| %>
     <% if tournament.errors.any? %>
@@ -37,11 +41,49 @@
 
     <div class="mb-3">
       <%= form.label :team_ids, t("ui.tournament_teams"), class: "form-label" %>
-      <%= form.collection_select :team_ids, @teams, :id, :team_name,
-                                 { selected: tournament.team_ids },
-                                 { multiple: true, class: "form-select", size: 8,
-                                   aria: { describedby: "tournament-teams-help" } } %>
+      <% selected_team_ids = tournament.team_ids.map(&:to_s) %>
+      <% if selected_team_ids.empty? %>
+        <%= hidden_field_tag "tournament[team_ids][]", "", id: "tournament-empty-team-id" %>
+      <% end %>
       <div id="tournament-teams-help" class="form-text"><%= t("ui.tournament_teams_help") %></div>
+      <div class="d-flex align-items-center justify-content-between mt-2">
+        <h3 class="h6 mb-0"><%= t("ui.selected_teams_label") %></h3>
+        <span class="small text-muted" id="tournament-selected-team-count"
+              data-count-label="<%= t("ui.selected_teams_count", count: "%{count}") %>"></span>
+      </div>
+      <div id="tournament-selected-teams" class="d-flex flex-wrap gap-2 my-2" aria-live="polite"
+           data-empty-label="<%= t("ui.no_teams_selected") %>"
+           data-remove-label="<%= t("ui.remove_team", team: "%{team}") %>">
+        <% @teams.each do |team| %>
+          <% if selected_team_ids.include?(team.id.to_s) %>
+            <span class="badge text-bg-primary"><%= team.team_name %></span>
+          <% end %>
+        <% end %>
+        <% if selected_team_ids.empty? %>
+          <span class="small text-muted"><%= t("ui.no_teams_selected") %></span>
+        <% end %>
+      </div>
+      <%= search_field_tag :team_search, nil, class: "form-control mb-3", id: "tournament-team-search",
+                           placeholder: t("ui.search_teams"), autocomplete: "off" %>
+      <div class="table-responsive border rounded">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light"><tr><th><%= t("team") %></th><th class="text-end"><%= t("ui.select_team") %></th></tr></thead>
+          <tbody id="tournament-team-options">
+            <% @teams.each do |team| %>
+              <tr data-team-name="<%= team.team_name.to_s.downcase %>">
+                <td><%= team.team_name %></td>
+                <td class="text-end"><%= check_box_tag "tournament[team_ids][]", team.id, selected_team_ids.include?(team.id.to_s), id: "tournament_team_choice_#{team.id}", class: "form-check-input tournament-team-checkbox", aria: { label: team.team_name } %></td>
+              </tr>
+            <% end %>
+            <tr class="d-none" id="tournament-no-team-results"><td colspan="2" class="text-center text-muted"><%= t("ui.no_teams_found") %></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="tournament-teams-previous"><%= t("ui.previous") %></button>
+        <span class="small" id="tournament-teams-page" data-page-label="<%= t("ui.page_of", current: "%{current}", total: "%{total}") %>" aria-live="polite"></span>
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="tournament-teams-next"><%= t("ui.next") %></button>
+      </div>
     </div>
 
     <div class="mb-3">

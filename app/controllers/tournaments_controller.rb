@@ -157,11 +157,20 @@ class TournamentsController < ApplicationController
       end
 
       games = Game.joins(:calendar)
-                  .where(calendars: { tournament_id: @tournament.id })
+                  .where(calendars: {
+                    tournament_id: @tournament.id,
+                    status: Calendar::TYPE_STATUS[:finished]
+                  })
                   .where.not(winning_team: nil)
                   .where.not(lose_team: nil)
 
       games.each do |game|
+        points = case [game.win_score, game.lose_score]
+                 when [3, 0], [3, 1] then [3, 0]
+                 when [3, 2] then [2, 1]
+                 else next
+                 end
+
         winner_stats = stats[game.winning_team]
         loser_stats = stats[game.lose_team]
         next unless winner_stats && loser_stats
@@ -171,12 +180,8 @@ class TournamentsController < ApplicationController
         loser_stats[:played] += 1
         loser_stats[:lost] += 1
 
-        if game.win_score == 3 && game.lose_score == 2
-          winner_stats[:points] += 2
-          loser_stats[:points] += 1
-        elsif game.win_score == 3 && [0, 1].include?(game.lose_score)
-          winner_stats[:points] += 3
-        end
+        winner_stats[:points] += points[0]
+        loser_stats[:points] += points[1]
       end
 
       stats.sort_by do |team_id, values|

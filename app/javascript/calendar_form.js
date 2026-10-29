@@ -1,9 +1,11 @@
-const tournamentSelect = document.getElementById("calendar_tournament_id");
-const teamOneSelect = document.getElementById("calendar_team1");
-const teamTwoSelect = document.getElementById("calendar_team2");
+const initializeCalendarForm = () => {
+  const tournamentSelect = document.getElementById("calendar_tournament_id");
+  const teamOneSelect = document.getElementById("calendar_team1");
+  const teamTwoSelect = document.getElementById("calendar_team2");
+  if (!tournamentSelect || !teamOneSelect || !teamTwoSelect || tournamentSelect.dataset.teamsReady) return;
 
-if (tournamentSelect && teamOneSelect && teamTwoSelect) {
   const teamsUrlTemplate = tournamentSelect.dataset.teamsUrl;
+  if (!teamsUrlTemplate) return;
 
   tournamentSelect.addEventListener("change", async (event) => {
     const tournamentId = event.target.value;
@@ -25,4 +27,10 @@ if (tournamentSelect && teamOneSelect && teamTwoSelect) {
       console.error("Unable to load teams for the selected tournament.", error);
     }
   });
-}
+
+  tournamentSelect.dataset.teamsReady = "true";
+};
+
+document.addEventListener("DOMContentLoaded", initializeCalendarForm);
+document.addEventListener("turbo:load", initializeCalendarForm);
+initializeCalendarForm();

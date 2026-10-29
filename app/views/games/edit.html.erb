@@ -1,5 +1,6 @@
 <% content_for :head do %>
   <%= javascript_import_module_tag "game_form" %>
+  <%= javascript_import_module_tag "game_edit" %>
 <% end %>
 
 <h1><%= t("ui.edit_resource", resource: t("ui.resources.game").capitalize) %></h1>
@@ -132,7 +133,7 @@
             </div>
             <div class="mb-3">
               <%= form.label :player_id, class: "col-form-label" %>
-              <%= form.select(:player_id, options_for_select(@payer_options), {}, class: "form-select") %>
+              <%= form.select(:player_id, options_for_select(@payer_options), {}, class: "form-select", data: { no_player_label: t("ui.no_player") }) %>
             </div>
             <div class="mb-3">
               <%= form.label :detail_type, class: "col-form-label" %>
@@ -161,69 +162,6 @@
   </div>
 
 </div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const detailsModal = document.getElementById("exampleModal");
-    const detailsForm = document.getElementById("game_detail_form");
-    const detailsTitle = document.getElementById("exampleModalLabel");
-    const detailIdField = document.getElementById("game_detail_id");
-    const detailTypeSelect = document.getElementById("game_detail_detail_type");
-    const playerSelect = document.getElementById("game_detail_player_id");
-    const updatePlayerAvailability = () => {
-      const isSetWon = detailTypeSelect.value === "S";
-      playerSelect.disabled = isSetWon;
-      if (isSetWon) playerSelect.value = "";
-    };
-
-    detailTypeSelect.addEventListener("change", updatePlayerAvailability);
-    detailsModal.addEventListener("show.bs.modal", function(event) {
-      const trigger = event.relatedTarget;
-      const detailId = trigger?.dataset.gameDetailId;
-      detailsForm.reset();
-
-      if (detailId) {
-        detailIdField.value = detailId;
-        document.getElementById("game_detail_team_id").value = trigger.dataset.teamId || "";
-        document.getElementById("game_detail_player_id").value = trigger.dataset.playerId || "";
-        document.getElementById("game_detail_detail_type").value = trigger.dataset.detailType || "";
-        document.getElementById("game_detail_number_set").value = trigger.dataset.numberSet || "";
-        document.getElementById("game_detail_played_minute").value = trigger.dataset.playedMinute || "";
-        document.getElementById("game_detail_description").value = trigger.dataset.description || "";
-        detailsTitle.textContent = detailsTitle.dataset.editTitle;
-      } else {
-        detailIdField.value = "";
-        detailsTitle.textContent = detailsTitle.dataset.createTitle;
-      }
-      updatePlayerAvailability();
-    });
-
-    if (new URLSearchParams(window.location.search).get("add_details") === "true") {
-      bootstrap.Modal.getOrCreateInstance(detailsModal).show();
-    }
-
-    const teamSelect = document.getElementById("game_detail_team_id");
-    teamSelect.addEventListener("change", function() {
-      const teamId = this.value;
-      if (!teamId) {
-        playerSelect.innerHTML = "";
-        return;
-      }
-      fetch(`/players/${teamId}/get_players`)
-        .then(response => response.json())
-        .then(data => {
-          playerSelect.innerHTML = "";
-          playerSelect.add(new Option("<%= j t('ui.no_player') %>", ""));
-          data.forEach(function(player) {
-            const option = document.createElement("option");
-            option.value = player.id;
-            option.text = player.name;
-            playerSelect.appendChild(option);
-          });
-        });
-    });
-  });
-</script>
 
 <br>
 

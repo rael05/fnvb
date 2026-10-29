@@ -14,10 +14,10 @@ User.create({email: 'vice2@hotmail.com', password: '123456', permission: 'V', us
 User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 'D', user_name: 'tester7', first_name: 'Jackson', last_name: 'Hernandez', enabled: true})
 
 I18n.locale = :en
-first_tournament = Tournament.create({international: false, status: "in_progress", name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
+first_tournament = Tournament.create({international: true, status: "in_progress", name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
 second_tournament = Tournament.create({international: true, status: "scheduled", name: "Latin America Women's Tournament", description: "Latin American Women's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
 I18n.locale = :es
-first_tournament.update({international: false, name: 'Torneo Latinoamerica Masculino', description: 'Torneo Latinoamericano Masculino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
+first_tournament.update({international: true, name: 'Torneo Latinoamerica Masculino', description: 'Torneo Latinoamericano Masculino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
 second_tournament.update({international: true, name: 'Torneo Latinoamerica Femenino', description: 'Torneo Latinoamericano Femenino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
 
 first_tournament.image.attach(io: File.open("#{Rails.root}/app/assets/images/Tournament1.png"), filename: 'Tournament1')

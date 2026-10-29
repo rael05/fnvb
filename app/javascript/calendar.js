@@ -335,3 +335,4 @@ const initializeCalendarPage = () => {
 
 document.addEventListener("DOMContentLoaded", initializeCalendarPage);
 document.addEventListener("turbo:load", initializeCalendarPage);
+initializeCalendarPage();

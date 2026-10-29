@@ -49,3 +49,5 @@ document.addEventListener("DOMContentLoaded", initializeTeamSwap);
 document.addEventListener("turbo:load", initializeTeamSwap);
 document.addEventListener("DOMContentLoaded", initializeGameSubmitLabel);
 document.addEventListener("turbo:load", initializeGameSubmitLabel);
+initializeTeamSwap();
+initializeGameSubmitLabel();
