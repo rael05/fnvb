@@ -16,3 +16,9 @@
 
 @import "bootstrap";
 @import "font-awesome";
+
+.directory-card__image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}

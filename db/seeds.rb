@@ -16,11 +16,17 @@ User.create({email: 'divulgacion2@hotmail.com', password: '123456', permission: 
 I18n.locale = :en
 first_tournament = Tournament.create({international: true, status: "in_progress", name: "Latin America Men's Tournament", description: "Latin American Men's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
 second_tournament = Tournament.create({international: true, status: "scheduled", name: "Latin America Women's Tournament", description: "Latin American Women's Tournament, featuring teams from Nicaragua, Guatemala, El Salvador, Costa Rica, Panama, and Honduras."})
+national_tournament = Tournament.create({international: false, status: "scheduled", year: 2026, name: "National First Division Volleyball Championship (2026)", description: "Nicaraguan National First Division Volleyball Championship, 2026."})
+beach_tournament = Tournament.create({international: false, status: "scheduled", name: "National Beach Volleyball Tournament - Pacific Region", description: "National beach volleyball tournament for the Pacific region of Nicaragua."})
 I18n.locale = :es
 first_tournament.update({international: true, name: 'Torneo Latinoamerica Masculino', description: 'Torneo Latinoamericano Masculino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
 second_tournament.update({international: true, name: 'Torneo Latinoamerica Femenino', description: 'Torneo Latinoamericano Femenino, con equipos de Nicaragua, Guatemala, El Salvador, Costa Rica, Panama y Honduras.'})
+national_tournament.update({name: 'Campeonato Nacional de Voleibol de Primera División (2026)', description: 'Campeonato Nacional de Voleibol de Primera División de Nicaragua, edición 2026.'})
+beach_tournament.update({name: 'Torneo nacional de playa Región Pacífico', description: 'Torneo nacional de voleibol de playa para la región del Pacífico de Nicaragua.'})
 
 first_tournament.image.attach(io: File.open("#{Rails.root}/app/assets/images/Tournament1.png"), filename: 'Tournament1')
+national_tournament.image.attach(io: File.open("#{Rails.root}/app/assets/images/TorneoA.png"), filename: 'TorneoA.png')
+beach_tournament.image.attach(io: File.open("#{Rails.root}/app/assets/images/VoleibolPlaya.png"), filename: 'VoleibolPlaya.png')
 
 attach_album_image = lambda do |attachment, filename|
   File.open(Rails.root.join("app/assets/images", filename)) do |image|
@@ -418,12 +424,108 @@ Player.create({
   weight: 69, height: 1.78, team_id: hondura_team.id, nationality: 'Nicaragüense', gender: 'M'
 })
 
+national_teams = [
+  'Jaguares UAM (Universidad Americana - Campeón defensor)',
+  'Panteras de Managua',
+  'Leones de la Alcaldía de Managua (Leones de ALMA)',
+  'Leones de León',
+  'UNAN-Managua (Universidad Nacional Autónoma de Nicaragua)',
+  'Frente Sur Rivas',
+  'Cafeteros de Carazo',
+  'Tiburones de Granada',
+  'Los Toros de Chontales',
+  'Tigres de Chinandega',
+  'Indios Flecheros de Matagalpa',
+  'Real Estelí Voleibol (Estelí)'
+].map do |team_name|
+  Team.create!({
+    team_name: team_name,
+    color_shirt1: 'Por definir',
+    color_short1: 'Por definir',
+    head_coach_name: 'Por definir',
+    head_coach_last_name: 'Por definir',
+    assistant_coach1_name: 'Por definir',
+    assistant_coach1_last_name: 'Por definir'
+  })
+end
+
+beach_teams = [
+  'Chinandega',
+  'León',
+  'Managua',
+  'Masaya',
+  'Carazo',
+  'Granada',
+  'Rivas'
+].map do |team_name|
+  Team.create!({
+    team_name: team_name,
+    color_shirt1: 'Por definir',
+    color_short1: 'Por definir',
+    head_coach_name: 'Por definir',
+    head_coach_last_name: 'Por definir',
+    assistant_coach1_name: 'Por definir',
+    assistant_coach1_last_name: 'Por definir'
+  })
+end
+
+player_first_names = %w[Adrián Alejandro Andrés Ángel Carlos Daniel Diego Eduardo Emilio Esteban Fernando Gabriel Héctor Isaac Javier José Juan Luis Marcos Mateo Mauricio Miguel Nicolás Pablo Rafael Ricardo Roberto Samuel Sebastián Tomás]
+player_last_names = %w[Aguilar Alvarado Álvarez Castillo Centeno Cruz Delgado Espinoza Flores García Gómez Gutiérrez Herrera Jiménez López Martínez Mendoza Morales Navarro Ortega Pérez Ramírez Reyes Ríos Rivera Rodríguez Salazar Sánchez Silva Torres Vargas]
+player_positions = %w[Z S Z R L R A A]
+
+national_teams.each_with_index do |team, team_index|
+  8.times do |player_index|
+    first_name_index = (team_index * 8 + player_index) % player_first_names.length
+    last_name_index = (team_index * 13 + player_index * 3) % player_last_names.length
+
+    Player.create!({
+      number: player_index + 1,
+      name: player_first_names[first_name_index],
+      last_name: player_last_names[last_name_index],
+      position: player_positions[player_index],
+      birthday: Date.new(1998 + ((team_index + player_index) % 8), ((team_index + player_index) % 12) + 1, 10 + (player_index % 18)),
+      weight: 68 + ((team_index * 3 + player_index * 2) % 25),
+      height: 1.68 + (((team_index + player_index * 2) % 25) / 100.0),
+      team_id: team.id,
+      nationality: 'Nicaragüense',
+      gender: 'M'
+    })
+  end
+end
+
+beach_teams.each_with_index do |team, team_index|
+  8.times do |player_index|
+    roster_index = national_teams.length + team_index
+    first_name_index = (roster_index * 8 + player_index) % player_first_names.length
+    last_name_index = (roster_index * 13 + player_index * 3) % player_last_names.length
+
+    Player.create!({
+      number: player_index + 1,
+      name: player_first_names[first_name_index],
+      last_name: player_last_names[last_name_index],
+      position: player_positions[player_index],
+      birthday: Date.new(1998 + ((roster_index + player_index) % 8), ((roster_index + player_index) % 12) + 1, 10 + (player_index % 18)),
+      weight: 68 + ((roster_index * 3 + player_index * 2) % 25),
+      height: 1.68 + (((roster_index + player_index * 2) % 25) / 100.0),
+      team_id: team.id,
+      nationality: 'Nicaragüense',
+      gender: 'M'
+    })
+  end
+end
+
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: nicaragua_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: guatemala_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: panama_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: costarica_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: salvador_team.id})
 TournamentTeam.create({tournament_id: first_tournament.id, team_id: hondura_team.id})
+national_teams.each do |team|
+  TournamentTeam.create!({tournament_id: national_tournament.id, team_id: team.id})
+end
+beach_teams.each do |team|
+  TournamentTeam.create!({tournament_id: beach_tournament.id, team_id: team.id})
+end
 
 User.create({email: 'internacional2@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, team_id: nicaragua_team.id, user_name: 'tester9', first_name: 'Maya', last_name: 'De la Cruz', enabled: true})
 User.create({email: 'internacional@hotmail.com', password: '123456', permission: 'I', tournament_id: first_tournament.id, user_name: 'tester10', first_name: 'Maria Carmen', last_name: 'Martínez', enabled: true})
@@ -552,4 +654,162 @@ game_nicaragua_costarica = Game.create!({
     game: game, team_id: team.id, player_id: player&.id, detail_type: detail_type,
     number_set: number_set, played_minute: played_minute, order: order, description: description
   )
+end
+
+# Calendario de todos contra todos para el Campeonato Nacional 2026.
+national_round_robin = national_teams.dup
+fixture_index = 0
+
+11.times do |round_index|
+  round_pairs = 6.times.map do |pair_index|
+    [national_round_robin[pair_index], national_round_robin[national_round_robin.length - 1 - pair_index]]
+  end
+
+  round_pairs.each_with_index do |(first_team, second_team), match_index|
+    home_team, away_team = (round_index + match_index).even? ? [first_team, second_team] : [second_team, first_team]
+    status = if round_index < 2
+               Calendar::TYPE_STATUS[:finished]
+             elsif round_index == 2 && match_index < 2
+               Calendar::TYPE_STATUS[:in_progress]
+             else
+               Calendar::TYPE_STATUS[:pending]
+             end
+    match_date = Date.new(2026, 10, 15) + (round_index * 7)
+    calendar = Calendar.create!({
+      tournament: national_tournament,
+      team1: home_team.id,
+      team2: away_team.id,
+      stage: Calendar::TYPE_STAGE[:qualification],
+      status: status,
+      start_date_time: Time.zone.local(match_date.year, match_date.month, match_date.day, 10 + (match_index * 2), 0),
+      description: "Jornada #{round_index + 1}: #{home_team.team_name} vs #{away_team.team_name}"
+    })
+
+    game = Game.create!({
+      calendar: calendar,
+      user: di_user,
+      description: "Registro del partido entre #{home_team.team_name} y #{away_team.team_name}."
+    })
+
+    set_winners = if round_index < 2
+                    winner = fixture_index.even? ? home_team : away_team
+                    loser = winner == home_team ? away_team : home_team
+                    case fixture_index % 3
+                    when 0 then [winner, winner, winner]
+                    when 1 then [loser, winner, winner, winner]
+                    else [winner, loser, loser, winner, winner]
+                    end
+                  elsif round_index == 2 && match_index < 2
+                    [home_team, away_team, home_team]
+                  else
+                    []
+                  end
+
+    set_winners.each_with_index do |set_winner, set_index|
+      GameDetail.create!({
+        game: game,
+        team_id: set_winner.id,
+        detail_type: GameDetail::SET_WON_TYPE,
+        played_minute: 24 + set_index,
+        order: set_index + 1,
+        description: "Set #{set_index + 1} ganado por #{set_winner.team_name}."
+      })
+    end
+
+    if set_winners.any?
+      winning_team = set_winners.group_by(&:id).max_by { |_team_id, wins| wins.length }.first
+      team = Team.find(winning_team)
+      GameDetail.create!({
+        game: game,
+        team_id: team.id,
+        player_id: team.players.order(:number).first.id,
+        detail_type: 'T',
+        number_set: set_winners.length,
+        played_minute: 32 + fixture_index,
+        order: set_winners.length + 1,
+        description: "Ataque decisivo de #{team.team_name}."
+      })
+    end
+
+    fixture_index += 1
+  end
+
+  national_round_robin = [national_round_robin.first, national_round_robin.last, *national_round_robin[1...-1]]
+end
+
+# Calendario de todos contra todos para el Torneo nacional de playa Región Pacífico.
+beach_round_robin = beach_teams.dup
+beach_round_robin << nil
+beach_fixture_index = 0
+
+7.times do |round_index|
+  round_match_index = 0
+  round_pairs = 4.times.map do |pair_index|
+    [beach_round_robin[pair_index], beach_round_robin[beach_round_robin.length - 1 - pair_index]]
+  end
+
+  round_pairs.each_with_index do |(first_team, second_team), match_index|
+    next unless first_team && second_team
+
+    home_team, away_team = (round_index + match_index).even? ? [first_team, second_team] : [second_team, first_team]
+    status = round_index.zero? ? Calendar::TYPE_STATUS[:in_progress] : Calendar::TYPE_STATUS[:pending]
+    match_date = Date.new(2026, 10, 29) + (round_index * 7)
+    calendar = Calendar.create!({
+      tournament: beach_tournament,
+      team1: home_team.id,
+      team2: away_team.id,
+      stage: Calendar::TYPE_STAGE[:qualification],
+      status: status,
+      start_date_time: Time.zone.local(match_date.year, match_date.month, match_date.day, 9 + (round_match_index * 4), 0),
+      description: "Jornada #{round_index + 1}: #{home_team.team_name} vs #{away_team.team_name}"
+    })
+
+    game = Game.create!({
+      calendar: calendar,
+      user: di_user,
+      description: "Registro del partido de voleibol de playa entre #{home_team.team_name} y #{away_team.team_name}."
+    })
+
+    set_winners = case round_match_index
+                  when 0 then [home_team]
+                  when 1 then [away_team]
+                  when 2 then [home_team, away_team]
+                  else []
+                  end
+
+    set_winners.each_with_index do |set_winner, set_index|
+      GameDetail.create!({
+        game: game,
+        team_id: set_winner.id,
+        detail_type: GameDetail::SET_WON_TYPE,
+        played_minute: 20 + set_index,
+        order: set_index + 1,
+        description: "Set #{set_index + 1} ganado por #{set_winner.team_name}."
+      })
+    end
+
+    if status == Calendar::TYPE_STATUS[:in_progress]
+      [
+        [home_team, 'T', 12, 'Ataque potente de'],
+        [away_team, 'B', 14, 'Bloqueo defensivo de']
+      ].each_with_index do |(team, detail_type, played_minute, description), order|
+        player = team.players.order(:number).offset(beach_fixture_index % 8).first
+        GameDetail.create!({
+          game: game,
+          team_id: team.id,
+          player_id: player.id,
+          detail_type: detail_type,
+          number_set: 1,
+          played_minute: played_minute,
+          order: set_winners.length + order + 1,
+          description: "#{description} #{team.team_name}."
+        })
+      end
+    end
+
+    beach_fixture_index += 1
+    round_match_index += 1
+  end
+
+  beach_round_robin = [beach_round_robin.first, beach_round_robin.last, *beach_round_robin[1...-1]]
 end

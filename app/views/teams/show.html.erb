@@ -24,57 +24,57 @@
 
         <p>
           <strong><%= t("delegate_name") %>:</strong>
-          <%= @team.delegate_name + " " + @team.delegate_last_name %>
+          <%= [@team.delegate_name, @team.delegate_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("ui.coach") %>:</strong>
-          <%= @team.head_coach_name + " " + @team.head_coach_last_name%>
+          <%= [@team.head_coach_name, @team.head_coach_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("assistant_coach1_name") %>:</strong>
-          <%= @team.assistant_coach1_name + " " + @team.assistant_coach1_last_name%>
+          <%= [@team.assistant_coach1_name, @team.assistant_coach1_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("assistant_coach2_name") %>:</strong>
-          <%= @team.assistant_coach2_name + " " + @team.assistant_coach2_last_name%>
+          <%= [@team.assistant_coach2_name, @team.assistant_coach2_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("doctor_name") %>:</strong>
-          <%= @team.doctor_name + " " + @team.doctor_last_name %>
+          <%= [@team.doctor_name, @team.doctor_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("physiotherapist_name") %>:</strong>
-          <%= @team.physiotherapist_name + " " + @team.physiotherapist_last_name%>
+          <%= [@team.physiotherapist_name, @team.physiotherapist_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("statistical_name") %>:</strong>
-          <%= @team.statistical_name + " " + @team.statistical_last_name%>
+          <%= [@team.statistical_name, @team.statistical_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("international_referee_name") %>:</strong>
-          <%= @team.international_referee_name + " " + @team.international_referee_last_name%>
+          <%= [@team.international_referee_name, @team.international_referee_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("ui.uniform") %> #1:</strong>
-          <%= @team.color_shirt1 + " | " + @team.color_short1%>
+          <%= [@team.color_shirt1, @team.color_short1].compact_blank.presence&.join(" | ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("ui.uniform") %> #2:</strong>
-          <%= @team.color_shirt2 + " | " + @team.color_short2%>
+          <%= [@team.color_shirt2, @team.color_short2].compact_blank.presence&.join(" | ") || t("ui.undefined") %>
         </p>
 
         <p>
           <strong><%= t("ui.uniform") %> #3:</strong>
-          <%= @team.color_shirt3 + " | " + @team.color_short3%>
+          <%= [@team.color_shirt3, @team.color_short3].compact_blank.presence&.join(" | ") || t("ui.undefined") %>
         </p>
 
       </div>

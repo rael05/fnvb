@@ -27,9 +27,9 @@
           <a href="<%= tournament_path(tournament) %>">
             <% opacity = tournament.enabled ? 'opacity: 1;' : 'opacity: 0.3;' %>
             <% if tournament.image.present? %>
-              <%= image_tag tournament.image, class: 'card-img-top', style: opacity %>
+              <%= image_tag tournament.image, class: 'card-img-top directory-card__image', style: opacity %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: t("ui.generic_tournament_image"), class: 'card-img-top', style: opacity) %>
+              <%= image_tag("tournament_ball.jpg", alt: t("ui.generic_tournament_image"), class: 'card-img-top directory-card__image', style: opacity) %>
             <% end %>
           </a>
           <div class="card-body">

@@ -26,9 +26,9 @@
         <div class="card <%= "bg-black bg-opacity-25" unless team.enabled %>">
           <a href="<%= team_path(team) %>">
             <% if team.image.present? %>
-              <%= image_tag team.image, class: 'card-img-top', style: team.enabled ? 'height: 180px' : 'height: 180px; opacity: 0.3;' %>
+              <%= image_tag team.image, class: 'card-img-top directory-card__image', style: ('opacity: 0.3;' unless team.enabled?) %>
             <% else %>
-              <%= image_tag("tournament_ball.jpg", alt: t("ui.default_image_alt"), class: 'card-img-top', style: team.enabled ? '' : 'opacity: 0.3;') %>
+              <%= image_tag("tournament_ball.jpg", alt: t("ui.default_image_alt"), class: 'card-img-top directory-card__image', style: ('opacity: 0.3;' unless team.enabled?)) %>
             <% end %>
           </a>
           <div class="card-body">
@@ -39,11 +39,11 @@
             </h4>
             <strong style="font-size: 15px;"><%= t("delegate_name") %>:</strong>
             <p class="card-text">
-              <%= team.delegate_name + " " + team.delegate_last_name %>
+              <%= [team.delegate_name, team.delegate_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
             </p>
             <strong style="font-size: 15px;"><%= t("ui.coach") %>:</strong>
             <p class="card-text">
-              <%= team.head_coach_name + " " + team.head_coach_last_name %>
+              <%= [team.head_coach_name, team.head_coach_last_name].compact_blank.presence&.join(" ") || t("ui.undefined") %>
             </p>
           </div>
           <div class="card-footer">
