@@ -90,7 +90,9 @@
     <% end %>
 
     <div class="article-show-content">
-      <div class="article-show-description"><%= simple_format @article.description %></div>
+      <% if @article.description.present? %>
+        <div class="article-show-description"><%= simple_format @article.description %></div>
+      <% end %>
 
       <% if @article.pdf_es_file.present? || @article.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="article-files-heading">

@@ -2,16 +2,18 @@
     <h3><%= t("ui.tournament_schedule", tournament: tournament.truncate_name) %></h3>
 
     <div class="accordion accordion-flush border" id="accordionFlushExample">
-        <% tournament.calendars.each_with_index do | calendar, index | %>
+        <% calendars.each_with_index do | calendar, index | %>
             <% game = calendar.games.first %>
+            <% winner = [calendar.team_one, calendar.team_two].compact.find { |team| team.id == game&.winning_team } %>
+            <% loser = [calendar.team_one, calendar.team_two].compact.find { |team| team.id == game&.lose_team } %>
             <div class="accordion-item">
             <div class="d-flex align-items-center">
             <h2 class="accordion-header flex-grow-1 mb-0">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="flush-collapseOne">
                 <strong>
-                    <%= calendar.teamDetail1.team_name %>
+                    <%= calendar.team_one&.team_name || t("ui.team_to_be_decided") %>
                     vs
-                    <%= calendar.teamDetail2.team_name %>
+                    <%= calendar.team_two&.team_name || t("ui.team_to_be_decided") %>
                     &nbsp;
                 </strong>
                 <% if calendar.start_date_time.present? %>
@@ -25,6 +27,26 @@
             </div>
             <div id="collapse<%= index %>" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                        <span class="badge text-bg-light"><%= t(Calendar::TYPE_STATUS.key(calendar.status) || "ui.calendar_status") %></span>
+                        <% if game.present? %>
+                            <strong>
+                                <% if winner && loser && game.win_score.present? && game.lose_score.present? %>
+                                    <%= winner.team_name %> <%= game.win_score %> – <%= loser.team_name %> <%= game.lose_score %>
+                                <% else %>
+                                    <%= t("ui.no_result_recorded") %>
+                                <% end %>
+                            </strong>
+                            <% if game.game_details.any? %>
+                                <span class="text-muted small"><%= t("ui.registered_play_count", count: game.game_details.size) %></span>
+                            <% end %>
+                        <% else %>
+                            <span class="badge text-bg-secondary"><%= t("ui.match_not_registered") %></span>
+                        <% end %>
+                    </div>
+                    <% if game&.description.present? %>
+                        <p class="text-muted mb-3"><%= game.description %></p>
+                    <% end %>
                     <% if calendar.start_date_time.blank? %>
                         <div class="alert alert-warning d-flex flex-wrap align-items-center justify-content-between gap-2 mb-0" role="status">
                             <span><%= t("ui.assign_match_date_first") %></span>
@@ -32,14 +54,14 @@
                     <% elsif game.nil? %>
                         <%= link_to t("ui.register_match"), new_game_path(calendar_id: calendar.id), class: "btn btn-success me-2" %>
                     <% else %>
-                        <%= link_to t("ui.enter_match_details"), edit_game_path(game), class: "btn btn-primary me-2" %>
+                        <%= link_to t("ui.enter_match_details"), game_path(game), class: "btn btn-primary me-2" %>
                     <% end %>
                 </div>
             </div>
             </div>
         <% end %>
     </div>
-    <% if tournament.calendars.count == 0 %>
+    <% if calendars.empty? %>
         <h6 class="mt-3"><%= t("ui.no_matches_scheduled", tournament: tournament.name) %></h6>
     <% end %>
 </div>

@@ -33,15 +33,26 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
-    @gameDetail = GameDetail.new(game_id: @game.id)
+    @gameDetail = new_game_detail
   end
 
   def game_details
-    @gameDetail = GameDetail.new(game_detail_params)
+    details_attributes = game_detail_params
+    detail_id = details_attributes.delete(:id)
+
+    if detail_id.present?
+      @gameDetail = GameDetail.find(detail_id)
+      authorize! :update, @gameDetail
+      saved = @gameDetail.update(details_attributes.except(:id, :game_id))
+    else
+      @gameDetail = GameDetail.new(details_attributes)
+      saved = @gameDetail.save
+    end
+
     @game = @gameDetail.game
     
     respond_to do |format|
-      if @gameDetail.save
+      if saved
         format.html { redirect_to edit_game_path(@game), notice: t("ui.updated_notice", resource: t("ui.resources.game_detail").capitalize) }
         format.json { render :show, status: :created, location: @game }
       else
@@ -55,10 +66,18 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.user_id = current_user.id
+    @calendar = Calendar.find(@game.calendar_id)
+    @calendar.status = calendar_params[:status] if calendar_params[:status].present?
 
     respond_to do |format|
-      if @game.save
-        format.html { redirect_to edit_game_path(@game), notice: t("ui.created_notice", resource: t("ui.resources.game").capitalize) }
+      created = false
+      Game.transaction do
+        created = @game.save && @calendar.update(calendar_params)
+        raise ActiveRecord::Rollback unless created
+      end
+
+      if created
+        format.html { redirect_to edit_game_path(@game, add_details: true), notice: t("ui.created_notice", resource: t("ui.resources.game").capitalize) }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -69,9 +88,20 @@ class GamesController < ApplicationController
 
   # PATCH/PUT /games/1 or /games/1.json
   def update
+    @gameDetail = new_game_detail
+
     respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to edit_game_path(@game), notice: t("ui.updated_notice", resource: t("ui.resources.game").capitalize) }
+      updated = false
+      Game.transaction do
+        updated = @game.update(game_params) && @game.calendar.update(calendar_params)
+        raise ActiveRecord::Rollback unless updated
+      end
+
+      if updated
+        format.html do
+          flash.now[:notice] = t("ui.updated_notice", resource: t("ui.resources.game").capitalize)
+          render :edit
+        end
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -116,21 +146,30 @@ class GamesController < ApplicationController
     @payer_options = Player.where(team_id: team_ids).map { |p| [p.full_name, p.id] }.unshift(["Sin Jugador", nil])
     @detail_types = GameDetail::DETAIL_TYPE_HASH.keys.map { |key| [t("ui.actions.#{key}"), key] }
 
-    if @game.winning_team && @game.lose_team
+    if @game.game_details.exists?
       @winning_team = @game.winning_team
       @lose_team = @game.lose_team
     else
-      @winning_team = @calendar.teamDetail1.id
-      @lose_team = @calendar.teamDetail2.id
+      @winning_team = nil
+      @lose_team = nil
     end
   end
 
   # Only allow a list of trusted parameters through.
   def game_params
-    params.require(:game).permit(:winning_team, :lose_team, :win_score, :lose_score, :description, :calendar_id)
+    params.require(:game).permit(:winning_team, :lose_team, :win_score, :lose_score, :description, :calendar_id, :enabled)
+  end
+
+  def calendar_params
+    params.fetch(:calendar, ActionController::Parameters.new).permit(:status)
   end
 
   def game_detail_params
-    params.require(:game_detail).permit(:game_id, :player_id, :team_id, :detail_type, :number_set, :played_minute, :order)
+    params.require(:game_detail).permit(:id, :game_id, :player_id, :team_id, :detail_type, :number_set, :played_minute, :order, :description)
+  end
+
+  def new_game_detail
+    next_set_number = @game.game_details.where(detail_type: GameDetail::SET_WON_TYPE).count + 1
+    GameDetail.new(game_id: @game.id, number_set: next_set_number)
   end
 end

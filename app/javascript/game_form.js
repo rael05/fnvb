@@ -29,5 +29,23 @@ const initializeTeamSwap = () => {
   losingSelect.addEventListener("change", () => keepTeamsDistinct(losingSelect, winningSelect));
 };
 
+const initializeGameSubmitLabel = () => {
+  const statusSelect = document.getElementById("calendar_status");
+  const submitButton = document.getElementById("game_submit");
+  if (!statusSelect || !submitButton || statusSelect.dataset.labelReady) return;
+
+  const updateLabel = () => {
+    submitButton.value = statusSelect.value === "I"
+      ? submitButton.dataset.inProgressLabel
+      : submitButton.dataset.defaultLabel;
+  };
+
+  statusSelect.addEventListener("change", updateLabel);
+  statusSelect.dataset.labelReady = "true";
+  updateLabel();
+};
+
 document.addEventListener("DOMContentLoaded", initializeTeamSwap);
 document.addEventListener("turbo:load", initializeTeamSwap);
+document.addEventListener("DOMContentLoaded", initializeGameSubmitLabel);
+document.addEventListener("turbo:load", initializeGameSubmitLabel);

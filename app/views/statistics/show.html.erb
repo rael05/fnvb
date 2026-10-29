@@ -42,7 +42,9 @@
     <% end %>
 
     <div class="content-body">
-      <div class="content-description"><%= simple_format @statistic.description %></div>
+      <% if @statistic.description.present? %>
+        <div class="content-description"><%= simple_format @statistic.description %></div>
+      <% end %>
 
       <% if @statistic.pdf_es_file.present? || @statistic.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="statistic-files-heading">

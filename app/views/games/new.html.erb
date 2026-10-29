@@ -20,28 +20,9 @@
 
     <%= form.number_field  :calendar_id, class: "d-none" %>
 
-    <div class="mb-3 row">
-      <div class="col">
-        <%= form.label :winning_team, t("ui.winning_team"), style: "display: block", class: "form-label" %>
-        <%= form.select(:winning_team, options_for_select(@team_options, @winning_team), {}, class: "form-select") %>
-      </div>
-
-      <div class="col">
-        <%= form.label :lose_team, t("ui.loser_team"), style: "display: block", class: "form-label" %>
-        <%= form.select(:lose_team, options_for_select(@team_options, @lose_team), {}, class: "form-select") %>
-      </div>
-    </div>
-
-    <div class="mb-3 row">
-      <div class="col">
-        <%= form.label :win_score, t("ui.winning_score"), style: "display: block", class: "form-label" %>
-        <%= form.number_field :win_score, class: "form-control", min: 0, max: 5 %>
-      </div>
-
-      <div class="col">
-        <%= form.label :lose_score, t("ui.losing_score"), style: "display: block", class: "form-label" %>
-        <%= form.number_field :lose_score, class: "form-control", min: 0, max: 5 %>
-      </div>
+    <div class="mb-3">
+      <%= label_tag "calendar_status", t("ui.match_status"), class: "form-label" %>
+      <%= select_tag "calendar[status]", options_for_select(Calendar::TYPE_STATUS.map { |key, value| [t(key), value] }, @calendar.status), class: "form-select", id: "calendar_status" %>
     </div>
 
     <div class="mb-3">
@@ -50,7 +31,7 @@
     </div>
 
     <div>
-      <%= form.submit t("ui.save_changes"), class: "btn btn-primary mb-2" %>
+      <%= form.submit(@calendar.status == Calendar::TYPE_STATUS[:in_progress] ? t("ui.add_plays") : t("ui.save_changes"), class: "btn btn-primary mb-2", id: "game_submit", data: { default_label: t("ui.save_changes"), in_progress_label: t("ui.add_plays") }) %>
     </div>
   <% end %>
 </div>

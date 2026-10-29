@@ -99,6 +99,7 @@ es:
   semi: 'Semi Final'
   final: 'Final'
   pending: 'Pendiente'
+  in_progress: 'En progreso'
   forfeit: 'Pérdida por Ausencia'
   finished: 'Terminado'
   news: 'Noticias'
@@ -146,7 +147,7 @@ es:
     tournament_schedule: "Agenda del torneo %{tournament}"
     register_match: "Registrar partido"
     edit_match_record: "Editar registro"
-    enter_match_details: "Ingresar detalles del partido"
+    enter_match_details: "Ver detalles del partido"
     no_matches_scheduled: "El torneo %{tournament} no tiene partidos agendados."
     matches_played_abbr: "PJ"
     matches_won_abbr: "PG"
@@ -237,12 +238,16 @@ es:
     recorded_by: "Registrado por"
     development: "Desarrollo"
     set: "Set"
-    minute: "Minuto"
+    minute: "Minuto del set"
     action: "Acción"
     no_play_details: "Aún no hay jugadas registradas para este partido."
     no_details_yet: "Todavía no hay detalles registrados para este partido."
     record_match_actions: "Consulta y modifica las acciones registradas para este partido."
     new_play_record: "Nuevo registro de jugada"
+    edit_play_record: "Editar jugada"
+    confirm_delete_play: "¿Quieres eliminar esta jugada?"
+    delete_play: "Eliminar"
+    max_set_won_details: "Un partido no puede tener más de cinco jugadas de set ganado."
     game_details: "Detalles de jugadas"
     no_photos: "Esta galería todavía no tiene fotografías."
     photos_count:
@@ -286,6 +291,7 @@ es:
     no_players_registered: "Este equipo aún no tiene jugadores inscritos."
     no_assignment: "Sin asignar"
     no_specification: "Sin especificar"
+    undefined: "No definido"
     not_registered: "No registrada"
     not_registered_masculine: "No registrado"
     not_specified: "No especificado"
@@ -357,6 +363,7 @@ es:
     confirm_enable_match: "¿Deseas habilitar este partido?"
     back_to_match_form: "Volver al formulario del partido"
     save_changes: "Guardar cambios"
+    add_plays: "Agregar jugadas"
     order: "Orden"
     example_minute: "Ej. 12"
     download_schedule: "Descargar agenda de partidos"
@@ -380,6 +387,8 @@ es:
     international_tournaments: "Torneos internacionales"
     summary_registered: "Resumen registrado"
     summary_missing: "Sin resumen"
+    match_registered: "Partido registrado"
+    match_not_registered: "Partido sin registrar"
     assign_match_date: "Asignar fecha y hora"
     edit_match_date: "Editar fecha"
     assign_match_date_first: "Este juego todavía no tiene fecha."
@@ -428,6 +437,7 @@ es:
       E: "Error de saque"
       A: "Error de ataque"
       F: "Error no forzado"
+      S: "Set ganado"
     positions:
       Z: "Zaguero central"
       S: "Saque"
@@ -543,6 +553,8 @@ es:
     details: "Detalles"
     opponent_to_be_decided: "Rival por definir"
     winning_team: "Equipo ganador"
+    team_currently_leading: "Equipo que va ganando"
+    team_currently_trailing: "Equipo que va perdiendo"
     coach_label: "Entrenador:"
     no_registered: "No registrado"
     upload_file: "Subir archivo"

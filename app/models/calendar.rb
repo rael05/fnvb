@@ -15,6 +15,7 @@ class Calendar < ApplicationRecord
 
   TYPE_STATUS = {
     pending: 'P',
+    in_progress: 'I',
     forfeit: 'F',
     finished: 'T',
   }

@@ -30,7 +30,9 @@ class Tournament < ApplicationRecord
     calendarios = calendars.where(enabled: true)
     pending = Calendar::TYPE_STATUS[:pending]
     return :scheduled if calendarios.empty? || calendarios.where.not(status: pending).empty?
-    return :concluded if calendarios.where(status: pending).empty?
+    terminal_statuses = [Calendar::TYPE_STATUS[:forfeit], Calendar::TYPE_STATUS[:finished]]
+    return :concluded if calendarios.where.not(status: terminal_statuses).empty?
+
     :in_progress
   end
 end

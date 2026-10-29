@@ -57,7 +57,9 @@
     <% end %>
 
     <div class="content-body">
-      <div class="content-description"><%= simple_format @announcement.description %></div>
+      <% if @announcement.description.present? %>
+        <div class="content-description"><%= simple_format @announcement.description %></div>
+      <% end %>
 
       <% if @announcement.pdf_es_file.present? || @announcement.pdf_en_file.present? %>
         <section class="mt-5" aria-labelledby="announcement-files-heading">

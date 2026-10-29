@@ -24,7 +24,7 @@
               </a>
             </h5>
             <p class="card-text">
-              <%= announcement.description.truncate(85) %>
+              <%= announcement.description&.truncate(85) %>
               <a href="<%= announcement_path(announcement) %>"> <%= t("ui.read_more") %>. </a>
             </p>
           </div>

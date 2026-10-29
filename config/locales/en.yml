@@ -85,6 +85,7 @@ en:
   semi: 'Semifinal'
   final: 'Final'
   pending: 'Pending'
+  in_progress: 'In progress'
   forfeit: 'Forfeit'
   finished: 'Finished'
   news: 'News'
@@ -133,7 +134,7 @@ en:
     tournament_schedule: "%{tournament} schedule"
     register_match: "Record match"
     edit_match_record: "Edit match record"
-    enter_match_details: "Enter match details"
+    enter_match_details: "View match details"
     no_matches_scheduled: "No matches are scheduled for %{tournament}."
     edit: "Edit"
     matches_played_abbr: "MP"
@@ -225,12 +226,16 @@ en:
     recorded_by: "Recorded by"
     development: "Match timeline"
     set: "Set"
-    minute: "Minute"
+    minute: "Set minute"
     action: "Action"
     no_play_details: "No plays have been recorded for this match yet."
     no_details_yet: "No details have been recorded for this match yet."
     record_match_actions: "View and edit the actions recorded for this match."
     new_play_record: "New play record"
+    edit_play_record: "Edit play"
+    confirm_delete_play: "Do you want to delete this play?"
+    delete_play: "Delete"
+    max_set_won_details: "A match cannot have more than five set-won plays."
     game_details: "Play details"
     no_photos: "This gallery does not have any photos yet."
     photos_count:
@@ -274,6 +279,7 @@ en:
     no_players_registered: "This team does not have any registered players yet."
     no_assignment: "Unassigned"
     no_specification: "Not specified"
+    undefined: "Undefined"
     not_registered: "Not registered"
     not_registered_masculine: "Not registered"
     not_specified: "Not specified"
@@ -344,6 +350,7 @@ en:
     confirm_enable_match: "Do you want to enable this match?"
     back_to_match_form: "Back to match form"
     save_changes: "Save changes"
+    add_plays: "Add plays"
     order: "Order"
     example_minute: "e.g. 12"
     download_schedule: "Download match schedule"
@@ -410,6 +417,8 @@ en:
     international_tournaments: "International tournaments"
     summary_registered: "Summary recorded"
     summary_missing: "No summary"
+    match_registered: "Match recorded"
+    match_not_registered: "Match not recorded"
     assign_match_date: "Set date and time"
     edit_match_date: "Edit date"
     assign_match_date_first: "This game has no date yet."
@@ -458,6 +467,7 @@ en:
       E: "Service error"
       A: "Attack error"
       F: "Unforced error"
+      S: "Set won"
     positions:
       Z: "Middle back"
       S: "Serve"
@@ -539,6 +549,8 @@ en:
     user: "User"
     matches: "Matches"
     winning_team: "Winning team"
+    team_currently_leading: "Team currently leading"
+    team_currently_trailing: "Team currently trailing"
     pagination_teams: "Team pagination"
     pagination_players: "Player pagination"
     pagination_users: "User pagination"

@@ -45,7 +45,7 @@ class GameDetailsController < ApplicationController
         format.html { redirect_to edit_game_path(@game_detail.game), notice: t("ui.updated_notice", resource: t("ui.resources.game_detail").capitalize) }
         format.json { render :show, status: :ok, location: @game_detail }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { redirect_to edit_game_path(@game_detail.game), alert: @game_detail.errors.full_messages.to_sentence }
         format.json { render json: @game_detail.errors, status: :unprocessable_entity }
       end
     end
@@ -53,10 +53,12 @@ class GameDetailsController < ApplicationController
 
   # DELETE /game_details/1 or /game_details/1.json
   def destroy
+    authorize! :destroy, @game_detail
+    game = @game_detail.game
     @game_detail.destroy
 
     respond_to do |format|
-      format.html { redirect_to game_details_url, notice: t("ui.destroyed_notice", resource: t("ui.resources.game_detail").capitalize) }
+      format.html { redirect_to edit_game_path(game), notice: t("ui.destroyed_notice", resource: t("ui.resources.game_detail").capitalize) }
       format.json { head :no_content }
     end
   end

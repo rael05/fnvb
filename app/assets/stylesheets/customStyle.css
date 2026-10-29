@@ -858,6 +858,10 @@
     background: #5bd49a;
 }
 
+.calendar-show__status--in_progress > span {
+    background: #70b7ff;
+}
+
 .calendar-show__status--forfeit > span {
     background: #ff8089;
 }
@@ -2363,6 +2367,11 @@
 .cjslib-event-badge--status-pending {
     color: #795500;
     background: #fff0c2;
+}
+
+.cjslib-event-badge--status-in_progress {
+    color: #084298;
+    background: #cfe2ff;
 }
 
 .cjslib-event-badge--status-forfeit,

@@ -25,19 +25,20 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1 or /tournaments/1.json
   def show
     @standings = tournament_standings
+    @calendars = @tournament.calendars.includes(:team_one, :team_two, games: :game_details).order(:start_date_time, :id)
 
     respond_to do |format|
       format.html
       format.pdf do
         if params[:report] == "calendar"
           @calendars = @tournament.calendars.includes(:team_one, :team_two).order(:start_date_time)
-          render pdf: "agenda-#{@tournament.name.parameterize}",
+          render pdf: "agenda-#{@tournament.name&.parameterize || @tournament.id}",
                  template: "tournaments/calendar_report",
                  formats: [:pdf],
                  disposition: "attachment"
         else
           @teams = @tournament.teams.order(:team_name)
-          render pdf: "equipos-#{@tournament.name.parameterize}",
+          render pdf: "equipos-#{@tournament.name&.parameterize || @tournament.id}",
                  template: "tournaments/teams_report",
                  formats: [:pdf],
                  disposition: "attachment"
@@ -46,10 +47,10 @@ class TournamentsController < ApplicationController
       format.xlsx do
         if params[:report] == "calendar"
           @calendars = @tournament.calendars.includes(:team_one, :team_two).order(:start_date_time)
-          render xlsx: "agenda-#{@tournament.name.parameterize}", template: "tournaments/calendar_report", formats: [:xlsx]
+          render xlsx: "agenda-#{@tournament.name&.parameterize || @tournament.id}", template: "tournaments/calendar_report", formats: [:xlsx]
         else
           @teams = @tournament.teams.order(:team_name)
-          render xlsx: "equipos-#{@tournament.name.parameterize}", template: "tournaments/teams_report", formats: [:xlsx]
+          render xlsx: "equipos-#{@tournament.name&.parameterize || @tournament.id}", template: "tournaments/teams_report", formats: [:xlsx]
         end
       end
     end
