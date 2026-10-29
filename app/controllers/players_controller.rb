@@ -15,9 +15,13 @@ class PlayersController < ApplicationController
   # GET /players or /players.json
   def index
     @players = current_user&.isInternacional? || current_user&.isVice? ? Player.all : Player.where(enabled: true)
+    @teams = Team.order(:team_name)
+    @selected_team_id = params[:team_id].presence&.to_i
+
     if params[:search].present?
       @players = @players.where("name ILIKE ? OR last_name ILIKE ?", "%#{params[:search]}%", "%#{params[:search]}%")
     end
+    @players = @players.where(team_id: @selected_team_id) if @selected_team_id&.positive?
 
     @players = @players.order(:id)
     @players_per_page = 12

@@ -30,8 +30,14 @@
             <%= link_to t(:home), :root, class: "nav-link #{'active' if params[:controller] == 'home'}" %>
           </li>
           <li class="nav-item site-header__nav-label"><span class="nav-link"><%= t(:about_us) %></span></li>
-          <li class="nav-item">
-            <%= link_to t(:tournaments), :tournaments, class: "nav-link #{'active' if params[:controller] == 'tournaments'}" %>
+          <li class="nav-item dropdown">
+            <button class="nav-link dropdown-toggle site-header__tournaments-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= t(:tournaments) %>
+            </button>
+            <ul class="dropdown-menu">
+              <li><%= link_to t("ui.national_tournaments"), national_tournaments_path, class: "dropdown-item #{'active' if @tournament_classification == 'national'}" %></li>
+              <li><%= link_to t("ui.international_tournaments"), international_tournaments_path, class: "dropdown-item #{'active' if @tournament_classification == 'international'}" %></li>
+            </ul>
           </li>
           <li class="nav-item">
             <%= link_to t(:teams), :teams, class: "nav-link #{'active' if params[:controller] == 'teams'}" %>

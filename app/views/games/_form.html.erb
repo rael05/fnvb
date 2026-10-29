@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "game_form" %>
+<% end %>
+
 <div class="px-3 py-2 border rounded-3">
   <%= form_with(model: game) do |form| %>
     <% if game.errors.any? %>
@@ -25,7 +29,7 @@
     </div>
 
     <div class="mb-3">
-      <%= form.label :score, t("ui.score"), style: "display: block", class: "form-label" %>
+      <%= form.label :score, t("ui.sets"), style: "display: block", class: "form-label" %>
       <%= form.text_field :score, class: "form-control" %>
     </div>
 
@@ -39,26 +43,3 @@
     </div>
   <% end %>
 </div>
-
-<script>
-  const selectWinning = document.getElementById("game_winning_team");
-  const selectLose = document.getElementById("game_lose_team");
-  const options1 = selectWinning.options[0].value;
-  const options2 = selectWinning.options[1].value;
-
-  selectWinning.addEventListener("change", function() {
-    if (this.value == selectLose.value  && this.value == options1) {
-      selectLose.value = options2;
-    } else if (this.value == selectLose.value  && this.value == options2) {
-      selectLose.value = options1;
-    }
-  });
-
-  selectLose.addEventListener("change", function() {
-    if (this.value == selectWinning.value && this.value == options1) {
-      selectWinning.value = options2;
-    } else if (this.value == selectWinning.value && this.value == options2) {
-      selectWinning.value = options1;
-    }
-  });
-</script>

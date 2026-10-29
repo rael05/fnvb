@@ -10,11 +10,17 @@
 
   <!-- Formulario de búsqueda -->
   <div class="text-center mt-3">
-    <%= form_with url: players_path, method: :get, local: true, class: "d-inline-block w-50" do |form| %>
+    <%= form_with url: players_path, method: :get, local: true, class: "d-inline-block w-100", style: "max-width: 850px" do |form| %>
       <div class="input-group">
         <%= form.text_field :search, value: params[:search], placeholder: t(:search_by_name), class: "form-control" %>
+        <%= form.select :team_id,
+                        options_for_select([[t("ui.all_teams"), ""]] + @teams.map { |team| [team.team_name, team.id] }, @selected_team_id),
+                        {},
+                        class: "form-select",
+                        aria: { label: t("ui.filter_players_by_team") } %>
         <button type="submit" class="btn btn-outline-primary">
-          <i class="fa-solid fa-magnifying-glass"></i>
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          <span class="visually-hidden"><%= t("ui.filter") %></span>
         </button>
       </div>
     <% end %>
@@ -102,15 +108,15 @@
     <nav class="mt-4" aria-label="<%= t('ui.pagination_players') %>">
       <ul class="pagination justify-content-center mb-0">
         <li class="page-item <%= 'disabled' if @current_page == 1 %>">
-          <%= link_to t("ui.previous"), players_path(page: @current_page - 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.previous") } %>
+          <%= link_to t("ui.previous"), players_path(page: @current_page - 1, search: params[:search], team_id: @selected_team_id), class: 'page-link', aria: { label: t("ui.previous") } %>
         </li>
         <% (1..@total_pages).each do |page| %>
           <li class="page-item <%= 'active' if page == @current_page %>">
-            <%= link_to page, players_path(page: page, search: params[:search]), class: 'page-link', aria: { current: (page == @current_page ? 'page' : nil) } %>
+          <%= link_to page, players_path(page: page, search: params[:search], team_id: @selected_team_id), class: 'page-link', aria: { current: (page == @current_page ? 'page' : nil) } %>
           </li>
         <% end %>
         <li class="page-item <%= 'disabled' if @current_page == @total_pages %>">
-          <%= link_to t("ui.next"), players_path(page: @current_page + 1, search: params[:search]), class: 'page-link', aria: { label: t("ui.next") } %>
+          <%= link_to t("ui.next"), players_path(page: @current_page + 1, search: params[:search], team_id: @selected_team_id), class: 'page-link', aria: { label: t("ui.next") } %>
         </li>
       </ul>
     </nav>

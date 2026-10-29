@@ -41,7 +41,7 @@
     <div class="mb-3">
       <%= form.label :image, t("ui.announcement_image"), class: "form-label" %>
       <% if announcement.image.present? %>
-        <%= image_tag announcement.image, style: "display: block" %>
+        <%= image_tag announcement.image, class: "form-image-preview" %>
       <% end %>
       <%= form.file_field :image, class: "form-control" %>
     </div>

@@ -1,3 +1,11 @@
+const tournamentSelect = document.getElementById("user_tournament_id");
+const teamSelect = document.getElementById("user_team_id");
+const permissionSelect = document.getElementById("user_permission");
+const teamFields = document.querySelectorAll(".user-team-fields");
+
+if (!tournamentSelect || !teamSelect || !permissionSelect) {
+    // This module is shared by user forms; do nothing if the fields are absent.
+} else {
 const data_teams = async (tournament_id) => {
     const response = await fetch(`/calendars/get_teams_by_tournament/${tournament_id}.json`);
     return await response.json();
@@ -9,16 +17,28 @@ const fill_select = async (select, teams) => {
     });
 }
 
-const tournament_id = window.user_tournament_id.value;
-data_teams(tournament_id).then(response => {
-    fill_select(window.user_team_id, response.teams_by_tournament);
-});
+const toggleTeamFields = () => {
+    const visible = permissionSelect.value === "I";
+    teamFields.forEach((field) => { field.hidden = !visible; });
+};
 
-window.user_tournament_id.addEventListener("change", (event) => {
-    const selectTeam = window.user_team_id;
-    selectTeam.innerHTML = "";
-    const tournament_id = event.target.value;
-    data_teams(tournament_id).then(response => {
-        fill_select(selectTeam, response.teams_by_tournament);
-    });
+const loadTeams = async (tournamentId) => {
+    const selectedTeamId = teamSelect.value;
+    teamSelect.innerHTML = "";
+    if (!tournamentId) return;
+
+    const response = await data_teams(tournamentId);
+    fill_select(teamSelect, response.teams_by_tournament);
+    if ([...teamSelect.options].some((option) => option.value === selectedTeamId)) {
+        teamSelect.value = selectedTeamId;
+    }
+};
+
+toggleTeamFields();
+loadTeams(tournamentSelect.value);
+permissionSelect.addEventListener("change", toggleTeamFields);
+
+tournamentSelect.addEventListener("change", (event) => {
+    loadTeams(event.target.value);
 });
+}

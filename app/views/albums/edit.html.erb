@@ -33,7 +33,7 @@
       <%= form.label :main_image, t("ui.upload_album_cover"), class: "form-label" %>
       <%= form.file_field :main_image, accept: "image/*", class: "form-control" %>
       <% if @album.main_image.present? %>
-        <%= image_tag @album.main_image, style: "display: block; max-height: 220px" %>
+        <%= image_tag @album.main_image, class: "form-image-preview" %>
       <% end %>
     </div>
 
@@ -44,7 +44,7 @@
         <div class="row">
           <% @album.images.each do |image| %>
             <div class="col-3">
-              <%= image_tag image, style: "display: block; width: 99%; margin-top: 10px" %>
+              <%= image_tag image, class: "form-image-preview form-image-preview--gallery" %>
             </div>
           <% end %>
         </div>

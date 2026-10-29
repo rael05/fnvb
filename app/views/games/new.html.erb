@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_import_module_tag "game_form" %>
+<% end %>
+
 <h1><%= t("ui.new_resource", resource: t("ui.resources.game").capitalize) %></h1>
 
 <div class="px-3 py-2 border rounded-3">
@@ -31,12 +35,12 @@
     <div class="mb-3 row">
       <div class="col">
         <%= form.label :win_score, t("ui.winning_score"), style: "display: block", class: "form-label" %>
-        <%= form.number_field :win_score, class: "form-control" %>
+        <%= form.number_field :win_score, class: "form-control", min: 0, max: 5 %>
       </div>
 
       <div class="col">
         <%= form.label :lose_score, t("ui.losing_score"), style: "display: block", class: "form-label" %>
-        <%= form.number_field :lose_score, class: "form-control" %>
+        <%= form.number_field :lose_score, class: "form-control", min: 0, max: 5 %>
       </div>
     </div>
 
@@ -50,29 +54,6 @@
     </div>
   <% end %>
 </div>
-
-<script>
-  const selectWinning = document.getElementById("game_winning_team");
-  const selectLose = document.getElementById("game_lose_team");
-  const options1 = selectWinning.options[0].value;
-  const options2 = selectWinning.options[1].value;
-
-  selectWinning.addEventListener("change", function() {
-    if (this.value == selectLose.value  && this.value == options1) {
-      selectLose.value = options2;
-    } else if (this.value == selectLose.value  && this.value == options2) {
-      selectLose.value = options1;
-    }
-  });
-
-  selectLose.addEventListener("change", function() {
-    if (this.value == selectWinning.value && this.value == options1) {
-      selectWinning.value = options2;
-    } else if (this.value == selectWinning.value && this.value == options2) {
-      selectWinning.value = options1;
-    }
-  });
-</script>
 
 <br>
 

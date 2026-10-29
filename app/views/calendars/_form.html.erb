@@ -1,4 +1,5 @@
 <div class="px-3 py-2 border rounded-bottom">
+  <% team_options = calendar.tournament&.teams&.order(:team_name)&.pluck(:team_name, :id) || [] %>
   <%= form_with(model: calendar) do |form| %>
     <% if calendar.errors.any? %>
       <div style="color: red">
@@ -14,17 +15,18 @@
 
     <div class="mb-3">
       <%= form.label :tournament_id, t("tournament"), class: "form-label" %>
-      <%= form.select(:tournament_id, options_for_select(@tournaments_array, calendar.tournament_id), {}, class: "form-select") %>
+      <%= form.select(:tournament_id, options_for_select(@tournaments_array, calendar.tournament_id), {}, class: "form-select",
+                      data: { teams_url: teams_by_tournament_path(team_id: "TOURNAMENT_ID") }) %>
     </div>
 
     <div class="mb-3">
       <%= form.label :team1, class: "form-label" %>
-      <%= form.select(:team1, [], {}, class: "form-select") %>
+      <%= form.select(:team1, options_for_select(team_options, calendar.team1), { include_blank: true }, class: "form-select") %>
     </div>
 
     <div class="mb-3">
       <%= form.label :team2, class: "form-label" %>
-      <%= form.select(:team2, [], {}, class: "form-select") %>
+      <%= form.select(:team2, options_for_select(team_options, calendar.team2), { include_blank: true }, class: "form-select") %>
     </div>
 
     <div class="mb-3">

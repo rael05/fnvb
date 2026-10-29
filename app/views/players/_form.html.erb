@@ -70,6 +70,9 @@
 
     <div class="mb-3">
       <%= form.label :image, t("ui.upload_player_photo"), class: "form-label" %>
+      <% if player.image.present? %>
+        <%= image_tag player.image, class: "form-image-preview" %>
+      <% end %>
       <%= form.file_field :image, class: "form-control" %>
     </div>
 

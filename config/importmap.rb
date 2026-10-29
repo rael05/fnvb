@@ -9,4 +9,5 @@ pin "popper", to: 'popper.js', preload: true
 pin "bootstrap", to: 'bootstrap.min.js', preload: true
 pin "calendar"
 pin "calendar_form"
+pin "game_form"
 pin "user_form"

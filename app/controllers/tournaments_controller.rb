@@ -1,11 +1,25 @@
 class TournamentsController < ApplicationController
   load_and_authorize_resource
-  before_action :set_tournament, only: %i[ show edit update destroy generate_calendar]
+  before_action :set_tournament, only: %i[ show edit update destroy]
   before_action :set_teams, only: %i[new edit create update]
 
   # GET /tournaments or /tournaments.json
   def index
     @tournaments = records_index(current_user&.isVice?)
+    @tournament_classification = params[:classification]
+    case @tournament_classification
+    when "national"
+      @tournaments = @tournaments.where(international: false)
+      @tournament_heading = t("ui.national_tournaments")
+      @tournament_index_path = national_tournaments_path
+    when "international"
+      @tournaments = @tournaments.where(international: true)
+      @tournament_heading = t("ui.international_tournaments")
+      @tournament_index_path = international_tournaments_path
+    else
+      @tournament_heading = t(:tournaments)
+      @tournament_index_path = tournaments_path
+    end
   end
 
   # GET /tournaments/1 or /tournaments/1.json
@@ -69,15 +83,38 @@ class TournamentsController < ApplicationController
 
   # PATCH/PUT /tournaments/1 or /tournaments/1.json
   def update
+    generated_games = nil
+    existing_games = nil
+
+    if params[:generate_calendar].present?
+      Tournament.transaction do
+        if @tournament.update(tournament_params)
+          generated_games, existing_games = generate_missing_games
+        end
+      end
+    else
+      @tournament.update(tournament_params)
+    end
+
     respond_to do |format|
-      if @tournament.update(tournament_params)
-        format.html { redirect_to tournament_url(@tournament), notice: t(:tournament_was_successfully_updated) }
+      if @tournament.errors.empty?
+        notice = if params[:generate_calendar].present?
+                   t("ui.calendar_games_generated", count: generated_games, existing: existing_games)
+                 else
+                   t(:tournament_was_successfully_updated)
+                 end
+        format.html { redirect_to tournament_url(@tournament), notice: notice }
         format.json { render :show, status: :ok, location: @tournament }
       else
+        @action_buttom_label = t(:edit_this_tournament)
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @tournament.errors, status: :unprocessable_entity }
       end
     end
+  rescue ActiveRecord::RecordInvalid => error
+    @action_buttom_label = t(:edit_this_tournament)
+    @tournament.errors.add(:base, t("ui.calendar_generation_failed", error: error.record.errors.full_messages.to_sentence))
+    render :edit, status: :unprocessable_entity
   end
 
   # DELETE /tournaments/1 or /tournaments/1.json
@@ -90,24 +127,28 @@ class TournamentsController < ApplicationController
     end
   end
 
-  def generate_calendar
-    @tournament.teams.each do |team_one|
-      @tournament.teams.each do |team_two|
-        next if team_one.id == team_two.id
-        next if Calendar.exists?(tournament_id: @tournament.id, team1: team_one.id, team2: team_two.id) or
-                Calendar.exists?(tournament_id: @tournament.id, team1: team_two.id, team2: team_one.id)
-
-        Calendar.create({tournament_id: @tournament.id, team1: team_one.id,
-                        team2: team_two.id, stage: "C", start_date_time: DateTime.now,
-                        status: "P", description: "Primer juego del primer torneo"})
-      end
-    end
-    respond_to do |format|
-      format.html { redirect_to tournament_url(@tournament), notice: t("ui.calendar_games_generated") }
-    end
-  end
-
   private
+    def generate_missing_games
+      team_ids = @tournament.teams.ids.sort
+      pairs = team_ids.combination(2).to_a
+      existing_pairs = @tournament.calendars.pluck(:team1, :team2).each_with_object({}) do |(first, second), result|
+        result[[first, second].sort] = true if first && second
+      end
+      missing_pairs = pairs.reject { |pair| existing_pairs.key?(pair) }
+
+      missing_pairs.each do |team_one_id, team_two_id|
+        @tournament.calendars.create!(
+          team1: team_one_id,
+          team2: team_two_id,
+          stage: Calendar::TYPE_STAGE[:qualification],
+          status: Calendar::TYPE_STATUS[:pending],
+          description: ''
+        )
+      end
+
+      [missing_pairs.length, pairs.length - missing_pairs.length]
+    end
+
     def tournament_standings
       teams_by_id = @tournament.teams.index_by(&:id)
       stats = teams_by_id.keys.index_with do

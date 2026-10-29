@@ -141,7 +141,7 @@
     <div class="mb-3">
       <%= form.label :image, t("ui.upload_team_image"), class: "form-label" %>
       <% if team.image.present? %>
-        <%= image_tag team.image, style: "display: block" %>
+        <%= image_tag team.image, class: "form-image-preview" %>
       <% end %>
       <%= form.file_field :image, class: "form-control" %>
     </div>

@@ -109,6 +109,7 @@ class GamesController < ApplicationController
   def team_for_game
     @calendar = Calendar.find_by(id: params[:calendar_id]) || Calendar.find_by(id: @game.calendar_id)
     return redirect_to :not_found unless @calendar
+    return redirect_to edit_calendar_path(@calendar), alert: t("ui.assign_match_date_first") if @calendar.start_date_time.blank?
 
     @team_options = [[@calendar.teamDetail1.team_name, @calendar.teamDetail1.id], [@calendar.teamDetail2.team_name, @calendar.teamDetail2.id]]
     team_ids = [@calendar.teamDetail1&.id, @calendar.teamDetail2&.id].compact

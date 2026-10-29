@@ -2,7 +2,7 @@
 
 <div class="shadow p-3 rounded-3">
   <h1 class="text-center border-bottom pb-2">
-    <%= t(:tournaments) %>
+    <%= @tournament_heading || t(:tournaments) %>
     <a href="<%= new_tournament_path %>" style="text-decoration: none" class="ms-3">
       <i class="fa-solid fa-circle-plus fa-xs"></i>
     </a>
@@ -10,7 +10,7 @@
 
   <!-- Formulario de búsqueda -->
   <div class="text-center mt-3">
-    <%= form_with url: tournaments_path, method: :get, local: true, class: "d-inline-block w-50" do |form| %>
+    <%= form_with url: (@tournament_index_path || tournaments_path), method: :get, local: true, class: "d-inline-block w-50" do |form| %>
       <div class="input-group">
         <%= form.text_field :search, value: params[:search], placeholder: t(:search_by_name), class: "form-control" %>
         <button type="submit" class="btn btn-outline-primary">

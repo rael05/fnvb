@@ -48,12 +48,18 @@
       <%= form.label t(:tournament_image), class: "form-label" %>
       <%= form.file_field :image, class: "form-control" %>
       <% if tournament.image.present? %>
-        <%= image_tag tournament.image, style: "display: block" %>
+        <%= image_tag tournament.image, class: "form-image-preview" %>
       <% end %>
     </div>
 
     <div>
       <%= form.submit @action_buttom_label, class: "btn btn-primary mb-2" %>
+      <% if tournament.persisted? %>
+        <%= form.button t("ui.generate_calendar"), name: "generate_calendar", value: "1",
+                        class: "btn btn-success mb-2",
+                        data: { turbo_confirm: t("ui.generate_calendar_confirm") } %>
+        <div class="form-text mb-2"><%= t("ui.generate_calendar_help") %></div>
+      <% end %>
     </div>
   <% end %>
 </div>

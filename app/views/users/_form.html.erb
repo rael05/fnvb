@@ -51,15 +51,15 @@
 
     <div class="mb-3">
       <%= form.label :permission, t("ui.role"), class: "form-label" %>
-      <%= form.select(:permission, options_for_select(@permissions_array, user.permission), {}, class: "form-select") %>
+      <%= form.select(:permission, options_for_select(@permissions_array, user.permission), {}, class: "form-select", id: "user_permission") %>
     </div>
 
-    <div class="mb-3" id="tournament_div">
+    <div class="mb-3 user-team-fields" id="tournament_div" <%= "hidden" unless user.permission == User::TYPE_PERMISSION[:internacional] %>>
       <%= form.label t(:tournament_where_team_is_managed), class: "form-label" %>
       <%= form.select(:tournament_id, options_for_select(@tournaments_array, user.tournament_id), {}, class: "form-select", disabled: @disabled_tournament) %>
     </div>
 
-    <div class="mb-3">
+    <div class="mb-3 user-team-fields" id="team_div" <%= "hidden" unless user.permission == User::TYPE_PERMISSION[:internacional] %>>
         <% if @disabled_tournament %>
           <%= form.label t(:user_team_warning), class: "form-label text-danger" %>
         <% else %>

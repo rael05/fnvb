@@ -16,11 +16,11 @@
   <% end %>
   
   <div class="text-center mt-3">
-    <%= form_with url: calendars_path, method: :get, local: true, class: "d-inline-block" do |form| %>
-      <%= form.select :year, options_for_select((Date.current.year - 5..Date.current.year + 5).to_a.reverse, @selected_year), {}, class: "form-select d-inline-block w-auto ms-2" %>
+    <%= form_with url: calendars_path, method: :get, local: true, class: "d-flex flex-wrap justify-content-center gap-2" do |form| %>
+      <%= form.select :year, options_for_select((Date.current.year - 5..Date.current.year + 5).to_a.reverse, @selected_year), {}, class: "form-select d-inline-block w-auto" %>
       <%= form.select :tournament_id, options_for_select(@tournaments, @selected_tournament), {},
           {class: "form-select d-inline-block w-auto"} %>
-      <button type="submit" class="btn btn-outline-primary ms-2" data-turbo="false">
+      <button type="submit" class="btn btn-outline-primary" data-turbo="false">
         <%= t(:search) %>
       </button>
     <% end %>
@@ -32,9 +32,9 @@
     </div>
   <% end %>
 
-  <div class="row justify-content-md-center px-4 pt-3 pb-2">
-    <div id="calendarContainer" class="col p-0"></div>
-    <div id="organizerContainer" class="col p-0"></div>
+  <div class="calendar-index__widgets pt-3 pb-2">
+    <div id="calendarContainer" class="calendar-index__widget"></div>
+    <div id="organizerContainer" class="calendar-index__widget"></div>
   </div>
 
   <%= link_to t(:new_calendar), new_calendar_path, class: 'btn btn-primary mt-3 ms-2' %>

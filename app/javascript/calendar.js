@@ -159,26 +159,50 @@ Calendar.prototype = {
     document.getElementById(this.id + "-date").innerHTML = this.calendar.getDateString(), document.getElementById(this.id + "-list").innerHTML = "", this.showEvents()
 }, Organizer.prototype.updateData = function(e) {
     this.data = e, this.indicateEvents(), this.update()
-}, Organizer.prototype.list = function(e) {
-    for (var t = document.createElement("UL"), n = 0; n < e.length; n++) {
-        var i = document.createElement("LI");
-        i.id = this.id + "-list-item-" + n;
-        var a = document.createElement("DIV"),
-            d = document.createElement("SPAN");
-        d.id = this.id + "-list-item-" + n + "-time", d.class = this.id + " time", d.appendChild(document.createTextNode(e[n].startTime + " - " + e[n].endTime)), a.appendChild(d);
-        var o = document.createElement("P");
-        o.id = this.id + "-list-item-" + n + "-text";
-        var l = document.createTextNode(e[n].text);
-        if (null == e[n].link || "" == e[n].link) {
-          o.appendChild(l);
-        } else {
-          (
-            (d = document.createElement("A")).href =
-              e[n].link, d.class = this.id + " link", d.appendChild(l), o.appendChild(d)
-          ), i.appendChild(a), i.appendChild(o), t.appendChild(i)
-        }
-    }
-    return t.innerHTML
+}, Organizer.prototype.list = function(events) {
+    var list = document.createElement("UL");
+    list.className = "cjslib-list";
+
+    events.forEach((event, index) => {
+        var item = document.createElement("LI");
+        item.id = this.id + "-list-item-" + index;
+
+        var timeContainer = document.createElement("DIV");
+        var time = document.createElement("SPAN");
+        time.id = this.id + "-list-item-" + index + "-time";
+        time.className = "cjslib-time";
+        time.textContent = event.startTime + " - " + event.endTime;
+        timeContainer.appendChild(time);
+
+        var content = document.createElement("P");
+        content.id = this.id + "-list-item-" + index + "-text";
+        var title = document.createElement(event.link ? "A" : "SPAN");
+        title.className = "cjslib-event-title";
+        title.textContent = event.text;
+        if (event.link) title.href = event.link;
+        content.appendChild(title);
+
+        var badges = document.createElement("SPAN");
+        badges.className = "cjslib-event-badges";
+
+        var summaryBadge = document.createElement("SPAN");
+        summaryBadge.className = "cjslib-event-badge " +
+            (event.summaryRegistered ? "cjslib-event-badge--summary-present" : "cjslib-event-badge--summary-missing");
+        summaryBadge.textContent = event.summaryLabel;
+        badges.appendChild(summaryBadge);
+
+        var statusBadge = document.createElement("SPAN");
+        statusBadge.className = "cjslib-event-badge cjslib-event-badge--status-" + event.statusClass;
+        statusBadge.textContent = event.statusLabel;
+        badges.appendChild(statusBadge);
+        content.appendChild(badges);
+
+        item.appendChild(timeContainer);
+        item.appendChild(content);
+        list.appendChild(item);
+    });
+
+    return list.innerHTML
 }, Organizer.prototype.remember = function(e, t) {
     if (t.startsWith('<div class="cjslib-list-placeholder">')) return "";
     var n = this.calendar.getDateString();
@@ -273,34 +297,41 @@ Calendar.prototype = {
         for (var i = 1; i <= 42; i++) this.setupLongClickBlock(i, this, t)
 };
 
-const calendarElement = document.getElementById("calendar_data_formatted");
-const calendarUi = JSON.parse(calendarElement.dataset.calendarUi);
+let activeCalendarElement;
 
-// initializing a new calendar object, that will use an html container to create itself
-var calendar = new Calendar(
-  "calendarContainer", // id of html container for calendar
-  "medium", // size of calendar, can be small | medium | large
-  [
-    calendarUi.first_day, // left most day of calendar labels
-    3 // maximum length of the calendar labels
-  ],
-  [
-    "#E91E63", // primary color
-    "#C2185B", // primary dark color
-    "#FFFFFF", // text color
-    "#F8BBD0" // text dark color
-  ],
-  calendarUi
-);
+const initializeCalendarPage = () => {
+  const calendarElement = document.getElementById("calendar_data_formatted");
+  const calendarContainer = document.getElementById("calendarContainer");
+  const organizerContainer = document.getElementById("organizerContainer");
+  if (!calendarElement || !calendarContainer || !organizerContainer) return;
 
-var data_formatted = JSON.parse(calendarElement.dataset.calendar);
+  const widgetsAreRendered = calendarContainer.querySelector(".cjslib-calendar") &&
+    organizerContainer.querySelector(".cjslib-events");
+  if (activeCalendarElement === calendarElement && widgetsAreRendered) return;
 
-var organizer = new Organizer(
-  "organizerContainer", // id of html container for calendar
-  calendar, // defining the calendar that the organizer is related to
-  data_formatted // giving the organizer the static data that should be displayed
-);
+  activeCalendarElement = calendarElement;
+  calendarContainer.innerHTML = "";
+  organizerContainer.innerHTML = "";
 
-document.getElementById("year").addEventListener("change", function() {
-    window.location.href = `calendars?year=${this.value}`;
-});
+  const calendarUi = JSON.parse(calendarElement.dataset.calendarUi);
+  const calendar = new Calendar(
+    "calendarContainer",
+    "medium",
+    [calendarUi.first_day, 3],
+    ["#E91E63", "#C2185B", "#FFFFFF", "#F8BBD0"],
+    calendarUi
+  );
+
+  const dataFormatted = JSON.parse(calendarElement.dataset.calendar);
+  new Organizer("organizerContainer", calendar, dataFormatted);
+
+  const yearSelect = document.getElementById("year");
+  if (yearSelect) {
+    yearSelect.addEventListener("change", function() {
+      window.location.href = `calendars?year=${this.value}`;
+    });
+  }
+};
+
+document.addEventListener("DOMContentLoaded", initializeCalendarPage);
+document.addEventListener("turbo:load", initializeCalendarPage);
